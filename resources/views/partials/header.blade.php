@@ -150,7 +150,7 @@
 
                             <li class=" "><a href="#/political-endorsements/">Constitution-Bylaws</a></li>
                             <li class=" "><a href="#/political-endorsements/">Around the World</a></li>
-                            <li class=" "><a href="#/political-endorsements/">Events</a></li>
+                            <li class=" "><a href="{{ route('event') }}">Events</a></li>
                             <li class=" "><a href="#/political-endorsements/"> Shop</a></li>
 
                         </ul>

@@ -26,6 +26,8 @@ Route::get('/', 'front\FrontController@index');
 Route::get('/executives_and_trustees/{category}/{id}', 'front\FrontController@get_board_memmbers')->name('executives_and_trustees');
 Route::get('/board_member_details/{id}', 'front\FrontController@board_member_details')->name('board_member_details');
 Route::get('/event', 'front\FrontController@event')->name('event');
+Route::get('/get_events', 'front\FrontController@get_events')->name('get_events');
+Route::get('/event/{id}', 'front\FrontController@event_by_id')->name('event/{id}');
 
 
 Route::resource('board_members', 'BoardMembersController');

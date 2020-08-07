@@ -3,8 +3,8 @@
 @section('main')
 
 
-    <link href='../lib/main.css' rel='stylesheet' />
-    <script src='../lib/main.js'></script>
+    <link href='{{ URL::to('/public/lib/main.css') }}' rel='stylesheet' />
+    <script src='{{ URL::to('/public/lib/main.js') }}'></script>
     <script>
 
         document.addEventListener('DOMContentLoaded', function() {
@@ -12,16 +12,20 @@
 
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 headerToolbar: {
-                    left: 'prev,next today',
+                    left: 'prev,next, today',
                     center: 'title',
                     right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+                   // right: 'dayGridMonth,timeGridWeek,timeGridDay'
                 },
-                initialDate: '2020-06-12',
-                editable: true,
+                initialDate: new Date().toJSON().slice(0,10),
+                editable: false,
                 navLinks: true, // can click day/week names to navigate views
                 dayMaxEvents: true, // allow "more" link when too many events
+                nowIndicator: true,
+              //  eventContent:{ html: '<i>some html</i>' },
+
                 events: {
-                    url: 'php/get-events.php',
+                    url: 'get_events',
                     failure: function() {
                         document.getElementById('script-warning').style.display = 'block'
                     }
@@ -38,12 +42,7 @@
     </script>
     <style>
 
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
-            font-size: 14px;
-        }
+
 
         #script-warning {
             display: none;
