@@ -67,6 +67,26 @@ class FrontController extends Controller
         return view('front/events_by_id', compact( 'data','welcome_message', 'board_members_categories'));
 
     }
+
+    public function buy_tickets(Request $request)
+    {
+        $board_members_categories = $this->board_members_categories;
+
+        $data=array();
+        $event_title=$request->event_title;
+        $adult_quantity=$request->adult_quantity;
+        $adult_price=$request->adult_price;
+        $adult_ticket_price= $adult_price*$adult_quantity;
+        $children_quantity=$request->children_quantity;
+        $children_price=$request->children_price;
+        $children_ticket_price=$children_price*$children_quantity;
+        $total=$adult_ticket_price+$children_ticket_price;
+
+        //print_r($request->adult_price);
+        $welcome_message = "Buy Tickets for ".$event_title;
+        return view('front/buy_tickets', compact( 'total','adult_ticket_price','children_ticket_price','adult_quantity','adult_price','children_quantity','children_price','welcome_message', 'board_members_categories'));
+
+    }
     public function event()
     {
         $board_members_categories = $this->board_members_categories;

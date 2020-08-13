@@ -42,6 +42,7 @@
 {{--						 <th>{{ __('events.event_ending_date') }}</th>--}}
 {{--						 <th>{{ __('events.event_ending_time') }}</th>--}}
 						 <th>{{ __('events.event_ticket_price') }}</th>
+						 <th>{{ __('events.event_ticket_price_children') }}</th>
 						 <th>{{ __('events.event_total_seat') }}</th>
 						 <th>{{ __('events.event_active') }}</th>
 {{--						 <th>{{ __('events.event_created_datetime') }}</th>--}}
@@ -62,6 +63,7 @@
 {{--						 <th>{{ __('events.event_ending_date') }}</th>--}}
 {{--						 <th>{{ __('events.event_ending_time') }}</th>--}}
 						 <th>{{ __('events.event_ticket_price') }}</th>
+						 <th>{{ __('events.event_ticket_price_children') }}</th>
 						 <th>{{ __('events.event_total_seat') }}</th>
 						 <th>{{ __('events.event_active') }}</th>
 {{--						 <th>{{ __('events.event_created_datetime') }}</th>--}}
@@ -84,6 +86,7 @@
 {{--						 <td>{{ $row->event_ending_date }}</td>--}}
 {{--						 <td>{{ $row->event_ending_time }}</td>--}}
 						 <td>{{ $row->event_ticket_price }}</td>
+						 <td>{{ $row->event_ticket_price_children }}</td>
 						 <td>{{ $row->event_total_seat }}</td>
 						 <td>{{ $row->event_active }}</td>
 {{--						 <td>{{ $row->event_created_datetime }}</td>--}}

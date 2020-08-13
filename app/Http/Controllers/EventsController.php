@@ -50,6 +50,7 @@ class EventsController extends Controller
                 'event_venue' => 'required',
                 'event_flyer_location' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
                 'event_ticket_price' => 'required|numeric',
+                'event_ticket_price_children' => 'required|numeric',
                 'event_total_seat' => 'required|numeric'
             ],
             [
@@ -73,9 +74,10 @@ class EventsController extends Controller
             'event_flyer_type' => $event_flyer_type,
             'event_starting_date' => $request->event_starting_date,
             'event_starting_time' => $request->event_starting_time,
-           // 'event_ending_date' => $request->event_starting_date,
+            'event_ending_date' => $request->event_starting_date,
             'event_ending_time' => $request->event_ending_time,
             'event_ticket_price' => $request->event_ticket_price,
+            'event_ticket_price_children' => $request->event_ticket_price_children,
             'event_total_seat' => $request->event_total_seat,
             'event_created_datetime' => date('Y-m-d')
         );
@@ -129,6 +131,7 @@ class EventsController extends Controller
                     'event_venue' => 'required',
                     'event_flyer_location' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
                     'event_ticket_price' => 'required|numeric',
+                    'event_ticket_price_children' => 'required|numeric',
                     'event_total_seat' => 'required|numeric'
                 ],
                 [
@@ -146,6 +149,7 @@ class EventsController extends Controller
                 'event_title' => 'required',
                 'event_venue' => 'required',
                 'event_ticket_price' => 'required',
+                'event_ticket_price_children' => 'required',
                 'event_total_seat' => 'required'
 
             ]);
@@ -160,9 +164,10 @@ class EventsController extends Controller
             'event_flyer_type' => $event_flyer_type,
             'event_starting_date' => $request->event_starting_date,
             'event_starting_time' => $request->event_starting_time,
-           // 'event_ending_date' => $request->event_starting_date,
+            'event_ending_date' => $request->event_starting_date,
             'event_ending_time' => $request->event_ending_time,
             'event_ticket_price' => $request->event_ticket_price,
+            'event_ticket_price_children' => $request->event_ticket_price_children,
             'event_total_seat' => $request->event_total_seat,
             'event_created_datetime' => date('Y-m-d')
         );

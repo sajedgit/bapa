@@ -68,6 +68,11 @@
 
 		</tr>
 		<tr>
+			<td>{{ __('events.event_ticket_price_children') }}
+ 			<td>{{ $data->event_ticket_price_children }} </td>
+
+		</tr>
+		<tr>
 			<td>{{ __('events.event_total_seat') }}
  			<td>{{ $data->event_total_seat }} </td>
 

@@ -110,6 +110,15 @@
 
     <div class="form-group row">
         <div class="col-sm-4 mb-3 mb-sm-0">
+            {{ Form::label('event_ticket_price_children', (Lang::get('events.edit_msg').' '.Lang::get('events.event_ticket_price_children')),array('class'=>'control-label')) }}
+        </div>
+        <div class="col-sm-8">
+            {{ Form::text('event_ticket_price_children', $value = $data->event_ticket_price_children ,array('class' => 'form-control')) }}
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-sm-4 mb-3 mb-sm-0">
             {{ Form::label('event_total_seat', (Lang::get('events.edit_msg').' '.Lang::get('events.event_total_seat')),array('class'=>'control-label')) }}
         </div>
         <div class="col-sm-8">

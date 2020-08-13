@@ -33,6 +33,7 @@ return [
 	'event_ending_date' => 'Ending Date',
 	'event_ending_time' => 'Ending Time',
 	'event_ticket_price' => 'Ticket Price',
+	'event_ticket_price_children' => 'Children Ticket Price',
 	'event_total_seat' => 'Total seat',
 	'event_active' => 'Status',
 	'event_created_datetime' => 'Created Datetime',

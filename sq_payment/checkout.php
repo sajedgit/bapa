@@ -36,27 +36,65 @@ $client = new SquareClient([
 try {
   $checkout_api = $client->getCheckoutApi();
 
-  // Monetary amounts are specified in the smallest unit of the applicable currency.
-  // This amount is in cents. It's also hard-coded for $1.00, which isn't very useful.
-  $money_A = new Money();
-  $money_A->setCurrency('USD');
-  $money_A->setAmount(500);
+ // print_r($_REQUEST);die();
 
-  $item_A = new OrderLineItem(1);
-  $item_A->setName('Test Item A');
-  $item_A->setBasePriceMoney($money_A);
+   if( isset($_REQUEST['adult_price']) )
+   {
+       $adult_price=$_REQUEST['adult_price']*100;
+       $adult_label=$_REQUEST['adult_label'];
+       $adult_quantity=$_REQUEST['adult_quantity'];
 
-  $money_B = new Money();
-  $money_B->setCurrency('USD');
-  $money_B->setAmount(1000);
-  
-  $item_B = new OrderLineItem(3);
-  $item_B->setName('Test Item B');
-  $item_B->setBasePriceMoney($money_B);
+       // Monetary amounts are specified in the smallest unit of the applicable currency.
+       // This amount is in cents. It's also hard-coded for $1.00, which isn't very useful.
+
+       $money_A = new Money();
+       $money_A->setCurrency('USD');
+       $money_A->setAmount($adult_price);
+
+       $item_A = new OrderLineItem($adult_quantity);
+       $item_A->setName($adult_label);
+       $item_A->setBasePriceMoney($money_A);
+   }
+   if(isset($_REQUEST['children_price']))
+   {
+       $children_price=$_REQUEST['children_price']*100;
+       $children_label=$_REQUEST['children_label'];
+       $children_quantity=$_REQUEST['children_quantity'];
+
+       // Monetary amounts are specified in the smallest unit of the applicable currency.
+       // This amount is in cents. It's also hard-coded for $1.00, which isn't very useful.
+
+       $money_B = new Money();
+       $money_B->setCurrency('USD');
+       $money_B->setAmount($children_price);
+
+       $item_B = new OrderLineItem($children_quantity);
+       $item_B->setName($children_label);
+       $item_B->setBasePriceMoney($money_B);
+   }
+
+
+
 
   // Create a new order and add the line items as necessary.
   $order = new Order($location_id);
-  $order->setLineItems([$item_A, $item_B]);
+  if( isset($_REQUEST['children_price']) && isset($_REQUEST['adult_price']))
+  {
+      $order->setLineItems([$item_A, $item_B]);
+  }
+  elseif(isset($_REQUEST['adult_price']))
+  {
+      $order->setLineItems([$item_A]);
+  }
+  elseif(isset($_REQUEST['children_price']))
+  {
+      $order->setLineItems([ $item_B]);
+  }
+  else
+  {
+      "Select Nothing";die();
+  }
+
 
   $create_order_request = new CreateOrderRequest();
   $create_order_request->setOrder($order);
