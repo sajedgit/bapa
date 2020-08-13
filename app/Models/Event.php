@@ -30,7 +30,8 @@ class Event extends Model
 
     public function getEventFlyerLocationAttribute()
     {
-        return  "images/".$this->attributes['event_flyer_location'];
+        //return  "images/".$this->attributes['event_flyer_location'];
+        return  $this->attributes['event_flyer_location'];
     }
 
 //    public function setEventFlyerLocationAttribute($value)

@@ -10,6 +10,7 @@ use Validator;
 use Illuminate\Support\Facades\DB;
 use DateTime;
 use DateTimeZone;
+use URL;
 
 class FrontController extends Controller
 {
@@ -60,9 +61,10 @@ class FrontController extends Controller
     {
         $board_members_categories = $this->board_members_categories;
 
-        $events = DB::select(DB::raw(" SELECT * from events where  id=$id and event_active=1  "));
+        $data = DB::select(DB::raw(" SELECT * from events where  id=$id and event_active=1  "));
+        $data=$data[0];
         $welcome_message = " Events ";
-        return view('front/events_by_id', compact( 'events','welcome_message', 'board_members_categories'));
+        return view('front/events_by_id', compact( 'data','welcome_message', 'board_members_categories'));
 
     }
     public function event()
@@ -82,14 +84,15 @@ class FrontController extends Controller
 
             $start_time=$row->event_starting_date."T".$row->event_starting_time."+06:00";
             $end_time=$row->event_ending_date."T".$row->event_ending_time ."+06:00";
+            $url= URL::to('/event/'.$row->id);
             $arr=array(
                 "id"=>$row->id,
                 "title"=>$row->event_title,
                 "start"=>$start_time,
                 "end"=>$end_time,
-                "url"=>"www.google.com"
+                "url"=>$url
             );
-
+           // {{ URL::to('/') }}/public/images/{{ $row->board_members_image_location }}
             array_push($arr_data,$arr);
 
 

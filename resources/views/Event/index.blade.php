@@ -77,7 +77,7 @@
 					    <td>{{ $row->event_title }}</td>
 {{--						 <td>{{ $row->event_details }}</td>--}}
 						 <td>{{ $row->event_venue }}</td>
-						 <td><img width="50" src="{{ asset($row->event_flyer_location) }}"></td>
+						 <td><img width="50" src="{{ URL::to('/') }}/public/images/{{ $row->event_flyer_location }}"></td>
 {{--						 <td>{{ $row->event_flyer_type }}</td>--}}
 						 <td>{{ $row->event_starting_date }}</td>
 {{--						 <td>{{ $row->event_starting_time }}</td>--}}
