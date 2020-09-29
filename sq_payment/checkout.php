@@ -13,6 +13,9 @@ use Square\Models\Money;
 use Square\Exceptions\ApiException;
 use Square\SquareClient;
 
+
+$base_url="http://localhost/bapa/";
+
 // dotenv is used to read from the '.env' file created
 $dotenv = Dotenv::create(__DIR__);
 $dotenv->load();
@@ -101,8 +104,14 @@ try {
 
   // Similar to payments you must have a unique idempotency key.
   $checkout_request = new CreateCheckoutRequest(uniqid(), $create_order_request);
+  $checkout_request->setRedirectUrl($base_url);
 
   $response = $checkout_api->createCheckout($location_id, $checkout_request);
+    if ($response->isSuccess()) {
+        $result = $response->getResult();
+    } else {
+        $errors = $response->getErrors();
+    }
 } catch (ApiException $e) {
   // If an error occurs, output the message
   echo 'Caught exception!<br/>';

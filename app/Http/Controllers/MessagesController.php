@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\Message;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class MessagesController extends Controller
 {
@@ -121,7 +122,70 @@ class MessagesController extends Controller
 
         return redirect('messages')->with('success', 'Data is successfully deleted');
     }
+
+
+    public function president()
+    {
+
+        $data = DB::table('msg_president')
+            ->select('*')
+            ->where("id",1)
+            ->get();
+        $data=$data[0];
+        $table="msg_president";
+        $url="president";
+        return view('Message/edit_p_vp_gs', compact('data','table','url'));
+    }
+
+
+    public function vice_president()
+    {
+        $data = DB::table('msg_vp')
+            ->select('*')
+            ->where("id",1)
+            ->get();
+        $data=$data[0];
+        $table="msg_vp";
+        $url="vice_president";
+        return view('Message/edit_p_vp_gs', compact('data','table','url'));
+    }
+
+
+    public function general_secretary()
+    {
+        $data = DB::table('msg_gs')
+            ->select('*')
+            ->where("id",1)
+            ->get();
+        $data=$data[0];
+        $table="msg_gs";
+        $url="general_secretary";
+        return view('Message/edit_p_vp_gs', compact('data','table','url'));
+    }
+
+
+
+
+    public function messages_update(Request $request)
+    {
+        $table_name=$request->table_name;
+        $url=$request->url;
+        $title=$request->title;
+        $description=$request->description;
+        $form_data = array(
+            'title'  => $title,
+            'description'  =>   $description,
+            'msg_date'   =>   date("Y-m-d")
+        );
+
+
+        $affected = DB::table($table_name)
+            ->where('id', 1)
+            ->update($form_data);
+
+        return redirect()->route($url)->with('success', 'Data is successfully updated');
+    }
 }
 
-	
+
 	

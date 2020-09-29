@@ -22,38 +22,52 @@ use Illuminate\Support\Facades\Route;
 //    return view('front/front_home');
 //});
 
-Route::get('/', 'front\FrontController@index');
+Route::get('/', 'front\FrontController@index')->name('front');
 Route::get('/executives_and_trustees/{category}/{id}', 'front\FrontController@get_board_memmbers')->name('executives_and_trustees');
 Route::get('/board_member_details/{id}', 'front\FrontController@board_member_details')->name('board_member_details');
 Route::get('/event', 'front\FrontController@event')->name('event');
 Route::get('/get_events', 'front\FrontController@get_events')->name('get_events');
 Route::get('/event/{id}', 'front\FrontController@event_by_id')->name('event/{id}');
-Route::post('/buy_tickets', 'front\FrontController@buy_tickets')->name('buy_tickets');
+Route::post('/buy_tickets', 'front\FrontController@buy_tickets')->name('buy_tickets')->middleware('normal');
+
+Route::group([ 'middleware' => 'admin_middleware'], function()
+{
+	Route::resource('board_members', 'BoardMembersController');
+
+	Route::resource('board_members_categories', 'BoardMembersCategoriesController');
+	Route::resource('contact_us', 'ContactUsController');
+	Route::resource('event_ticket_buyers', 'EventTicketBuyersController');
+	Route::resource('event_ticket_payments', 'EventTicketPaymentsController');
+	Route::resource('events', 'EventsController');
+	Route::resource('member_devices', 'MemberDevicesController');
+	Route::resource('member_job_infos', 'MemberJobInfosController');
+	Route::resource('member_personal_infos', 'MemberPersonalInfosController');
+	Route::resource('membership_payments', 'MembershipPaymentsController');
+	Route::resource('memberships', 'MembershipsController');
+	Route::resource('memories', 'MemorisController');
+	Route::get('memories_photos_add', 'MemoriesPhotosController@add');
+	Route::resource('memories_photos', 'MemoriesPhotosController');
+	Route::resource('messages', 'MessagesController');
+
+    Route::get('/messages_president', 'MessagesController@president')->name('president');
+    Route::get('/messages_vice_president', 'MessagesController@vice_president')->name('vice_president');
+    Route::get('/messages_general_secretary', 'MessagesController@general_secretary')->name('general_secretary');
+    Route::post('/messages_update', 'MessagesController@messages_update')->name('messages_update');
+
+	Route::resource('organize_infos', 'OrganizeInfosController');
+	Route::resource('sponsors', 'SponsorsController');
+	Route::resource('products', 'ProductsController');
+
+	Route::resource('votes', 'VotesController');
+	Route::resource('votes_position', 'VotePositionsController');
+	Route::resource('candidates', 'VoteCandidatesController');
+});
 
 
-Route::resource('board_members', 'BoardMembersController');
-
-Route::resource('board_members_categories', 'BoardMembersCategoriesController');
-Route::resource('contact_us', 'ContactUsController');
-Route::resource('event_ticket_buyers', 'EventTicketBuyersController');
-Route::resource('event_ticket_payments', 'EventTicketPaymentsController');
-Route::resource('events', 'EventsController');
-Route::resource('member_devices', 'MemberDevicesController');
-Route::resource('member_job_infos', 'MemberJobInfosController');
-Route::resource('member_personal_infos', 'MemberPersonalInfosController');
-Route::resource('membership_payments', 'MembershipPaymentsController');
-Route::resource('memberships', 'MembershipsController');
-Route::resource('memories', 'MemorisController');
-Route::get('memories_photos_add', 'MemoriesPhotosController@add');
-Route::resource('memories_photos', 'MemoriesPhotosController');
-Route::resource('messages', 'MessagesController');
-Route::resource('organize_infos', 'OrganizeInfosController');
-Route::resource('sponsors', 'SponsorsController');
-Route::resource('products', 'ProductsController');
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/admin', 'HomeController@index')->name('home');
 //Route::get('/home', function () {
 //    return view('welcome');
 //});

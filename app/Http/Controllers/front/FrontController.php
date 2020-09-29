@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use DateTime;
 use DateTimeZone;
 use URL;
+use Illuminate\Support\Facades\Auth;
 
 class FrontController extends Controller
 {
@@ -18,6 +19,9 @@ class FrontController extends Controller
 
     public function __construct()
     {
+
+       // $this->middleware('auth', ['only' => ['buy_tickets']]);
+        //$this->middleware('some_other_middleware', ['except' => ['some_method'], 'only' => ['some_other_method', 'yet_another_method']]);
         $this->board_members_categories = DB::select(DB::raw(" SELECT DISTINCT board_members_categories.`board_members_category_name`, 
  board_members_categories.`id` from board_members_categories  inner JOIN board_members  on  
  board_members.ref_board_members_category_id=board_members_categories.id where board_members_categories.board_members_category_active=1  "));
@@ -27,9 +31,28 @@ class FrontController extends Controller
 
     public function index()
     {
+        $msg_president = DB::table('msg_president')
+            ->select('*')
+            ->where("id",1)
+            ->get();
+        $msg_president=$msg_president[0];
+
+        $general_secretary = DB::table('msg_gs')
+            ->select('*')
+            ->where("id",1)
+            ->get();
+        $general_secretary=$general_secretary[0];
+
+        $vice_president = DB::table('msg_vp')
+            ->select('*')
+            ->where("id",1)
+            ->get();
+        $vice_president=$vice_president[0];
+
+
 
         $board_members_categories = $this->board_members_categories;
-        return view('front/front_home', compact('board_members_categories'));
+        return view('front/front_home', compact('board_members_categories','msg_president','general_secretary','vice_president'));
 
     }
 
@@ -70,6 +93,7 @@ class FrontController extends Controller
 
     public function buy_tickets(Request $request)
     {
+      //  print_r(Auth::user()->user_type_id);die();
         $board_members_categories = $this->board_members_categories;
 
         $data=array();

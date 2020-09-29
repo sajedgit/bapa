@@ -55,7 +55,7 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
 		$user_type_id=(isset($data['user_type_id']))?$data['user_type_id']:2;
-        return Membership::create([
+        $members=Membership::create([
             'user_type_id' => $user_type_id,
             'name' => $data['name'],
             'username' => $data['username'],
@@ -63,5 +63,14 @@ class RegisterController extends Controller
             'password' => bcrypt($data['password']),
             'active' => 1,
         ]);
+
+        Mail::send('emails.welcome', $data, function($message) use ($data)
+        {
+            $message->from('no-reply@site.com', "Site name");
+            $message->subject("Welcome to site name");
+            $message->to($data['email']);
+        });
+
+        return $members;
     }
 }

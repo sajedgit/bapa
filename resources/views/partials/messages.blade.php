@@ -11,22 +11,32 @@
                         Message from BAPA President
                     </h3>
                     <div class="newsEvent">
-                        <span class="date">June 30, 2020</span>
-                        <h5>Message from the BAPA President and Board of Officers</h5>
-                        <div class="eventCopy">
-                            <p> Recently, a number of assistant district attorneys in the Bronx penned what can
-                                only
-                                be described as a libelous letter disparaging the hard work that thousands of
-                                police
-                                officers do […] </p>
+                        <span class="date">
+                            <?php
+                            $date=date_create($msg_president->msg_date);
+                            echo date_format($date,"F j, Y");
+                            ?>
+                        </span>
+                        <h5><?php echo $msg_president->title; ?></h5>
+                        <div class="eventCopy" style="width: 100%;text-align: justify;">
+
+                            <p>
+
+                                {{ substr($msg_president->description, 0,  200) }}
+                                @if (strlen($msg_president->description) > 200)
+                                    <span id="p_dots">[...]</span>
+                                    <span id="p_more" style="display: none;">{{ substr($msg_president->description, 200) }}</span>
+                                @endif
+                            </p>
+
                         </div>
-                        <a href="#/news/message-from-the-bapa-president-and-board-of-officers/">Read Full
-                            Article</a>
+
                     </div>
 
 
-                    <a class="blueBtn" href="#/news/">More Message <i aria-hidden="true"
-                                                                      class="fa fa-chevron-circle-right"></i></a>
+                    <a id="p_myBtn"  onclick="p_myFunction()" class="blueBtn"> Read more
+                        <i aria-hidden="true" class="fa fa-chevron-circle-right"></i>
+                    </a>
 
                 </div>
 
@@ -38,23 +48,32 @@
                         Message from BAPA Vice President
                     </h3>
                     <div class="newsEvent">
-                        <span class="date">June 12, 2020</span>
-                        <h5>Message from the BAPA Vice President and Board of Officers</h5>
-                        <div class="eventCopy">
-                            <p> Recently, a number of assistant district attorneys in the Bronx penned what can
-                                only
-                                be described as a libelous letter disparaging the hard work that thousands of
-                                police
-                                officers do […] </p>
+                        <span class="date">
+                            <?php
+                            $date=date_create($vice_president->msg_date);
+                            echo date_format($date,"F j, Y");
+                            ?>
+                        </span>
+                        <h5><?php echo $msg_president->title; ?></h5>
+                        <div class="eventCopy" style="width: 100%;text-align: justify;">
+
+                            <p>
+
+                                {{ substr($vice_president->description, 0,  200) }}
+                                @if (strlen($vice_president->description) > 200)
+                                    <span id="vp_dots">[...]</span>
+                                    <span id="vp_more" style="display: none;">{{ substr($vice_president->description, 200) }}</span>
+                                @endif
+                            </p>
+
                         </div>
-                        <a href="#/news/message-from-the-bapa-president-and-board-of-officers/">Read Full
-                            Article</a>
+
                     </div>
 
 
-                    <a class="blueBtn" href="#/news/">More Message <i aria-hidden="true"
-                                                                      class="fa fa-chevron-circle-right"></i></a>
-
+                    <a id="vp_myBtn"  onclick="vp_myFunction()" class="blueBtn"> Read more
+                        <i aria-hidden="true" class="fa fa-chevron-circle-right"></i>
+                    </a>
                 </div>
 
                 <div class="msg">
@@ -65,22 +84,32 @@
                         Message from BAPA General Secretary
                     </h3>
                     <div class="newsEvent">
-                        <span class="date">May 25, 2020</span>
-                        <h5>Message from the General Secretary and Board of Officers</h5>
-                        <div class="eventCopy">
-                            <p> Recently, a number of assistant district attorneys in the Bronx penned what can
-                                only
-                                be described as a libelous letter disparaging the hard work that thousands of
-                                police
-                                officers do […] </p>
+                        <span class="date">
+                            <?php
+                            $date=date_create($general_secretary->msg_date);
+                            echo date_format($date,"F j, Y");
+                            ?>
+                        </span>
+                        <h5><?php echo $general_secretary->title; ?></h5>
+                        <div class="eventCopy"  style="width: 100%;text-align: justify;">
+
+                            <p>
+
+                                {{ substr($general_secretary->description, 0,  200) }}
+                                @if (strlen($general_secretary->description) > 200)
+                                    <span id="gs_dots">[...]</span>
+                                    <span id="gs_more" style="display: none;">{{ substr($general_secretary->description, 200) }}</span>
+                                @endif
+                            </p>
+
                         </div>
-                        <a href="#/news/message-from-the-bapa-president-and-board-of-officers/">Read Full
-                            Article</a>
+
                     </div>
 
 
-                    <a class="blueBtn" href="#/news/">More Message <i aria-hidden="true"
-                                                                      class="fa fa-chevron-circle-right"></i></a>
+                    <a id="gs_myBtn"  onclick="gs_myFunction()" class="blueBtn"> Read more
+                        <i aria-hidden="true" class="fa fa-chevron-circle-right"></i>
+                    </a>
 
                 </div>
 
@@ -101,7 +130,7 @@
                         <a href="#/events/new-york-state-shields-memorial-breakfast/">New York State Shields
                             Memorial Breakfast</a>
                     </div>
-                    <a class="blueBtn" href="#/events/">Full Calendar <i aria-hidden="true"
+                    <a class="blueBtn" href="{{ route('event') }}">Full Calendar <i aria-hidden="true"
                                                                          class="fa fa-chevron-circle-right"></i></a>
                 </div>
             </div>
@@ -111,3 +140,58 @@
         </div>
     </div>
 </section>
+
+
+<script>
+    function p_myFunction() {
+        var dots = document.getElementById("p_dots");
+        var moreText = document.getElementById("p_more");
+        var btnText = document.getElementById("p_myBtn");
+
+        if (dots.style.display === "none") {
+            dots.style.display = "inline";
+            btnText.innerHTML = "Read more";
+            moreText.style.display = "none";
+        } else {
+            dots.style.display = "none";
+            btnText.innerHTML = "Read less";
+            moreText.style.display = "inline";
+        }
+    }
+
+
+    function vp_myFunction() {
+        var dots = document.getElementById("vp_dots");
+        var moreText = document.getElementById("vp_more");
+        var btnText = document.getElementById("vp_myBtn");
+
+        if (dots.style.display === "none") {
+            dots.style.display = "inline";
+            btnText.innerHTML = "Read more";
+            moreText.style.display = "none";
+        } else {
+            dots.style.display = "none";
+            btnText.innerHTML = "Read less";
+            moreText.style.display = "inline";
+        }
+    }
+
+    function gs_myFunction() {
+        var dots = document.getElementById("gs_dots");
+        var moreText = document.getElementById("gs_more");
+        var btnText = document.getElementById("gs_myBtn");
+
+        if (dots.style.display === "none") {
+            dots.style.display = "inline";
+            btnText.innerHTML = "Read more";
+            moreText.style.display = "none";
+        } else {
+            dots.style.display = "none";
+            btnText.innerHTML = "Read less";
+            moreText.style.display = "inline";
+        }
+    }
+
+
+
+</script>
