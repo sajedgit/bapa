@@ -39,11 +39,9 @@
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
       <!-- Sidebar - Brand -->
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-        <div class="sidebar-brand-icon rotate-n-15">
-          <i class="fas fa-laugh-wink"></i>
-        </div>
-        <div class="sidebar-brand-text mx-3">BAPA </div>
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<?php echo url('/'); ?>">
+
+        <div class="sidebar-brand-text mx-3"><img width="60px;" alt="BAPA Logo" src="{{ URL::to('/public/images/front/bapa.png') }}"> </div>
       </a>
 
       <!-- Divider -->
@@ -52,6 +50,13 @@
       <!-- Nav Item - Dashboard -->
       <li class="nav-item">
         <a class="nav-link" href="<?php echo url('/'); ?>">
+          <i class="fas fa-globe"></i>
+          <span>BAPA Website</span></a>
+      </li>
+
+      <!-- Nav Item - Dashboard -->
+      <li class="nav-item">
+        <a class="nav-link" href="<?php echo url('/admin'); ?>">
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>Dashboard</span></a>
       </li>

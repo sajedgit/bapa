@@ -11,11 +11,16 @@
 
     <link href="{{ URL::to('/public/css/front/style.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ URL::to('/public/css/front/bapa-styles.css') }}" media="all" rel="stylesheet" type="text/css">
+    <link href="{{ URL::to('/public/css/front/css_bootstrap_3.4_dist.min.css') }}" media="all" rel="stylesheet" type="text/css">
     <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
           integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" rel="stylesheet">
+		  
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+
 
 
     <script src="{{ URL::to('/public/js/front/jquery.js') }}" type="text/javascript"></script>
+    <script src="{{ URL::to('/public/js/front/bootstrap_3.4_dist_js.min.js') }}" type="text/javascript"></script>
     <script src="{{ URL::to('/public/js/front/jquery-migrate.min.js') }}" type="text/javascript"></script>
 
 
@@ -70,6 +75,42 @@
             z-index: 0;
             height: 80px;
         }
+
+
+
+        .navbar-default
+        {
+            background-color: inherit;
+            border-color: #fff;
+        }
+        .navbar-nav > .active > a{
+            background-color: inherit!important;
+            color: #000!important;
+        }
+        .navbar-default .navbar-nav > li > a {
+            color: #000!important;
+        }
+        .navbar
+        {
+            margin-bottom: -8px!important;
+        }
+        .navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
+
+            background-color: transparent!important;
+        }
+        .dropdown-menu > li > a {
+
+            padding: 7px 34px;
+
+        }
+        .navbar-nav {
+            background: #fff;
+        }
+        .navbar-default .navbar-collapse
+        {
+            border: none;
+            margin-top: 8px;
+        }
     </style>
 
 </head>
@@ -82,92 +123,81 @@
             <div class="menu-utility-menu-container">
                 <ul class="menu" id="utility-menu" style="display: block;">
 
-                    <li class=" menu-item-567" id="menu-item-567"><a href="#/contact-us/">Contact Us</a></li>
-                    <li class="memberLogin"><a href="{{ route('home') }}">Member Login <i aria-hidden="true"
-                                                                                    class="fa fa-sign-in"></i></a></li>
+                    <li class=" menu-item-567" id="menu-item-567"><a href="{{ route("contact_us") }}">Contact Us</a></li>
+                    @if($user = Auth::user())
+                        <li class="memberLogout"><a href="{{ route('logout') }}">Logout(   {{ $user->name }}) <i aria-hidden="true" class="fa fa-sign-out"></i></a></li>
+                    @else
+                        <li class="memberLogin"><a href="{{ route('login') }}">Member Login <i aria-hidden="true" class="fa fa-sign-in"></i></a></li>
+                    @endif
+
+
                 </ul>
             </div>
         </div>
     </div>
     <header class="">
         <div class="container">
+		
             <div class="row">
-                <div class="main-logo">
-                    <a href="{{ URL::to('/') }}"><img alt="BAPA Logo" src="{{ URL::to('/public/images/front/bapa.png') }}"></a>
-                </div>
+			
+			
 
-                <nav class="nav-wrapper">
-                    <div class="menu-main-menu-container">
-                        <ul class="menu" id="primary-menu">
-                            <li class="mobile-search">
-                                <form action="#/" id="searchform" method="get" role="search"><input class="search-field"
-                                                                                                    id="s"
-                                                                                                    name="s"
-                                                                                                    placeholder="Type your search"
-                                                                                                    title="Search for:"
-                                                                                                    type="search"
-                                                                                                    value="">
-                                </form>
-                                <span><i aria-hidden="true" class="fa fa-search"></i></span></li>
-                            <li class="mobileAccount"><a href="#/my-account/">Member Login </a></li>
+		    </div>
+			
+			
+            <div class="row">
+{{--                <div class="main-logo">--}}
+{{--                    <a href="{{ URL::to('/') }}"><img alt="BAPA Logo" src="{{ URL::to('/public/images/front/bapa.png') }}"></a>--}}
+{{--                </div>--}}
 
+                <!-- Static navbar -->
+                <nav class="navbar navbar-default">
+                    <div class="container-fluid">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                            <div class="main-logo">
+                                <a href="{{ URL::to('/') }}"><img alt="BAPA Logo" src="{{ URL::to('/public/images/front/bapa.png') }}"></a>
+                            </div>
+                        </div>
+                        <div id="navbar" class="navbar-collapse collapse">
 
-                            <li class="no-click has-dropdown menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-561"
-                                id="menu-item-561">
-                                <a>About BAPA</a>
+                            <ul class="nav navbar-nav navbar-right">
+                                <li class="active"><a href="{{ route('about_us') }}">About BAPA <span class="sr-only">(current)</span></a></li>
 
-                                <span><i aria-hidden="true" class="fa fa-angle-down"></i></span></li>
-                            <li class="no-click has-dropdown menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-563"
-                                id="menu-item-563">
-                                <a>Executives & Trustees </a>
-                                <ul class="sub-menu">
-                                    @foreach($board_members_categories as $categories)
-                                        <li class="" id="">
-                                            <a href="{{ route('executives_and_trustees', [$categories->board_members_category_name, $categories->id]) }}">BAPA {{ $categories->board_members_category_name }} <i aria-hidden="true" class="fa fa-lock"></i></a>
-                                        </li>
-                                    @endforeach
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Executives & Trustees <span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                        @foreach($board_members_categories as $categories)
+                                            <li><a href="{{ route('executives_and_trustees', [$categories->board_members_category_name, $categories->id]) }}">BAPA {{ $categories->board_members_category_name }} <i aria-hidden="true" class="fa fa-lock"></i></a></li>
+                                        @endforeach
 
-                                </ul>
-                                <span><i aria-hidden="true" class="fa fa-angle-down"></i></span></li>
-                            <li class="no-click has-dropdown menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-564"
-                                id="menu-item-564">
-                                <a>Resources</a>
-                                <ul class="sub-menu">
+                                    </ul>
+                                </li>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Resources <span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
 
+                                        <li><a href="#"> Employment </a></li>
+                                        <li><a href="#"> Education & Scholarship </a></li>
 
-                                    <li><a href="#"> Employment </a></li>
-                                    <li><a href="#"> Education & Scholarship </a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="{{ route('news') }}">BAPA NEWS</a></li>
+                                <li><a href="{{ route("constitution_by_laws") }}">Constitution-Bylaws</a></li>
+                                <li><a href="{{ route('around_the_world') }} ">Around the World</a></li>
+                                <li class=" "><a href="{{ route('event') }}">Events</a></li>
+                                <li><a href="#">Shop</a></li>
 
-
-                                </ul>
-                                <span><i aria-hidden="true" class="fa fa-angle-down"></i></span></li>
-                            <li class="no-click has-dropdown menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-565"
-                                id="menu-item-565">
-                                <a>Bapa News</a>
-
-                                <span><i aria-hidden="true" class="fa fa-angle-down"></i></span></li>
-
-
-                            <li class=" "><a href="#/political-endorsements/">Constitution-Bylaws</a></li>
-                            <li class=" "><a href="#/political-endorsements/">Around the World</a></li>
-                            <li class=" "><a href="{{ route('event') }}">Events</a></li>
-                            <li class=" "><a href="#/political-endorsements/"> Shop</a></li>
-
-                        </ul>
-                    </div>
-                    <div class="visible-xs visible-sm text-center" id="mobile-social">
-                        <a href="https://www.facebook.com/bapanyc/" target="_blank">
-                            <i class="fa fa-facebook-square" aria-hidden="true"></i>
-                        </a>
-                        <a href="https://www.twitter.com/NYCPDBAPA" target="_blank">
-                            <i aria-hidden="true" class="fa fa-twitter"></i>
-                        </a>
-                        <a href="https://www.instagram.com/greatestdetectives/" target="_blank">
-                            <i aria-hidden="true" class="fa fa-instagram"></i>
-                        </a>
-                    </div>
+                            </ul>
+                        </div><!--/.nav-collapse -->
+                    </div><!--/.container-fluid -->
                 </nav>
-                <a class="mobile-menu" href="#/#">Menu<span class=""></span></a>
+
             </div>
         </div>
     </header>

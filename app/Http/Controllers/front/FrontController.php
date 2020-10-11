@@ -219,6 +219,77 @@ class FrontController extends Controller
     }
 
 
+
+    public function about_us()
+    {
+        $board_members_categories = $this->board_members_categories;
+
+        $welcome_message = " About BAPA ";
+        return view('front/about_us', compact( 'welcome_message', 'board_members_categories'));
+
+    }
+
+
+
+    public function news()
+    {
+        $board_members_categories = $this->board_members_categories;
+
+        $welcome_message = "";
+        return view('front/news', compact( 'welcome_message', 'board_members_categories'));
+
+    }
+
+
+
+    public function around_the_world()
+    {
+        $board_members_categories = $this->board_members_categories;
+
+        $api_url = 'http://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=a5ad82f335844a10826c136720cb84d6';
+        $json_data = file_get_contents($api_url);
+        $data = json_decode($json_data);
+       // print_r($data->articles);
+        $status=$data->status;
+        $totalResults=$data->totalResults;
+        $articles=$data->articles;
+        $welcome_message = "Around The World";
+        return view('front/around_the_world_news', compact( 'status','totalResults','articles','welcome_message', 'board_members_categories'));
+
+    }
+
+
+    public function contact_us()
+    {
+        $board_members_categories = $this->board_members_categories;
+
+        $welcome_message = "Contact Us";
+        return view('front/contact_us', compact( 'welcome_message', 'board_members_categories'));
+
+    }
+
+
+
+    public function constitution_by_laws()
+    {
+        if($user = Auth::user())
+        {
+
+            $board_members_categories = $this->board_members_categories;
+
+            $welcome_message = "Constitution Bylaws";
+            return view('front/constitution_by_laws', compact( 'welcome_message', 'board_members_categories'));
+        }
+        else
+        {
+            return redirect()->guest('login');
+        }
+
+
+    }
+
+
+
 }
 
 

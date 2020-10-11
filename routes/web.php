@@ -30,12 +30,20 @@ Route::get('/get_events', 'front\FrontController@get_events')->name('get_events'
 Route::get('/event/{id}', 'front\FrontController@event_by_id')->name('event/{id}');
 Route::post('/buy_tickets', 'front\FrontController@buy_tickets')->name('buy_tickets')->middleware('normal');
 
+Route::get('/about_us', 'front\FrontController@about_us')->name('about_us');
+Route::get('/news', 'front\FrontController@news')->name('news');
+Route::get('/around_the_world', 'front\FrontController@around_the_world')->name('around_the_world');
+
+Route::get('/constitution_by_laws', 'front\FrontController@constitution_by_laws')->name('constitution_by_laws');
+Route::get('/contact_us', 'front\FrontController@contact_us')->name('contact_us');
+
+
 Route::group([ 'middleware' => 'admin_middleware'], function()
 {
 	Route::resource('board_members', 'BoardMembersController');
 
 	Route::resource('board_members_categories', 'BoardMembersCategoriesController');
-	Route::resource('contact_us', 'ContactUsController');
+	//Route::resource('contact_us', 'ContactUsController');
 	Route::resource('event_ticket_buyers', 'EventTicketBuyersController');
 	Route::resource('event_ticket_payments', 'EventTicketPaymentsController');
 	Route::resource('events', 'EventsController');
@@ -61,11 +69,18 @@ Route::group([ 'middleware' => 'admin_middleware'], function()
 	Route::resource('votes', 'VotesController');
 	Route::resource('votes_position', 'VotePositionsController');
 	Route::resource('candidates', 'VoteCandidatesController');
+
+
+
 });
 
 
 
+
 Auth::routes();
+
+
+Route::get('/logout', '\App\Http\Controllers\Auth\LoginController@logout');
 
 Route::get('/admin', 'HomeController@index')->name('home');
 //Route::get('/home', function () {
