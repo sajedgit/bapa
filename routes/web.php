@@ -36,6 +36,7 @@ Route::get('/around_the_world', 'front\FrontController@around_the_world')->name(
 
 Route::get('/constitution_by_laws', 'front\FrontController@constitution_by_laws')->name('constitution_by_laws');
 Route::get('/contact_us', 'front\FrontController@contact_us')->name('contact_us');
+Route::post('/contact_us_send', 'front\FrontController@contact_us_send')->name('contact_us_send');
 Route::get('/vote', 'front\FrontController@vote')->name('vote');
 Route::get('/vote/{id}', 'front\FrontController@vote_by_id')->name('vote/{id}');
 Route::get('/vote_submit_done', 'front\FrontController@vote_submit_done')->name('vote_submit_done');

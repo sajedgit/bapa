@@ -13,6 +13,9 @@ use DateTimeZone;
 use URL;
 use Illuminate\Support\Facades\Auth;
 
+use Illuminate\Support\Facades\Mail;
+use App\Mail\SendMailable;
+
 class FrontController extends Controller
 {
     public $board_members_categories;
@@ -323,6 +326,20 @@ class FrontController extends Controller
         $welcome_message = "Contact Us";
         return view('front/contact_us', compact( 'welcome_message', 'board_members_categories'));
 
+    }
+
+
+    public function contact_us_send(Request $request)
+    {
+          $fname=$request->fname;
+          $lname=$request->lname;
+         $email=$request->email;
+         $comment=$request->comment;
+
+
+        Mail::to('sajedaiub@gmail.com')->send(new SendMailable($fname,$lname,$email,$comment));
+
+        return 'Email was sent';
     }
 
 
