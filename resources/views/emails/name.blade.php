@@ -1,5 +1,6 @@
 <div>
-    Hi, This is : {{ $fname }}
-    last name is : {{ $lname }}
-    email is : {{ $email }}
+    <p>Hi, This is from: {{ $fname }}</p>
+    <p>email is : {{ $email }}</p>
+    <p>Message: {{ $comment }}</p>
+
 </div>

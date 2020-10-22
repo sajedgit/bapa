@@ -339,7 +339,8 @@ class FrontController extends Controller
 
         Mail::to('sajedaiub@gmail.com')->send(new SendMailable($fname,$lname,$email,$comment));
 
-        return 'Email was sent';
+        return redirect()->route("contact_us")->with('success', 'Email has just sent');
+        //return 'Email has just sent';
     }
 
 
