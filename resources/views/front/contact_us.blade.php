@@ -70,7 +70,7 @@
 
             <div class="container contact">
                 <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-md-3 col-sm-6 col-xs-12">
                         <div class="contact-info text-center">
                             <i class="fa fa-envelope" style="font-size:50px"></i>
                             <h2>Contact Us</h2>
@@ -85,7 +85,7 @@
 
                         </div>
                     </div>
-                    <div class="col-md-9">
+                    <div class="col-md-9  col-sm-6 col-xs-12">
 {{--                        <form action="" method="post">--}}
                         <div class="contact-form">
                             <div class="form-group">

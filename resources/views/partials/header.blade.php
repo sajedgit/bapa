@@ -111,6 +111,23 @@
             border: none;
             margin-top: 8px;
         }
+
+        li.contact_us, li.login_logout
+        {
+            display: none;
+        }
+
+        @media only screen and (max-width: 768px) {
+            /* For mobile phones: */
+            ul.navbar-nav
+            {
+                margin-top: 27px;
+            }
+            li.contact_us, li.login_logout
+            {
+                display: block;
+            }
+        }
     </style>
 
 </head>
@@ -193,6 +210,16 @@
                                 <li class=" "><a href="{{ route('event') }}">Events</a></li>
                                 <li><a href="{{ route('vote') }}">Vote</a></li>
                                 <li><a href="{{ route('shop') }}">Shop</a></li>
+
+                                <li class="contact_us"><a href="{{ route('contact_us') }}">Contact Us</a></li>
+
+                                @if($user = Auth::user())
+                                    <li  class="login_logout" ><a href="{{ route('logout') }}">Logout(   {{ $user->name }}) </a></li>
+                                @else
+                                    <li class="login_logout" ><a href="{{ route('login') }}">Member Login </a></li>
+                                @endif
+
+
 
                             </ul>
                         </div><!--/.nav-collapse -->
