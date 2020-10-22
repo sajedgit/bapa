@@ -42,6 +42,10 @@ Route::get('/vote_submit_done', 'front\FrontController@vote_submit_done')->name(
 Route::post('/vote_submit', 'front\FrontController@vote_submit')->name('vote_submit');
 Route::get('/shop', 'front\FrontController@shop')->name('shop');
 
+Route::get('employment', 'front\FrontController@employment')->name('f_employment');
+Route::get('domestic_violence', 'front\FrontController@domestic_violence')->name('f_domestic_violence');
+Route::get('education_and_scholarship', 'front\FrontController@education_and_scholarship')->name('f_education_and_scholarship');
+
 
 Route::group([ 'middleware' => 'admin_middleware'], function()
 {
@@ -66,6 +70,18 @@ Route::group([ 'middleware' => 'admin_middleware'], function()
     Route::get('/messages_vice_president', 'MessagesController@vice_president')->name('vice_president');
     Route::get('/messages_general_secretary', 'MessagesController@general_secretary')->name('general_secretary');
     Route::post('/messages_update', 'MessagesController@messages_update')->name('messages_update');
+
+    Route::get('/about', 'MixedController@about')->name('about');
+    Route::post('/about_update', 'MixedController@about_update')->name('about_update');
+
+    Route::get('/admin/employment', 'MixedController@employment')->name('employment');
+    Route::post('/employment_update', 'MixedController@employment_update')->name('employment_update');
+
+    Route::get('/admin/domestic_violence', 'MixedController@domestic_violence')->name('domestic_violence');
+    Route::post('/domestic_violence_update', 'MixedController@domestic_violence_update')->name('domestic_violence_update');
+
+    Route::get('/admin/education_and_scholarship', 'MixedController@education_and_scholarship')->name('education_and_scholarship');
+    Route::post('/education_and_scholarship_update', 'MixedController@education_and_scholarship_update')->name('education_and_scholarship_update');
 
 	Route::resource('organize_infos', 'OrganizeInfosController');
 	Route::resource('sponsors', 'SponsorsController');

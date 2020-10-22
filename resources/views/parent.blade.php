@@ -155,7 +155,20 @@
         </div>
       </li>
 
+      <li class="nav-item">
+        <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapsePages_resources" aria-expanded="true" aria-controls="collapsePages">
+          <i class="fas fa-fw fa-user-tie"></i>
+          <span>Resources</span>
+        </a>
+        <div id="collapsePages_resources" class="collapse {{ (request()->is('resources*')) ? 'show' : '' }}" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
 
+            <a class="collapse-item" href="{{ route('employment') }}">Employment</a>
+            <a class="collapse-item" href="{{ route('education_and_scholarship') }}">Education & Scholarship</a>
+            <a class="collapse-item" href="{{ route('domestic_violence') }}">Domestic Violence</a>
+          </div>
+        </div>
+      </li>
 
       <li class="nav-item">
         <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapsePages_sponsor" aria-expanded="true" aria-controls="collapsePages">

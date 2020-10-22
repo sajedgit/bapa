@@ -62,7 +62,7 @@ class FrontController extends Controller
         $board_members_categories = $this->board_members_categories;
         $board_members = DB::select(DB::raw(" SELECT * from board_members where  	ref_board_members_category_id =$id and board_members_active=1  "));
 
-        $welcome_message = " BAPA $category Members";
+        $welcome_message = " BAPA $category ";
         return view('front/front_board_member', compact('board_members', 'welcome_message', 'board_members_categories'));
 
     }
@@ -224,8 +224,65 @@ class FrontController extends Controller
     {
         $board_members_categories = $this->board_members_categories;
 
+        $data = DB::table('about_us')
+            ->select('*')
+            ->where("id",1)
+            ->get();
+        $data=$data[0];
+
         $welcome_message = " About BAPA ";
-        return view('front/about_us', compact( 'welcome_message', 'board_members_categories'));
+        return view('front/about_us', compact( 'data','welcome_message', 'board_members_categories'));
+
+    }
+
+
+
+    public function employment()
+    {
+        $board_members_categories = $this->board_members_categories;
+
+        $data = DB::table('employment')
+            ->select('*')
+            ->where("id",1)
+            ->get();
+        $data=$data[0];
+
+        $welcome_message = " Employment ";
+        return view('front/employment', compact( 'data','welcome_message', 'board_members_categories'));
+
+    }
+
+
+
+    public function education_and_scholarship()
+    {
+        $board_members_categories = $this->board_members_categories;
+
+        $data = DB::table('education_and_scholarship')
+            ->select('*')
+            ->where("id",1)
+            ->get();
+        $data=$data[0];
+
+        $welcome_message = " Education and Scholarship ";
+        return view('front/employment', compact( 'data','welcome_message', 'board_members_categories'));
+
+    }
+
+
+
+    public function domestic_violence()
+    {
+        $board_members_categories = $this->board_members_categories;
+
+        $data = DB::table('domestic_violence')
+            ->select('*')
+            ->where("id",1)
+            ->get();
+        $data=$data[0];
+
+        $welcome_message = " Domestic Violence ";
+        return view('front/employment', compact( 'data','welcome_message', 'board_members_categories'));
 
     }
 
@@ -350,7 +407,7 @@ class FrontController extends Controller
             }
             else
             {
-                return view('front/Vote', compact( 'welcome_message', 'board_members_categories','vote_today'));
+                return view('front/vote', compact( 'welcome_message', 'board_members_categories','vote_today'));
             }
 
 

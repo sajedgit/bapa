@@ -190,7 +190,7 @@
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Executives & Trustees <span class="caret"></span></a>
                                     <ul class="dropdown-menu">
                                         @foreach($board_members_categories as $categories)
-                                            <li><a href="{{ route('executives_and_trustees', [$categories->board_members_category_name, $categories->id]) }}">BAPA {{ $categories->board_members_category_name }} <i aria-hidden="true" class="fa fa-lock"></i></a></li>
+                                            <li><a href="{{ route('executives_and_trustees', [$categories->board_members_category_name, $categories->id]) }}"> {{ $categories->board_members_category_name }} <i aria-hidden="true" class="fa fa-lock"></i></a></li>
                                         @endforeach
 
                                     </ul>
@@ -199,8 +199,9 @@
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Resources <span class="caret"></span></a>
                                     <ul class="dropdown-menu">
 
-                                        <li><a href="#"> Employment </a></li>
-                                        <li><a href="#"> Education & Scholarship </a></li>
+                                        <li><a href="{{ route("f_employment") }}"> Employment </a></li>
+                                        <li><a href="{{ route("f_education_and_scholarship") }}"> Education & Scholarship </a></li>
+                                        <li><a href="{{ route("f_domestic_violence") }}"> Domestic Violence </a></li>
 
                                     </ul>
                                 </li>
