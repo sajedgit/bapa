@@ -191,7 +191,8 @@
                                 <li><a href="{{ route("constitution_by_laws") }}">Constitution-Bylaws</a></li>
                                 <li><a href="{{ route('around_the_world') }} ">Around the World</a></li>
                                 <li class=" "><a href="{{ route('event') }}">Events</a></li>
-                                <li><a href="#">Shop</a></li>
+                                <li><a href="{{ route('vote') }}">Vote</a></li>
+                                <li><a href="{{ route('shop') }}">Shop</a></li>
 
                             </ul>
                         </div><!--/.nav-collapse -->

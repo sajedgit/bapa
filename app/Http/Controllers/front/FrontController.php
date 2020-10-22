@@ -290,6 +290,168 @@ class FrontController extends Controller
 
 
 
+
+    public function vote_by_id($id)
+    {
+
+        if($user = Auth::user())
+        {
+            $board_members_categories = $this->board_members_categories;
+            $vote_today = DB::select(DB::raw(" SELECT * from vote_details where id = $id   "));
+
+            //$upcoming_vote = DB::select(DB::raw(" SELECT * from vote_details where voting_date > CURDATE() and status=1  "));
+
+            $vote_id=$vote_today[0]->id;
+            $voter_id=$user->id;
+            $is_vote_submit = DB::select(DB::raw(" SELECT * from vote_count where vote_id= $vote_id and voter_id=$voter_id  "));
+
+            $welcome_message = "Vote";
+
+            if(count($is_vote_submit) > 0)
+            {
+                return view('front/vote_done_check', compact( 'welcome_message', 'board_members_categories','vote_today'));
+            }
+            else
+            {
+                return view('front/Vote', compact( 'welcome_message', 'board_members_categories','vote_today'));
+            }
+
+
+
+
+        }
+        else
+        {
+            return redirect()->guest('login');
+        }
+
+    }
+
+
+    public function vote()
+    {
+
+        if($user = Auth::user())
+        {
+            $board_members_categories = $this->board_members_categories;
+            $vote_today = DB::select(DB::raw(" SELECT * from vote_details where voting_date = CURDATE() and status=1 order by start_time asc limit 1  "));
+
+            //$upcoming_vote = DB::select(DB::raw(" SELECT * from vote_details where voting_date > CURDATE() and status=1  "));
+
+            $vote_id=$vote_today[0]->id;
+            $voter_id=$user->id;
+            $is_vote_submit = DB::select(DB::raw(" SELECT * from vote_count where vote_id= $vote_id and voter_id=$voter_id  "));
+
+            $welcome_message = "Vote";
+
+            if(count($is_vote_submit) > 0)
+            {
+                return view('front/vote_done_check', compact( 'welcome_message', 'board_members_categories','vote_today'));
+            }
+            else
+            {
+                return view('front/Vote', compact( 'welcome_message', 'board_members_categories','vote_today'));
+            }
+
+
+
+
+        }
+        else
+        {
+            return redirect()->guest('login');
+        }
+
+    }
+
+
+
+    public function vote_submit()
+    {
+      //print_r($_REQUEST);die();
+        $counter=$_REQUEST["counter"];
+        for($i=1;$i<=$counter;$i++)
+        {
+            $arr=$_REQUEST["position_".$i];
+
+            foreach($arr as $data)
+            {
+               //$is_vote_done=$this->is_vote_done($data) ;
+               $this->insert_vote($data);
+            }
+
+        }
+
+        return redirect('vote_submit_done');
+
+
+    }
+
+    public function vote_submit_done()
+    {
+        $board_members_categories = $this->board_members_categories;
+
+        $welcome_message = "Vote Submit";
+        return view('front/vote_submit', compact( 'welcome_message', 'board_members_categories'));
+    }
+
+
+    public function insert_vote($data)
+    {
+        $arr=explode("_",$data);
+        $vote_id=$arr[0];
+        $position_id=$arr[1];
+        $candidate_id=$arr[2];
+
+        $user = Auth::user();
+        $voter_id=$user->id;
+
+        $vote_insert = DB::select(DB::raw("INSERT INTO vote_count (vote_id, vote_position_id, vote_candidate_id,voter_id ) VALUES ($vote_id, $position_id, $candidate_id, $voter_id)"));
+    }
+
+    public function shop()
+    {
+        $board_members_categories = $this->board_members_categories;
+
+        $welcome_message = "Shop";
+        return view('front/Shop', compact( 'welcome_message', 'board_members_categories'));
+
+    }
+
+
+    public static function get_position_by_vote_id($id)
+    {
+        $positions = DB::select(DB::raw(" SELECT * from vote_position where vote_id =$id and status=1  "));
+        return $positions;
+    }
+
+
+
+    public static function get_candidate_by_vote_and_position_id($vote_id,$position_id)
+    {
+        $candidates = DB::select(DB::raw(" SELECT * from vote_candidate where vote_id =$vote_id and vote_position_id =$position_id and status=1  "));
+        return $candidates;
+    }
+
+
+    public static function get_name_by_user_id($user_id)
+    {
+        $users = DB::select(DB::raw(" SELECT * from memberships where id =$user_id   "));
+        return $users;
+    }
+
+
+    public static function upcoming_vote()
+    {
+
+        $upcoming_vote = DB::select(DB::raw(" SELECT * from vote_details where voting_date > CURDATE() and status=1 order by start_time asc   "));
+        return $upcoming_vote;
+    }
+
+
+
+
+
 }
 
 
