@@ -54,7 +54,7 @@
                             echo date_format($date,"F j, Y");
                             ?>
                         </span>
-                        <h5><?php echo $msg_president->title; ?></h5>
+                        <h5><?php echo $vice_president->title; ?></h5>
                         <div class="eventCopy" style="width: 100%;text-align: justify;">
 
                             <p>
