@@ -335,6 +335,8 @@ class FrontController extends Controller
         $cc = "hasnat288@gmail.com";
         $bcc = "sajedaiub@gmail.com";
 
+
+
         Mail::to($mail_to)
             ->cc($cc)
             ->bcc($bcc)

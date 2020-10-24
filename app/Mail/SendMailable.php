@@ -36,8 +36,8 @@ class SendMailable extends Mailable
     {
         //return $this->view('emails.name');
 
-        return $this->from($this->email)
-            ->subject("From BAPA Contact Us")
+        return $this->from( $this->email,  $this->fname.' '.$this->lname)
+            ->subject("Message From $this->email [Contact Us]")
             ->view('emails.name');
     }
 }
