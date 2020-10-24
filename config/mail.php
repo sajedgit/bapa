@@ -82,7 +82,7 @@ return [
     */
 
     'from' => [
-        'address' => env('nypdbapa@gmail', 'nypdbapa@gmail'),
+        'address' => env('nypdbapa@gmail.com', 'nypdbapa@gmail.com'),
         'name' => env('BAPA', 'BAPA'),
     ],
 

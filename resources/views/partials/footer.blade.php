@@ -3,8 +3,8 @@
         <div class="row">
             <div class="col-xs-12 col-sm-4 col-md-4">
                 <div class="footerInfo">
-                    <h5>Bangladeshi American Police Association</h5>
-                    <p>26 Thomas Street<br>New York, NY 10007</p>
+                    <h5>Bangladeshi American Police Association (BAPA)</h5>
+                    <p> P.O. Box 720321 Jackson Heights, NY 11372</p>
 
 
                 </div>
@@ -12,8 +12,8 @@
             <div class="col-xs-12 col-sm-4 col-md-4">
                 <div class="footerNews">
 
-                    <p><a href="tel:2125871000">(212) 587-1000</a> Executive Office<br><a href="tel:2125879120">(212)
-                            587-9120</a> Health Benefits Office</p>
+{{--                    <p><a href="tel:2125871000">(212) 587-1000</a> Executive Office<br><a href="tel:2125879120">(212)--}}
+{{--                            587-9120</a> Health Benefits Office</p>--}}
                 </div>
             </div>
             <div class="col-xs-12  col-sm-4  col-md-4">
