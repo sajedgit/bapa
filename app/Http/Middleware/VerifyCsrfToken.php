@@ -13,5 +13,9 @@ class VerifyCsrfToken extends Middleware
      */
     protected $except = [
         //
+		'http://localhost/bapa/after_payment',
+		'http://localhost/bapa/after_payment_success',
+		'https://nypdbapa.org/after_payment',
+		'https://nypdbapa.org/after_payment_success',
     ];
 }

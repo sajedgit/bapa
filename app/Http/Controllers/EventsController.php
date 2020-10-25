@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Event;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class EventsController extends Controller
 {
@@ -189,6 +190,12 @@ class EventsController extends Controller
         $data->delete();
 
         return redirect('Event/index')->with('success', 'Data is successfully deleted');
+    }
+
+    public static function upcoming_events()
+    {
+        $upcoming_events = DB::select(DB::raw(" SELECT * from events where event_starting_date >= CURDATE() and event_active=1 order by event_starting_date asc   "));
+        return $upcoming_events;
     }
 }
 

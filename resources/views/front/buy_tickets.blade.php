@@ -16,7 +16,7 @@
     </style>
 
     <br>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+{{--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">--}}
 
     <div class="container">
         <div class="row">
@@ -53,6 +53,7 @@
                             <div class="col-xs-6 item-label">Total</div>
                             <div class="col-xs-6 item-amount">${{$total}}.00</div>
                         </div>
+                            <input type="hidden"  value="{{ $event_id }}" name="event_id">
                         <button type="submit" class="btn btn-primary">Pay now!</button>
                     </form>
 

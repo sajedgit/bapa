@@ -13,8 +13,8 @@ use Square\Models\Money;
 use Square\Exceptions\ApiException;
 use Square\SquareClient;
 
-
 $base_url="http://localhost/bapa/";
+$redirect_url=$base_url."sq_payment/after_payment.php";
 
 // dotenv is used to read from the '.env' file created
 $dotenv = Dotenv::create(__DIR__);
@@ -24,7 +24,7 @@ $dotenv->load();
 $upper_case_environment = strtoupper(getenv('ENVIRONMENT'));
 
 // Use the environment and the key name to get the appropriate values from the .env file.
-$access_token = getenv($upper_case_environment.'_ACCESS_TOKEN');    
+$access_token = getenv($upper_case_environment.'_ACCESS_TOKEN');
 $location_id =  getenv($upper_case_environment.'_LOCATION_ID');
 
 // Initialize the authorization for Square
@@ -40,6 +40,8 @@ try {
   $checkout_api = $client->getCheckoutApi();
 
  // print_r($_REQUEST);die();
+
+    $event_id=$_REQUEST['event_id'];
 
    if( isset($_REQUEST['adult_price']) )
    {
@@ -99,12 +101,14 @@ try {
   }
 
 
+
   $create_order_request = new CreateOrderRequest();
   $create_order_request->setOrder($order);
 
   // Similar to payments you must have a unique idempotency key.
   $checkout_request = new CreateCheckoutRequest(uniqid(), $create_order_request);
-  $checkout_request->setRedirectUrl($base_url);
+  $checkout_request->setRedirectUrl($redirect_url);
+  $checkout_request->setNote($event_id);
 
   $response = $checkout_api->createCheckout($location_id, $checkout_request);
     if ($response->isSuccess()) {

@@ -15,11 +15,20 @@
 </style>
 
     <br>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+{{--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">--}}
 
     <div class="container">
     <div class="row">
 
+        <div class="row text-center col-md-12">
+
+            @if (session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
+
+        </div>
 
         <div class="col-sm-12 col-md-12 col-xs-12">
 
@@ -55,6 +64,7 @@
                         @csrf
 
                         <input type="hidden"    value=" {{ $data->event_title }}" name="event_title">
+                        <input type="hidden"    value=" {{ $data->id }}" name="event_id">
                         <div class="row">
                             <div class="col-xs-6">
                                 <span>Adult:</span>
