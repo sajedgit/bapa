@@ -1,5 +1,5 @@
 <div>
-    <p>Hi Mr/Mrs {{ $user_name }},<br/> Your purchase have been successfully done for {{ $event_name }} Event</p>
+    <p>Hi Mr/Mrs {{ $user_name }},<br/> Your purchase have been successfully done for  Event</p>
     <p>Your order id is : {{ $order_id }}</p>
     <p>Payment type: {{ $payment_type }}</p>
     <p>Order details:  {{ $details }}</p>

@@ -68,13 +68,12 @@ class FrontController extends Controller
 
     public function after_payment_success()
     {
-        if ($user = Auth::user())
-        {
+
             // print_r(unserialize($_REQUEST["order_data"][0]));
             $order_data=unserialize($_REQUEST["order_data"][0]);
 
             $order_id=$order_data["order_id"];
-            $ref_membership_id=$user->id;
+            $ref_membership_id=Auth::user()->id;
             $source=$order_data["source"];
             $net_amounts=$order_data["net_amounts"];
             $event_id=$order_data["event_id"];
@@ -86,7 +85,7 @@ class FrontController extends Controller
             $details="";
             foreach ($items as $data)
             {
-                $details.=$data["item_name"].": ".$data["item_unit_price"]." x ".$data["item_quantity"]." = ".$data["item_total_money"]." ".$data["item_currency"] ."\n";
+                $details.=$data["item_name"].": ".$data["item_unit_price"]." x ".$data["item_quantity"]." = ".$data["item_total_money"]." ".$data["item_currency"] ."<br/>";
 
                 $total_tickets+=$data["item_quantity"];
             }
@@ -112,7 +111,7 @@ class FrontController extends Controller
             }
             else
                 echo "Payment not done Properly";
-        }
+
 
 
     }
@@ -129,8 +128,8 @@ class FrontController extends Controller
         $user_name=$user->name;
         $user_email=$user->email;
 
-        $mail_to = "$user_email";
-        $cc = "sajedaiub@gmail.com";
+        $mail_to = $user_email;
+        $cc = "nypdbapa@gmail.com";
         $bcc = "sajedaiub@gmail.com";
 
 

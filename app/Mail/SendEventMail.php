@@ -39,8 +39,8 @@ class SendEventMail extends Mailable
     public function build()
     {
         //return $this->view('emails.name');
-      return $this->from( $this->event_name,$this->user_name,$this->order_id,$this->source,$this->payment_type,$this->details,$this->total_tickets,$this->net_amounts)
-            ->subject("Buying Ticket Order Confirmation")
+      return $this->from( "nypdbapa@gmail.com","BAPA")
+            ->subject("Buying Ticket Confirmation")
             ->view('emails.buy_tickets');
     }
 }
