@@ -13,14 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//Route::get('/', function () {
-//    return view('welcome');
-//});
 
-
-//Route::get('/', function () {
-//    return view('front/front_home');
-//});
 
 Route::get('/', 'front\FrontController@index')->name('front');
 Route::get('/executives_and_trustees/{category}/{id}', 'front\FrontController@get_board_memmbers')->name('executives_and_trustees');
@@ -106,7 +99,7 @@ Auth::routes();
 
 Route::get('/logout', '\App\Http\Controllers\Auth\LoginController@logout');
 
-Route::get('/admin', 'HomeController@index')->name('home');
+Route::get('/admin', 'HomeController@index')->name('admin');
 //Route::get('/home', function () {
 //    return view('welcome');
 //});
