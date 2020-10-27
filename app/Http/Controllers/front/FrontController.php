@@ -17,12 +17,14 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\SendMailable;
 use App\Mail\SendEventMail;
 
+
 class FrontController extends Controller
 {
     public $board_members_categories;
 
     public function __construct()
     {
+
 
         // $this->middleware('auth', ['only' => ['buy_tickets']]);
         //$this->middleware('some_other_middleware', ['except' => ['some_method'], 'only' => ['some_other_method', 'yet_another_method']]);
@@ -74,6 +76,7 @@ class FrontController extends Controller
 
             $order_id=$order_data["order_id"];
             $ref_membership_id=Auth::user()->id;
+           // $ref_membership_id=35;
             $source=$order_data["source"];
             $net_amounts=$order_data["net_amounts"];
             $event_id=$order_data["event_id"];
@@ -85,7 +88,7 @@ class FrontController extends Controller
             $details="";
             foreach ($items as $data)
             {
-                $details.=$data["item_name"].": ".$data["item_unit_price"]." x ".$data["item_quantity"]." = ".$data["item_total_money"]." ".$data["item_currency"] ."<br/>";
+                $details.=$data["item_name"].": ".$data["item_unit_price"]." x ".$data["item_quantity"]." = ".$data["item_total_money"]." ".$data["item_currency"] ."\n";
 
                 $total_tickets+=$data["item_quantity"];
             }
@@ -116,6 +119,66 @@ class FrontController extends Controller
 
     }
 
+
+    public function after_payment_success_product()
+    {
+
+            // print_r(unserialize($_REQUEST["order_data"][0]));
+             // print_r(Auth::user());die();
+            $order_data=unserialize($_REQUEST["order_data"][0]);
+
+            $order_id=$order_data["order_id"];
+            $ref_membership_id=Auth::user()->id;
+           // $ref_membership_id=35;
+            $source=$order_data["source"];
+            $net_amounts=$order_data["net_amounts"];
+            $note=$order_data["note"];
+            $note=explode("--**--",$note);
+            $feedback=$note[0];
+            $event_id=trim($note[1]);
+            $items=$order_data["items"];
+
+            $total_tickets=0;
+            $payment_type="online payment";
+
+            $details="";
+            foreach ($items as $data)
+            {
+                $details.=$data["item_name"].": ".$data["item_unit_price"]." x ".$data["item_quantity"]." = ".$data["item_total_money"]." ".$data["item_currency"] ."\n";
+
+                $total_tickets+=$data["item_quantity"];
+            }
+
+            $details.="\n Feedback: ".$feedback;
+
+            $payment_insert= DB::table('product_buyers')->insert(
+                array(
+                    'ref_product_id'     =>   $event_id,
+                    'ref_membership_id'   =>   $ref_membership_id,
+                    'order_id'   =>  $order_id,
+                    'source'   =>   $source,
+                    'payment_type'   =>   $payment_type,
+                    'details'   =>   $details,
+                    'total_tickets'   =>   $total_tickets,
+                    'total_price'   =>   $net_amounts,
+                    'product_buyer_stored_datetime'   =>   NOW()
+                )
+            );
+
+
+            if($payment_insert)
+            {
+
+                $this->send_mail_product($event_id,$ref_membership_id,$order_id,$source,$payment_type,$details,$total_tickets,$net_amounts);
+                return redirect()->route("shop/{id}",[$event_id])->with('success', 'Buy Product Successfully');
+            }
+            else
+                echo "Payment not done Properly";
+
+
+
+    }
+
     public function send_mail($event_id,$ref_membership_id,$order_id,$source,$payment_type,$details,$total_tickets,$net_amounts)
     {
         $event = DB::select(DB::raw(" SELECT * from events where  id=$event_id  "));
@@ -128,6 +191,7 @@ class FrontController extends Controller
         $user_name=$user->name;
         $user_email=$user->email;
 
+        $subject="Buying Ticket Confirmation";
         $mail_to = $user_email;
         $cc = "nypdbapa@gmail.com";
         $bcc = "sajedaiub@gmail.com";
@@ -136,7 +200,31 @@ class FrontController extends Controller
         Mail::to($mail_to)
             ->cc($cc)
             ->bcc($bcc)
-            ->send(new SendEventMail($event_name, $user_name,$order_id, $source, $payment_type,$details,$total_tickets,$net_amounts));
+            ->send(new SendEventMail($event_name, $subject,$user_name,$order_id, $source, $payment_type,$details,$total_tickets,$net_amounts));
+    }
+
+
+    public function send_mail_product($event_id,$ref_membership_id,$order_id,$source,$payment_type,$details,$total_tickets,$net_amounts)
+    {
+        $event = DB::select(DB::raw(" SELECT * from products where  id=$event_id  "));
+        $event = $event[0];
+        $event_name=$event->product_name;
+
+
+        $user = DB::select(DB::raw(" SELECT * from memberships where  id=$ref_membership_id  "));
+        $user = $user[0];
+        $user_name=$user->name;
+        $user_email=$user->email;
+        $subject="Buying Product Confirmation";
+        $mail_to = $user_email;
+        $cc = "nypdbapa@gmail.com";
+        $bcc = "sajedaiub@gmail.com";
+
+
+        Mail::to($mail_to)
+            ->cc($cc)
+            ->bcc($bcc)
+            ->send(new SendEventMail($event_name,$subject, $user_name,$order_id, $source, $payment_type,$details,$total_tickets,$net_amounts));
     }
 
 
@@ -558,10 +646,45 @@ class FrontController extends Controller
     {
         $board_members_categories = $this->board_members_categories;
 
+        $products = DB::select(DB::raw(" SELECT * from products where  status=1  "));
         $welcome_message = "Shop";
-        return view('front/Shop', compact('welcome_message', 'board_members_categories'));
+        return view('front/shop', compact('welcome_message', 'board_members_categories','products'));
 
     }
+
+    public function shop_by_id($id)
+    {
+        $board_members_categories = $this->board_members_categories;
+
+        $data = DB::select(DB::raw(" SELECT * from products where  id=$id and status=1  "));
+        $data = $data[0];
+        $welcome_message = " Shop ";
+        return view('front/shop_by_id', compact('data', 'welcome_message', 'board_members_categories'));
+
+    }
+
+
+//    public function buy_products(Request $request)
+//    {
+//        //  print_r(Auth::user()->user_type_id);die();
+//        $board_members_categories = $this->board_members_categories;
+//
+//        $data = array();
+//        $event_title = $request->event_title;
+//        $event_id = $request->event_id;
+//        $adult_quantity = $request->adult_quantity;
+//        $adult_price = $request->adult_price;
+//        $adult_ticket_price = $adult_price * $adult_quantity;
+//        $children_quantity = $request->children_quantity;
+//        $children_price = $request->children_price;
+//        $children_ticket_price = $children_price * $children_quantity;
+//        $total = $adult_ticket_price + $children_ticket_price;
+//
+//        //print_r($request->adult_price);
+//        $welcome_message = "Buy Tickets for " . $event_title;
+//        return view('front/buy_products', compact('total','event_id', 'adult_ticket_price', 'children_ticket_price', 'adult_quantity', 'adult_price', 'children_quantity', 'children_price', 'welcome_message', 'board_members_categories'));
+//
+//    }
 
 
     public static function get_position_by_vote_id($id)

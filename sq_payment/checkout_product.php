@@ -14,7 +14,7 @@ use Square\Models\Money;
 use Square\Exceptions\ApiException;
 use Square\SquareClient;
 
-$redirect_url=$base_url."sq_payment/after_payment.php";
+$redirect_url=$base_url."sq_payment/after_payment_product.php";
 
 // dotenv is used to read from the '.env' file created
 $dotenv = Dotenv::create(__DIR__);
@@ -41,64 +41,28 @@ try {
 
  // print_r($_REQUEST);die();
 
-    $event_id=$_REQUEST['event_id'];
-
-   if( isset($_REQUEST['adult_price']) )
-   {
-       $adult_price=$_REQUEST['adult_price']*100;
-       $adult_label=$_REQUEST['adult_label'];
-       $adult_quantity=$_REQUEST['adult_quantity'];
-
-       // Monetary amounts are specified in the smallest unit of the applicable currency.
-       // This amount is in cents. It's also hard-coded for $1.00, which isn't very useful.
+       $product_id=$_REQUEST['product_id'];
+       $product_feedback=$_REQUEST['product_feedback'];
+	   $note=$product_feedback."--**--".$product_id;
+ 
+       $product_price=$_REQUEST['product_price'];
+       $product_price=$product_price*100;
+       $product_label=$_REQUEST['product_title'];
+       $product_quantity=$_REQUEST['product_quantity'];
 
        $money_A = new Money();
        $money_A->setCurrency('USD');
-       $money_A->setAmount($adult_price);
+       $money_A->setAmount($product_price);
 
-       $item_A = new OrderLineItem($adult_quantity);
-       $item_A->setName($adult_label);
+       $item_A = new OrderLineItem($product_quantity);
+       $item_A->setName($product_label);
        $item_A->setBasePriceMoney($money_A);
-   }
-   if(isset($_REQUEST['children_price']))
-   {
-       $children_price=$_REQUEST['children_price']*100;
-       $children_label=$_REQUEST['children_label'];
-       $children_quantity=$_REQUEST['children_quantity'];
+  
 
-       // Monetary amounts are specified in the smallest unit of the applicable currency.
-       // This amount is in cents. It's also hard-coded for $1.00, which isn't very useful.
-
-       $money_B = new Money();
-       $money_B->setCurrency('USD');
-       $money_B->setAmount($children_price);
-
-       $item_B = new OrderLineItem($children_quantity);
-       $item_B->setName($children_label);
-       $item_B->setBasePriceMoney($money_B);
-   }
-
-
-
-
-  // Create a new order and add the line items as necessary.
-  $order = new Order($location_id);
-  if( isset($_REQUEST['children_price']) && isset($_REQUEST['adult_price']))
-  {
-      $order->setLineItems([$item_A, $item_B]);
-  }
-  elseif(isset($_REQUEST['adult_price']))
-  {
-      $order->setLineItems([$item_A]);
-  }
-  elseif(isset($_REQUEST['children_price']))
-  {
-      $order->setLineItems([ $item_B]);
-  }
-  else
-  {
-      "Select Nothing";die();
-  }
+		// Create a new order and add the line items as necessary.
+		$order = new Order($location_id);
+		$order->setLineItems([$item_A]);
+ 
 
 
 
@@ -108,7 +72,7 @@ try {
   // Similar to payments you must have a unique idempotency key.
   $checkout_request = new CreateCheckoutRequest(uniqid(), $create_order_request);
   $checkout_request->setRedirectUrl($redirect_url);
-  $checkout_request->setNote($event_id);
+  $checkout_request->setNote($note);
 
   $response = $checkout_api->createCheckout($location_id, $checkout_request);
     if ($response->isSuccess()) {

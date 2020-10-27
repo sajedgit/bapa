@@ -17,5 +17,10 @@ class VerifyCsrfToken extends Middleware
 		'http://localhost/bapa/after_payment_success',
 		'https://nypdbapa.org/after_payment',
 		'https://nypdbapa.org/after_payment_success',
+
+		'http://localhost/bapa/after_payment_product',
+		'http://localhost/bapa/after_payment_success_product',
+        'https://nypdbapa.org/after_payment_product',
+		'https://nypdbapa.org/after_payment_success_product',
     ];
 }

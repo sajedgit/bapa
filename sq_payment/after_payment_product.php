@@ -16,7 +16,7 @@ use Square\Exceptions\ApiException;
 use Square\SquareClient;
 
 
-$form_submit_url = $base_url . "after_payment_success";
+$form_submit_url = $base_url . "after_payment_success_product";
 
 // dotenv is used to read from the '.env' file created
 $dotenv = Dotenv::create(__DIR__);
@@ -67,7 +67,7 @@ if ($api_response->isSuccess()) {
 
 
     $arr["items"] = $item_arrrr;
-    $arr["event_id"] = $order->tenders[0]->note;
+    $arr["note"] = $order->tenders[0]->note;
     $arr["net_amounts"] = $order->net_amounts->total_money->amount;
 
 

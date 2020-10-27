@@ -37,6 +37,9 @@ Route::get('/vote/{id}', 'front\FrontController@vote_by_id')->name('vote/{id}');
 Route::get('/vote_submit_done', 'front\FrontController@vote_submit_done')->name('vote_submit_done');
 Route::post('/vote_submit', 'front\FrontController@vote_submit')->name('vote_submit');
 Route::get('/shop', 'front\FrontController@shop')->name('shop');
+Route::get('shop/{id}', 'front\FrontController@shop_by_id')->name('shop/{id}')->middleware('normal');;
+Route::post('/buy_products', 'front\FrontController@buy_products')->name('buy_products')->middleware('normal');
+Route::post('/after_payment_success_product', 'front\FrontController@after_payment_success_product')->name('after_payment_success_product');
 
 Route::get('employment', 'front\FrontController@employment')->name('f_employment');
 Route::get('domestic_violence', 'front\FrontController@domestic_violence')->name('f_domestic_violence');

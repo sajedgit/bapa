@@ -63,7 +63,7 @@ class ProductsController extends Controller
             'price' => $request->price,
             'stock' => $request->stock,
             'photo' => $new_name,
-            'status' => $request->stock
+            'status' => 1
         );
 
         Product::create($form_data);
@@ -144,7 +144,7 @@ class ProductsController extends Controller
             'price' => $request->price,
             'stock' => $request->stock,
             'photo' => $image_name,
-            'status' => $request->stock
+            'status' => 1
         );
 
         Product::whereId($id)->update($form_data);

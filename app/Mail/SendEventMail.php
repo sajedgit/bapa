@@ -10,16 +10,17 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 class SendEventMail extends Mailable
 {
     use Queueable, SerializesModels;
-    public $event_name,$user_name, $order_id, $source, $payment_type,$details,$total_tickets,$net_amounts;
+    public $event_name,$subject,$user_name, $order_id, $source, $payment_type,$details,$total_tickets,$net_amounts;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($event_name,$user_name, $order_id, $source, $payment_type,$details,$total_tickets,$net_amounts)
+    public function __construct($event_name,$subject,$user_name, $order_id, $source, $payment_type,$details,$total_tickets,$net_amounts)
     {
         $this->event_name = $event_name;
+        $this->subject = $subject;
         $this->user_name = $user_name;
         $this->order_id = $order_id;
         $this->source = $source;
@@ -40,7 +41,7 @@ class SendEventMail extends Mailable
     {
         //return $this->view('emails.name');
       return $this->from( "nypdbapa@gmail.com","BAPA")
-            ->subject("Buying Ticket Confirmation")
+            ->subject($this->subject)
             ->view('emails.buy_tickets');
     }
 }
