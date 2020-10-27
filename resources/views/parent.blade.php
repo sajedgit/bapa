@@ -26,6 +26,13 @@
     <link rel="stylesheet" href="http://www.jonthornton.com/jquery-timepicker/jquery.timepicker.css">
 
 
+  <style>
+
+    .sidebar .nav-item .collapse .collapse-inner .collapse-item, .sidebar .nav-item .collapsing .collapse-inner .collapse-item {
+
+      white-space: inherit;
+    }
+  </style>
 
 
 </head>
@@ -129,6 +136,9 @@
             <h6 class="collapse-header">Board Members:</h6>
             <a class="collapse-item" href="{{ route('board_members.index') }}">View All Board Members</a>
             <a class="collapse-item" href="{{ route('board_members.create') }}">Add New Board Members</a>
+            <h6 class="collapse-header">Board Members Category:</h6>
+            <a class="collapse-item" href="{{ route('board_members_categories.index') }}"> All Board Members Category</a>
+            <a class="collapse-item" href="{{ route('board_members_categories.create') }}">Add Board Members Category</a>
           </div>
         </div>
       </li>
