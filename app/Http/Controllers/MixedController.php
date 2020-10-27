@@ -64,7 +64,7 @@ class MixedController extends Controller
         $id=$request->about_id;
         $about_content=$request->about_content;
         $form_data = array(
-            'about_content'  => addslashes($about_content)
+            'about_content'  => $about_content
         );
 
         $affected = DB::table("employment")
