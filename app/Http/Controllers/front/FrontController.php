@@ -579,19 +579,28 @@ class FrontController extends Controller
             $board_members_categories = $this->board_members_categories;
             $vote_today = DB::select(DB::raw(" SELECT * from vote_details where voting_date = CURDATE() and status=1 order by start_time asc limit 1  "));
 
-            //$upcoming_vote = DB::select(DB::raw(" SELECT * from vote_details where voting_date > CURDATE() and status=1  "));
+            if(count($vote_today) > 0)
+            {
+                $vote_id = $vote_today[0]->id;
+                $voter_id = $user->id;
+                $is_vote_submit = DB::select(DB::raw(" SELECT * from vote_count where vote_id= $vote_id and voter_id=$voter_id  "));
 
-            $vote_id = $vote_today[0]->id;
-            $voter_id = $user->id;
-            $is_vote_submit = DB::select(DB::raw(" SELECT * from vote_count where vote_id= $vote_id and voter_id=$voter_id  "));
+                $welcome_message = "Vote";
 
-            $welcome_message = "Vote";
-
-            if (count($is_vote_submit) > 0) {
-                return view('front/vote_done_check', compact('welcome_message', 'board_members_categories', 'vote_today'));
-            } else {
-                return view('front/vote', compact('welcome_message', 'board_members_categories', 'vote_today'));
+                if (count($is_vote_submit) > 0) {
+                    return view('front/vote_done_check', compact('welcome_message', 'board_members_categories', 'vote_today'));
+                } else {
+                    return view('front/vote', compact('welcome_message', 'board_members_categories', 'vote_today'));
+                }
             }
+            else
+            {
+                $welcome_message = "Vote";
+                $msg="There are no vote active today";
+                return view('front/vote_no_vote', compact('welcome_message', 'board_members_categories', 'msg'));
+            }
+
+
 
 
         } else {
