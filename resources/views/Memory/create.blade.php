@@ -52,14 +52,14 @@
         </div>
     </div>
 
-    <div class="form-group row">
-        <div class="col-sm-4 mb-3 mb-sm-0">
-            {{ Form::label('memories_active', (Lang::get('memories.enter_msg').' '.Lang::get('memories.memories_active')),array('class'=>'control-label')) }}
-        </div>
-        <div class="col-sm-8">
-            {!! Form::select('memories_active', $status_items,'Select', ['class' => 'form-control']) !!}
-        </div>
-    </div>
+{{--    <div class="form-group row">--}}
+{{--        <div class="col-sm-4 mb-3 mb-sm-0">--}}
+{{--            {{ Form::label('memories_active', (Lang::get('memories.enter_msg').' '.Lang::get('memories.memories_active')),array('class'=>'control-label')) }}--}}
+{{--        </div>--}}
+{{--        <div class="col-sm-8">--}}
+{{--            {!! Form::select('memories_active', $status_items,'Select', ['class' => 'form-control']) !!}--}}
+{{--        </div>--}}
+{{--    </div>--}}
 
     <br/>
 

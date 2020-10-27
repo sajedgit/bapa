@@ -64,8 +64,14 @@
 
         header .nav-wrapper ul li:hover > a, header .nav-wrapper ul li:hover > span {
             color: #000 !important;
-        }
 
+
+        }
+        .nav > li > a
+        {
+            /*font-weight: bold!important;*/
+            padding: 10px 8px;
+        }
         .footerSocial i {
             font-size: 7em;
             margin-right: 10px;
@@ -116,6 +122,7 @@
         {
             display: none;
         }
+
 
         @media only screen and (max-width: 768px) {
             /* For mobile phones: */
@@ -209,6 +216,7 @@
                                 <li><a href="{{ route("constitution_by_laws") }}">Constitution-Bylaws</a></li>
                                 <li><a href="{{ route('around_the_world') }} ">Around the World</a></li>
                                 <li class=" "><a href="{{ route('event') }}">Events</a></li>
+                                <li><a href="{{ route('memory') }}">Memory</a></li>
                                 <li><a href="{{ route('vote') }}">Vote</a></li>
                                 <li><a href="{{ route('shop') }}">Shop</a></li>
 

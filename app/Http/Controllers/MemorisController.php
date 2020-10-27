@@ -60,7 +60,7 @@ class MemorisController extends Controller
             'memories_details' => $request->memories_details,
             'memories_thumb' => $new_name,
             'memories_created_date_time' => date("Y-m-d"),
-            'memories_active' => $request->memories_active,
+            'memories_active' => 1
         );
 
         Memorie::create($form_data);
@@ -133,7 +133,7 @@ class MemorisController extends Controller
             'memories_details' => $request->memories_details,
             'memories_thumb' => $image_name,
             'memories_created_date_time' => date("Y-m-d"),
-            'memories_active' => $request->memories_active,
+            'memories_active' => 1,
         );
 
         Memorie::whereId($id)->update($form_data);

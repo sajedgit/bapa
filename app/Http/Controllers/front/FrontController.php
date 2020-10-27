@@ -673,6 +673,28 @@ class FrontController extends Controller
     }
 
 
+    public  function memory()
+    {
+        $board_members_categories = $this->board_members_categories;
+
+        $memories = DB::select(DB::raw(" SELECT * from memories where memories_active=1 order by id desc   "));
+        $welcome_message = "Memory";
+        return view('front/memory', compact('welcome_message', 'board_members_categories','memories'));
+
+    }
+
+
+    public  function memory_photo_by_id($memory_name,$id)
+    {
+        $board_members_categories = $this->board_members_categories;
+
+        $memory_photo = DB::select(DB::raw(" SELECT * from memories_photos where ref_memories_id=$id order by id desc  "));
+        $welcome_message = "Memory Photo of ".$memory_name;
+        return view('front/memory_photo_by_id', compact('welcome_message', 'board_members_categories','memory_name','memory_photo'));
+
+    }
+
+
 //    public function buy_products(Request $request)
 //    {
 //        //  print_r(Auth::user()->user_type_id);die();
@@ -723,6 +745,8 @@ class FrontController extends Controller
         $upcoming_vote = DB::select(DB::raw(" SELECT * from vote_details where voting_date > CURDATE() and status=1 order by start_time asc   "));
         return $upcoming_vote;
     }
+
+
 
 
 }

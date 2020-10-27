@@ -45,6 +45,8 @@ Route::get('employment', 'front\FrontController@employment')->name('f_employment
 Route::get('domestic_violence', 'front\FrontController@domestic_violence')->name('f_domestic_violence');
 Route::get('education_and_scholarship', 'front\FrontController@education_and_scholarship')->name('f_education_and_scholarship');
 
+Route::get('memory', 'front\FrontController@memory')->name('memory');
+Route::get('memory_photo/{name}/{id}', 'front\FrontController@memory_photo_by_id')->name('memory_photo/{name}/{id}');
 
 Route::group([ 'middleware' => 'admin_middleware'], function()
 {
