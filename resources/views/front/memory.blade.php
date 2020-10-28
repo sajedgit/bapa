@@ -45,7 +45,7 @@
 
                         @foreach($memories as $memory)
                             <div class='col-sm-4 col-xs-12 col-md-3 col-lg-3 galery_block'>
-                                <a class="thumbnail fancybox" rel="ligthbox" href="{{ asset($memory->memories_thumb) }}">
+                                <a class="thumbnail fancybox" rel="ligthbox" href="{{ URL::to('memory_photo/'.$memory->memories_name.'/'.$memory->id) }}">
                                     <img class="img-responsive" alt="" src="{{ asset($memory->memories_thumb) }}" />
 
                                 </a>
