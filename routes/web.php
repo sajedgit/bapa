@@ -103,6 +103,8 @@ Auth::routes();
 
 
 Route::get('/logout', '\App\Http\Controllers\Auth\LoginController@logout');
+Route::get('/login', '\App\Http\Controllers\Auth\LoginController@login')->name('login');
+Route::post('/login_submit', '\App\Http\Controllers\Auth\LoginController@authenticate')->name('login_submit');
 
 Route::get('/admin', 'HomeController@index')->name('admin');
 //Route::get('/home', function () {
