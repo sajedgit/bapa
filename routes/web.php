@@ -51,6 +51,7 @@ Route::get('memory_photo/{name}/{id}', 'front\FrontController@memory_photo_by_id
 Route::group([ 'middleware' => 'admin_middleware'], function()
 {
 	Route::resource('board_members', 'BoardMembersController');
+	Route::resource('ess_members', 'EssMembersController');
 
 	Route::resource('board_members_categories', 'BoardMembersCategoriesController');
 	//Route::resource('contact_us', 'ContactUsController');

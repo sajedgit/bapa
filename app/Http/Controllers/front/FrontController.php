@@ -225,6 +225,7 @@ class FrontController extends Controller
             ->cc($cc)
             ->bcc($bcc)
             ->send(new SendEventMail($event_name,$subject, $user_name,$order_id, $source, $payment_type,$details,$total_tickets,$net_amounts));
+
     }
 
 
