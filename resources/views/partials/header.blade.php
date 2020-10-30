@@ -123,6 +123,44 @@
             display: none;
         }
 
+        /*-----  for login profile hover menu--------*/
+
+        .dropbtn2 {
+            background: #1b3065;
+            border: 0px;
+            color: #428bb3;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #428bb3;
+            min-width: 110px;
+            border-radius: 9px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: #fff;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {background-color: #1b3065;}
+
+        .dropdown:hover .dropdown-content {display: block;}
+
+        .dropdown:hover .dropbtn {background-color: #1b3065;}
+
+        /*-----  end of login profile hover menu--------*/
+
 
         @media only screen and (max-width: 768px) {
             /* For mobile phones: */
@@ -148,14 +186,30 @@
                 <ul class="menu" id="utility-menu" style="display: block;">
 
                     <li class=" menu-item-567" id="menu-item-567"><a href="{{ route("contact_us") }}">Contact Us</a></li>
+
+
                     @if($user = Auth::user())
-                        <li class="memberLogout"><a href="{{ route('logout') }}">Logout(   {{ $user->name }}) <i aria-hidden="true" class="fa fa-sign-out"></i></a></li>
-                    @else
+                        <div class="dropdown">
+                            <button class="dropbtn2">Logout( {{ $user->name }} )</button>
+                            <div class="dropdown-content">
+                                <a href="{{ route('profile') }}">Profile</a>
+                                <a href="{{ route('logout') }}">Logout</a>
+
+                            </div>
+                        </div>
+                   @else
                         <li class="memberLogin"><a href="{{ route('login') }}">Member Login <i aria-hidden="true" class="fa fa-sign-in"></i></a></li>
                     @endif
 
 
                 </ul>
+
+                <div class="collapse" id="collapseExample">
+                    <div class="card card-body">
+                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>

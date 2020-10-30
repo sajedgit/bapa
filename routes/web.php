@@ -25,6 +25,8 @@ Route::post('/buy_tickets', 'front\FrontController@buy_tickets')->name('buy_tick
 Route::get('/donate', 'front\FrontController@donate')->name('donate');
 Route::post('/after_payment_success', 'front\FrontController@after_payment_success')->name('after_payment_success');
 
+Route::get('/profile', 'front\FrontController@profile')->name('profile');
+
 Route::get('/about_us', 'front\FrontController@about_us')->name('about_us');
 Route::get('/news', 'front\FrontController@news')->name('news');
 Route::get('/around_the_world', 'front\FrontController@around_the_world')->name('around_the_world');

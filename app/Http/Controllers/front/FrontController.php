@@ -35,6 +35,8 @@ class FrontController extends Controller
     }
 
 
+
+
     public function index()
     {
 
@@ -64,6 +66,26 @@ class FrontController extends Controller
         $board_members_categories = $this->board_members_categories;
         return view('front/front_home', compact('board_members_categories', 'msg_president', 'general_secretary', 'vice_president'));
 
+    }
+
+
+    public function profile()
+    {
+        if ($user = Auth::user())
+        {
+            $user_id=Auth::user()->id;
+            $board_members_categories = $this->board_members_categories;
+            $user = DB::select(DB::raw(" SELECT * from memberships where  id=$user_id  "));
+            $user = $user[0];
+            $status_items=array('1'=>'Active','0'=>'Inactive');
+
+            $welcome_message = "Profile Update";
+            return view('front/profile', compact('welcome_message', 'status_items','user','board_members_categories'));
+        }
+        else
+        {
+            return redirect()->guest('login');
+        }
     }
 
 

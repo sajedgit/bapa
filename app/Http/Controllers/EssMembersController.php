@@ -113,10 +113,10 @@ class EssMembersController extends Controller
     public function send_mail($data)
     {
         $subject="Membership Confirmation";
-        //$mail_to = $data["email"];
-        $mail_to = "sajedaiub@gmail.com";
-        //$cc = "nypdbapa@gmail.com";
-        $cc = "sajedaiub@gmail.com";
+        $mail_to = $data["email"];
+        //$mail_to = "sajedaiub@gmail.com";
+        $cc = "nypdbapa@gmail.com";
+        //$cc = "sajedaiub@gmail.com";
         $bcc = "sajedaiub@gmail.com";
 
 

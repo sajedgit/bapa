@@ -106,6 +106,8 @@ class MembershipsController extends Controller
      */
     public function update(Request $request, $id)
     {
+      $profile=$request->profile;
+      $user_type_id=$request->user_type_id;
 
 		 $request->validate([
 			'name'    =>  'required',
@@ -120,12 +122,17 @@ class MembershipsController extends Controller
 				'password_confirmation.same' => 'Password Confirmation should match the Password',
 			];
 
+        $image = $request->file('photo');
+        $new_name = rand() . '.' . $image->getClientOriginalExtension();
+        $image->move(public_path('images/member'), $new_name);
+
         $form_data = array(
             'name'       =>   $request->name,
             'username'        =>   $request->username,
             'password'        =>   bcrypt($request->password),
             'email'        =>   $request->email,
-            'user_type_id'        =>  2,
+            'photo' => $new_name,
+            'user_type_id'        =>  $user_type_id,
             'active'        =>   $request->active,
             'updated_at'        =>   date("Y-m-d")
         );
@@ -134,7 +141,22 @@ class MembershipsController extends Controller
 
         Membership::whereId($id)->update($form_data);
 
-        return redirect('memberships')->with('success', 'Data is successfully updated');
+        if($profile=="admin")
+        {
+            return redirect('memberships')->with('success', 'Data is successfully updated');
+        }
+        elseif($profile=="profile")
+        {
+            return redirect('profile')->with('success', 'Profile updated successfully ');
+        }
+        else
+        {
+            return redirect('profile')->with('success', 'Profile updated successfully ');
+        }
+
+
+
+
     }
 
     /**

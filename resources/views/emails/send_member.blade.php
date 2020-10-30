@@ -8,7 +8,7 @@
     <p>Password: {{ $data["password"] }}</p>
 
 
-    <p><B>PLEASE MUST CHANGE THE PASSWORD</B> from update profile panel after login  </p>
+    <p><B>PLEASE MUST CHANGE THE PASSWORD</B> from <a href="{{ url('profile') }}">Update Profile</a> panel after login  </p>
 
 
     <p>If you have facing any problem to login please contact with <b>nypdbapa@gmail.com</b>  </p>
