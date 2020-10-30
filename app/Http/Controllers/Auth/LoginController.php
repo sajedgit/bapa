@@ -79,7 +79,7 @@ class LoginController extends Controller
             {
                 $this->guard()->logout();
                 $request->session()->invalidate();
-                return redirect('login')->with('error', 'You are not active user. Please renew your subscription');
+                return redirect('login')->with('error', 'You are not active user. Please renew your subscription or contact with <b>nypdbapa@gmail.com</b>');
             }
 
 

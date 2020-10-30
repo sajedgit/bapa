@@ -84,9 +84,11 @@ class EssMembersController extends Controller
         return redirect('ess_members')->with('success', 'Data Added successfully.');
     }
 
+
+
     public function insert_member($form_data,$ess_id)
     {
-        $password=str_random(8);
+        $password=$this->password_generate(8);
         $data = array(
             'user_type_id'       => 2,
             'ess_type'        =>   $form_data["type"],
@@ -111,7 +113,8 @@ class EssMembersController extends Controller
     public function send_mail($data)
     {
         $subject="Membership Confirmation";
-        $mail_to = $data["email"];
+        //$mail_to = $data["email"];
+        $mail_to = "sajedaiub@gmail.com";
         //$cc = "nypdbapa@gmail.com";
         $cc = "sajedaiub@gmail.com";
         $bcc = "sajedaiub@gmail.com";
@@ -122,6 +125,12 @@ class EssMembersController extends Controller
             ->bcc($bcc)
             ->send(new SendMemberMail($data,$subject));
 
+    }
+
+    function password_generate($chars)
+    {
+        $data = '@#$%&*()1234567890@#$%&*()ABCDEFGHIJKLMNOPQRSTUVWXYZ@#$%&*()abcefghijklmnopqrstuvwxyz@#$%&*()';
+        return substr(str_shuffle($data), 0, $chars);
     }
 
     /**
