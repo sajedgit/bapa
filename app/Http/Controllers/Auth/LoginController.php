@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 
 use Auth;
+use Illuminate\Support\Facades\DB;
 
 class LoginController extends Controller
 {
@@ -59,6 +60,8 @@ class LoginController extends Controller
 
     public function authenticate(Request $request)
     {
+       // $this->check_is_active($request->email, $request->password);
+
         $request->validate([
             'email' => 'required|string|email',
             'password' => 'required|string',
@@ -68,11 +71,34 @@ class LoginController extends Controller
 
 
         if (Auth::attempt($credentials)) {
-            return redirect()->intended('/');
+            if(Auth::user()->active==1)
+            {
+                return redirect()->intended('/');
+            }
+            else
+            {
+                $this->guard()->logout();
+                $request->session()->invalidate();
+                return redirect('login')->with('error', 'You are not active user. Please renew your subscription');
+            }
+
+
         }
 
         return redirect('login')->with('error', 'Oppes! You have entered invalid credentials');
     }
+
+    public function check_is_active( $email, $password )
+    {
+//        $password=    \Hash::make($password);
+//        echo " SELECT * from memberships where email='$email' and password='$password' and active=1  <br/> ";
+//       // $active_user = DB::select(DB::raw(" SELECT count(*) as active_user from memberships where email='$email' and password='$password' and active=1   "));
+//        $active_user = DB::select(DB::raw(" SELECT * from memberships where email='$email' and password='$password' and active=1   "));
+//        print_r($active_user);die();
+
+    }
+
+
 
 
 }
