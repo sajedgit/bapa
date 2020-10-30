@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\front;
 
+use App\Models\Membership;
 use App\Models\Message;
 use Illuminate\Http\Request;
 use App\CustomClass\EventUtils;
@@ -86,6 +87,61 @@ class FrontController extends Controller
         {
             return redirect()->guest('login');
         }
+    }
+
+
+
+    public function profile_update(Request $request)
+    {
+        $id=Auth::user()->id;
+        $profile=$request->profile;
+        $user_type_id=$request->user_type_id;
+
+        $image_name = $request->hidden_image;
+        $image = $request->file('photo');
+
+        if ($image != '') {
+            $image_name = rand() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('images/member'), $image_name);
+        }
+
+
+        $request->validate([
+            'name'    =>  'required',
+            'username'     =>  'required',
+            'password'     =>  'min:6|required',
+            'password_confirmation' => 'min:6|same:password',
+            'email'     =>  'required',
+            'active'         =>  'required'
+        ]);
+
+        $messages = [
+            'password_confirmation.same' => 'Password Confirmation should match the Password',
+        ];
+
+
+
+        $form_data = array(
+            'name'       =>   $request->name,
+            'username'        =>   $request->username,
+            'password'        =>   bcrypt($request->password),
+            'email'        =>   $request->email,
+            'photo' => $image_name,
+            'user_type_id'        =>  $user_type_id,
+            'active'        =>   $request->active,
+            'updated_at'        =>   date("Y-m-d")
+        );
+
+
+
+        Membership::whereId($id)->update($form_data);
+        return redirect('profile')->with('success', 'Profile updated successfully ');
+
+
+
+
+
+
     }
 
 

@@ -109,6 +109,14 @@ class MembershipsController extends Controller
       $profile=$request->profile;
       $user_type_id=$request->user_type_id;
 
+        $image_name = $request->hidden_image;
+        $image = $request->file('photo');
+
+        if ($image != '') {
+            $image_name = rand() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('images/member'), $image_name);
+        }
+
 		 $request->validate([
 			'name'    =>  'required',
 			'username'     =>  'required',
@@ -122,16 +130,14 @@ class MembershipsController extends Controller
 				'password_confirmation.same' => 'Password Confirmation should match the Password',
 			];
 
-        $image = $request->file('photo');
-        $new_name = rand() . '.' . $image->getClientOriginalExtension();
-        $image->move(public_path('images/member'), $new_name);
+
 
         $form_data = array(
             'name'       =>   $request->name,
             'username'        =>   $request->username,
             'password'        =>   bcrypt($request->password),
             'email'        =>   $request->email,
-            'photo' => $new_name,
+            'photo' => $image_name,
             'user_type_id'        =>  $user_type_id,
             'active'        =>   $request->active,
             'updated_at'        =>   date("Y-m-d")
@@ -140,19 +146,8 @@ class MembershipsController extends Controller
 
 
         Membership::whereId($id)->update($form_data);
+        return redirect('memberships')->with('success', 'Data is successfully updated');
 
-        if($profile=="admin")
-        {
-            return redirect('memberships')->with('success', 'Data is successfully updated');
-        }
-        elseif($profile=="profile")
-        {
-            return redirect('profile')->with('success', 'Profile updated successfully ');
-        }
-        else
-        {
-            return redirect('profile')->with('success', 'Profile updated successfully ');
-        }
 
 
 

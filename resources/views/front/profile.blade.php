@@ -35,10 +35,10 @@
                 </div>
             @endif
 
-            {{ Form::open([ 'method'  => 'post','class'  => 'member_update_form','files'=>'true', 'route' => [ 'memberships.update', $user->id ] ]) }}
+            {{ Form::open([ 'method'  => 'post','class'  => 'member_update_form','files'=>'true', 'route' => [ 'profile_update' ] ]) }}
 
             @csrf
-            @method('PATCH')
+
 
 
             <br/>  <br/>
