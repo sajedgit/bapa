@@ -45,7 +45,7 @@ class EssMembersController extends Controller
     {
 
         $status_items=array(''=>'Select','1'=>'Active','0'=>'Inactive');
-        $type=array(''=>'Select','Ess'=>'Ess','Cash'=>'Cash','Pay Now'=>'Pay Now','Others'=>'Others');
+        $type=array(''=>'Select','Paid'=>'Paid','Cash'=>'Cash','Online Payment'=>'Online Payment');
         return view('EssMember/create', compact('type','status_items'));
     }
 
@@ -97,6 +97,7 @@ class EssMembersController extends Controller
             'username'        =>   $form_data["name"],
             'password'        =>    Hash::make($password),
             'email'        =>   $form_data["email"],
+            'photo'        =>   "no_image.jpg",
             'active'        =>  $form_data["active"],
             'created_at' => $form_data["created_at"],
 
@@ -154,7 +155,7 @@ class EssMembersController extends Controller
     public function edit($id)
     {
         $status_items=array('1'=>'Active','0'=>'Inactive');
-        $type=array('Ess'=>'Ess','Cash'=>'Cash','Pay Now'=>'Pay Now','Others'=>'Others');
+        $type=array(''=>'Select','Paid'=>'Paid','Cash'=>'Cash','Online Payment'=>'Online Payment');
         $data = EssMember::findOrFail($id);
         return view('EssMember/edit', compact('data','type','status_items'));
     }

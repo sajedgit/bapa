@@ -127,14 +127,14 @@
       <li class="nav-item active">
         <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
           <i class="fas fa-fw fa-memory"></i>
-          <span>Memories</span>
+          <span>Gallery</span>
         </a>
         <div id="collapsePages" class="collapse {{ (request()->is('memories*')) ? 'show' : '' }}" aria-labelledby="headingPages" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Memories:</h6>
-            <a class="collapse-item" href="{{ route('memories.index') }}">View All Memories</a>
-            <a class="collapse-item" href="{{ route('memories.create') }}">Add New Memories</a>
-            <a class="collapse-item" href="{{ route('memories_photos.create') }}">Add Photo For Memories</a>
+            <a class="collapse-item" href="{{ route('memories.index') }}">View All Gallery</a>
+            <a class="collapse-item" href="{{ route('memories.create') }}">Add New Gallery</a>
+            <a class="collapse-item" href="{{ route('memories_photos.create') }}">Add Photo For Gallery</a>
           </div>
         </div>
       </li>
