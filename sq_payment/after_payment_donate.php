@@ -66,10 +66,10 @@ if ($api_response->isSuccess()) {
 
 
     $arr["items"] = $item_arrrr;
-    $arr["event_id"] = $order->tenders[0]->note;
+    $arr["note"] = $order->tenders[0]->note;
     $customer_id = $order->tenders[0]->customer_id;
     $arr["customer_id"] = $customer_id;
-    $arr["net_amounts"] = $order->net_amounts->total_money->amount;
+    $arr["net_amounts"] = $order->net_amounts->total_money->amount/100;
 	
 	$api_response = $client->getCustomersApi()->retrieveCustomer($customer_id);
 
