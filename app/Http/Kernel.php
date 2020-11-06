@@ -65,5 +65,6 @@ class Kernel extends HttpKernel
 		'revalidate' => \App\Http\Middleware\RevalidateBackHistory::class,
 		'normal' => \App\Http\Middleware\NormalUser::class,
 		'admin_middleware' => \App\Http\Middleware\AdminMiddleware::class,
+		'paid_middleware' => \App\Http\Middleware\AdminMiddleware::class,
     ];
 }

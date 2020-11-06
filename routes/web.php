@@ -49,7 +49,7 @@ Route::post('/vote_submit', 'front\FrontController@vote_submit')->name('vote_sub
 Route::get('/shop', 'front\FrontController@shop')->name('shop');
 Route::get('shop/{id}', 'front\FrontController@shop_by_id')->name('shop/{id}')->middleware('paid_middleware');
 Route::post('/buy_products', 'front\FrontController@buy_products')->name('buy_products')->middleware('paid_middleware');
-Route::post('/after_payment_success_product', 'front\FrontController@after_payment_success_product')->name('after_payment_success_product');
+Route::post('/after_payment_success_register', 'front\FrontController@after_payment_success_register')->name('after_payment_success_register');
 
 Route::get('employment', 'front\FrontController@employment')->name('f_employment');
 Route::get('domestic_violence', 'front\FrontController@domestic_violence')->name('f_domestic_violence');
@@ -60,6 +60,8 @@ Route::get('memory_photo/{name}/{id}', 'front\FrontController@memory_photo_by_id
 
 
 Route::get('payment', 'front\FrontController@payment')->name('payment')->middleware('normal');
+Route::post('/after_payment_success_product', 'front\FrontController@after_payment_success_product')->name('after_payment_success_product');
+
 
 
 

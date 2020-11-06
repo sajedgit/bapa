@@ -18,7 +18,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/payment';
 
     /**
      * Create a new controller instance.
@@ -55,21 +55,24 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
 		$user_type_id=(isset($data['user_type_id']))?$data['user_type_id']:2;
+		//print_r($data['ess_type']);die();
         $members=Membership::create([
             'user_type_id' => $user_type_id,
+            'ess_type' => $data['ess_type'],
+            'ess_id' => $data['ess_id'],
             'name' => $data['name'],
             'username' => $data['username'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
-            'active' => 1,
+            'active' => 0,
         ]);
 
-        Mail::send('emails.welcome', $data, function($message) use ($data)
-        {
-            $message->from('no-reply@site.com', "Site name");
-            $message->subject("Welcome to site name");
-            $message->to($data['email']);
-        });
+//        Mail::send('emails.welcome', $data, function($message) use ($data)
+//        {
+//            $message->from('no-reply@site.com', "Site name");
+//            $message->subject("Welcome to site name");
+//            $message->to($data['email']);
+//        });
 
         return $members;
     }

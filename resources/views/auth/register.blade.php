@@ -3,13 +3,18 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Register</div>
+        <div class="col-md-8" style="margin: 0 auto;">
+            <div class="panel panel-default" style="border: 1px solid;background: #fff;padding: 20px;">
+                <div class="panel-heading"><h2 class="text-center">Registration</h2></div>
 
                 <div class="panel-body">
                     <form class="form-horizontal" method="POST" action="{{ route('register') }}">
                         {{ csrf_field() }}
+
+
+                        <input type="hidden" name="ess_type" value="Online Payment" >
+                        <input type="hidden" name="ess_id" value="0" >
+
 
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
                             <label for="name" class="col-md-4 control-label">Name</label>

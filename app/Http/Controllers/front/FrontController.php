@@ -4,6 +4,7 @@ namespace App\Http\Controllers\front;
 
 use App\Models\Membership;
 use App\Models\Message;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 use App\CustomClass\EventUtils;
 use App\Http\Controllers\Controller;
@@ -18,6 +19,7 @@ use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SendMailable;
 use App\Mail\SendEventMail;
+use App\Mail\SendRegisterMail;
 
 
 class FrontController extends Controller
@@ -46,10 +48,11 @@ class FrontController extends Controller
         //Auth::logout();
 
         $board_members_categories = $this->board_members_categories;
+        $settings = Setting::findOrFail(1);
 
-        $data=Auth::user();
+        $user=Auth::user();
         $welcome_message = " Please Complete your payment ";
-        return view('front/payment', compact('data', 'welcome_message', 'board_members_categories'));
+        return view('front/payment', compact('settings','user', 'welcome_message', 'board_members_categories'));
     }
 
 
@@ -210,6 +213,89 @@ class FrontController extends Controller
                 echo "Payment not done Properly";
 
 
+
+    }
+
+
+    public function after_payment_success_register()
+    {
+        $order_data=unserialize($_REQUEST["order_data"][0]);
+
+       // print_r($order_data);die();
+        $order_id=$order_data["order_id"];
+        $source=$order_data["source"];
+        $net_amounts=$order_data["net_amounts"];
+        $note=$order_data["note"];
+        $note=explode("--**--",$note);
+        $title=$note[0];
+        $ref_membership_id=trim($note[1]);
+        $items=$order_data["items"];
+        $payment_type="Online Payment";
+        $renewal_date = date('Y-m-d', strtotime('+1 years'));
+        $details="";
+        $details.="\n  ".$title."\n";
+        foreach ($items as $data)
+        {
+            $details.=$data["item_name"].": ".$data["item_unit_price"]." x ".$data["item_quantity"]." = ".$data["item_total_money"]." ".$data["item_currency"] ."\n";
+
+        }
+
+
+        $payment_insert= DB::table('membership_payments')->insert(
+            array(
+                'ref_membership_id'   =>   $ref_membership_id,
+                'membership_payment_ess'   =>  1,
+                'membership_payment_details'   =>   $details,
+                'membership_payment_datetime'   =>   NOW(),
+                'membership_payment_amount'   =>   $net_amounts,
+                'membership_next_renewal_date'   =>   $renewal_date,
+                'membership_payment_creating_datetime'   =>   NOW()
+            )
+        );
+
+
+        if($payment_insert)
+        {
+            $form_data = array(
+                'ess_type'       =>  $payment_type ,
+                'active'       =>   1,
+            );
+           $update_member= Membership::whereId($ref_membership_id)->update($form_data);
+
+           if($update_member)
+           {
+               $this->send_mail_register($ref_membership_id,$order_id,$source,$payment_type,$details,$net_amounts);
+               return redirect()->route("profile")->with('success', 'Payment done Successfully');
+           }
+
+        }
+        else
+            echo "Payment not done Properly";
+
+
+    }
+
+
+
+    public function send_mail_register($ref_membership_id,$order_id,$source,$payment_type,$details,$net_amounts)
+    {
+
+
+
+        $user = DB::select(DB::raw(" SELECT * from memberships where  id=$ref_membership_id  "));
+        $user = $user[0];
+        $user_name=$user->name;
+        $user_email=$user->email;
+        $subject="Payment Confirmation";
+        $mail_to = $user_email;
+        $cc = "nypdbapa@gmail.com";
+        $bcc = "sajedaiub@gmail.com";
+
+
+        Mail::to($mail_to)
+            ->cc($cc)
+            ->bcc($bcc)
+            ->send(new SendRegisterMail($subject, $user_name,$order_id, $source, $payment_type,$details,$net_amounts));
 
     }
 
