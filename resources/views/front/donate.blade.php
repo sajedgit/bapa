@@ -7,61 +7,71 @@
         {
             border: 1px solid #1c294e;
             background-color: #e9e5e1;
-            margin: 20px;
+            margin: 20px 0px;
         }
-        .buy_tickets div.row
-        {
-            padding: 10px;
-        }
+
     </style>
 
     <br>
 
-
     <div class="container">
         <div class="row">
 
+            <div class="row text-center col-md-12">
 
-            <div class="col-xs-8 col-xs-offset-2 col-xs-12">
-
-                <div class="buy_tickets text-center">
-
-
-                    <form class="form-container" method="post" action="{{ URL::to('/') }}/sq_payment/checkout.php">
-                        @if($adult_quantity>0)
-                            <div class="row item-line">
-                                <div class="col-xs-6 item-label">Adult Ticket x {{$adult_quantity}}</div>
-                                <div class="col-xs-6 item-amount">${{$adult_ticket_price}}.00</div>
-                                <input type="hidden"  value="{{ $adult_price}}.00" name="adult_price">
-                                <input type="hidden"  value="Adult Ticket" name="adult_label">
-                                <input type="hidden"  value="{{$adult_quantity}}" name="adult_quantity">
-
-                            </div>
-                        @endif
-
-                        @if($children_quantity>0)
-                            <div class="row item-line">
-                                <div class="col-xs-6 item-label">Children Ticket x {{$children_quantity}}</div>
-                                <div class="col-xs-6 item-amount">${{$children_ticket_price}}.00</div>
-                                <input type="hidden"  value="{{ $children_price}}.00" name="children_price">
-                                <input type="hidden"  value="Children Ticket" name="children_label">
-                                <input type="hidden"  value="{{$adult_quantity}}" name="children_quantity">
-                            </div>
-                        @endif
-
-                        <div class="row item-line total-line">
-                            <div class="col-xs-6 item-label">Total</div>
-                            <div class="col-xs-6 item-amount">${{$total}}.00</div>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Pay now!</button>
-                    </form>
-
-
-                </div>
-
+                @if (session('success'))
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
+                @endif
 
             </div>
+
+            <div class="col-sm-12 col-md-12 col-xs-12">
+
+                <div class="thumbnail" style="border:none; background:white;">
+
+
+                    <div class="col-sm-4 col-sm-offset-4 col-md-4  col-md-offset-4 col-xs-12">
+
+                        <div class="buy_tickets text-center">
+
+
+                            <h3>Donate Please</h3>
+
+
+                            <form class="form-container" method="post" action="{{ URL::to('/') }}/sq_payment/checkout_donate.php">
+
+                                @csrf
+
+
+
+                                <div class="row">
+                                    <div class="col-xs-4 col-xs-offset-4 text-center">
+                                        <input type="text"  value="{{ $settings->registration_fee }}" name="donation">
+
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <p><button type="submit" class="btn btn-primary">Donate Now</button></p>
+
+                                    </div>
+                                </div>
+
+                            </form>
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+
         </div>
+    </div>
 
 
 @endsection

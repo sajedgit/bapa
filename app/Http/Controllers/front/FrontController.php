@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\SendMailable;
 use App\Mail\SendEventMail;
 use App\Mail\SendRegisterMail;
+use App\Mail\SendEventDonate;
 
 
 class FrontController extends Controller
@@ -300,6 +301,36 @@ class FrontController extends Controller
     }
 
 
+    public function after_payment_success_donate()
+    {
+        $order_data=unserialize($_REQUEST["order_data"][0]);
+
+        $order_id=$order_data["order_id"];
+        $source=$order_data["source"];
+        $net_amounts=$order_data["net_amounts"];
+        $note=$order_data["note"];
+        $items=$order_data["items"];
+        $payment_type="Online Payment";
+        $customer_email_address=$order_data["customer_email_address"];
+        $customer_name=$order_data["given_name"];
+
+        $details="";
+        $details.="\n $note: \n";
+        foreach ($items as $data)
+        {
+            $details.=$data["item_name"].": ".$data["item_unit_price"]." x ".$data["item_quantity"]." = ".$data["item_total_money"]." ".$data["item_currency"] ."\n";
+
+        }
+
+
+            $this->send_mail_donate($customer_email_address,$customer_name,$order_id,$source,$payment_type,$details,$net_amounts);
+            return redirect()->route("donate")->with('success', 'Donate Done Successfully');
+
+
+    }
+
+
+
     public function after_payment_success_product()
     {
 
@@ -409,6 +440,27 @@ class FrontController extends Controller
     }
 
 
+
+
+    public function send_mail_donate($customer_email_address,$customer_name,$order_id,$source,$payment_type,$details,$net_amounts)
+    {
+
+        $user_name=$customer_name;
+        $user_email=$customer_email_address;
+        $subject="Donation Confirmation";
+        $mail_to = $user_email;
+        $cc = "nypdbapa@gmail.com";
+        $bcc = "sajedaiub@gmail.com";
+
+
+        Mail::to($mail_to)
+            ->cc($cc)
+            ->bcc($bcc)
+            ->send(new SendEventDonate($subject, $user_name,$user_email,$order_id, $source, $payment_type,$details,$net_amounts));
+
+    }
+
+
     public function get_board_memmbers($category, $id)
     {
 
@@ -436,8 +488,9 @@ class FrontController extends Controller
     public function donate()
     {
         $board_members_categories = $this->board_members_categories;
+        $settings = Setting::findOrFail(1);
         $welcome_message = "Donate Now";
-        return view('front/donate', compact('board_members', 'welcome_message'));
+        return view('front/donate', compact('board_members_categories','settings', 'welcome_message'));
 
 
     }

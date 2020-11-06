@@ -9,7 +9,7 @@
         <h2>Help the Families of Fallen COVID-19 Heroes</h2>
         <p>If you are interested to make a donation for the community people who are effected by COVID-19 please
             contact one of our Executives or one of our trustees.</p>
-        <a class="blueBtn" href="#/widowsandchildren/">Donate Now <i aria-hidden="true"
+        <a class="blueBtn" href="{{ route("donate") }}">Donate Now <i aria-hidden="true"
                                                                      class="fa fa-chevron-circle-right"></i></a>
     </section>
 </div>
