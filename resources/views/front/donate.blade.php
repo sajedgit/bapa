@@ -10,6 +10,20 @@
             margin: 20px 0px;
         }
 
+
+        .left-inner-addon {
+            position: relative;
+        }
+        .left-inner-addon input {
+            padding-left: 22px;
+        }
+        .left-inner-addon span {
+            position: absolute;
+            padding: 7px 12px;
+            pointer-events: none;
+            margin-left: -42px;
+        }
+
     </style>
 
     <br>
@@ -48,11 +62,19 @@
 
                                 <div class="row">
                                     <div class="col-xs-4 col-xs-offset-4 text-center">
-                                        <input type="text"  value="{{ $settings->registration_fee }}" name="donation">
+
+
+                                        <div class="left-inner-addon">
+                                            <span>$</span>
+                                            <input type="text"  class="form-control"  value="{{ $settings->donate_amount }}" name="donation">
+
+                                        </div>
+
+
 
                                     </div>
                                 </div>
-
+                                <br/>
                                 <div class="row">
                                     <div class="col-xs-12">
                                         <p><button type="submit" class="btn btn-primary">Donate Now</button></p>
