@@ -2,6 +2,12 @@
 
 @section('main')
 
+
+
+    <script src='https://www.google.com/recaptcha/api.js' async defer></script>
+
+
+
     <style>
 
         .contact{
@@ -60,22 +66,29 @@
 
     <div class="container">
 
-        <div class="row">
-            &nbsp;  @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
+        <div class="row text-center" style="margin: 20px 0px;">
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                &nbsp;
+            </div>
 
-            @if (session('success'))
-                <div class="alert alert-success">
-                    {{ session('success') }}
-                </div>
-            @endif
+            <div class="col-md-9  col-sm-6 col-xs-12">
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
+                @if (session('success'))
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
+                @endif
+            </div>
+            &nbsp;
         </div>
 
         <div class="row" style="padding: 10px;">
@@ -101,7 +114,7 @@
                     </div>
                     <div class="col-md-9  col-sm-6 col-xs-12">
 {{--                        <form action="" method="post">--}}
-                    {{ Form::open([ 'method'  => 'post','class'  => '', 'route' => [ 'contact_us_send' ] ]) }}
+                    {{ Form::open([ 'method'  => 'post','id'  => 'contact-form', 'route' => [ 'contact_us_send' ] ]) }}
 
                         @csrf
                         <div class="contact-form">
@@ -123,20 +136,36 @@
                                     <input type="email"  required  class="form-control" id="email" placeholder="Enter email" name="email">
                                 </div>
                             </div>
+
+
                             <div class="form-group">
                                 <label class="control-label col-sm-2" for="comment">Comment:</label>
                                 <div class="col-sm-10">
                                     <textarea  required class="form-control" rows="5" name="comment" id="comment"></textarea>
                                 </div>
                             </div>
+
+
+                            <div class="form-group">
+                                <label class="control-label col-sm-2" for="comment">&nbsp;</label>
+                                <div class="col-sm-10">
+                                    <div class="g-recaptcha" data-sitekey="6LeMod8ZAAAAACRG3_yZuMQeScIjCJwkP4bHKzW9"></div>
+
+                                </div>
+                            </div>
+
+
                             <div class="form-group" >
                                 <div class="col-sm-offset-2 col-sm-10"> <br/>
                                     <button type="submit" class="btn btn-default">Submit</button>
+
                                 </div>
                             </div>
                         </div>
 {{--                        </form>--}}
                         {!! Form::close() !!}
+
+
                     </div>
                 </div>
             </div>

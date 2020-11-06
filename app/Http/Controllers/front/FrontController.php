@@ -13,6 +13,7 @@ use DateTime;
 use DateTimeZone;
 use URL;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Contracts\Auth\Guard;
 
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SendMailable;
@@ -26,6 +27,7 @@ class FrontController extends Controller
     public function __construct()
     {
 
+      //  print_r(Auth::user());die();
 
         // $this->middleware('auth', ['only' => ['buy_tickets']]);
         //$this->middleware('some_other_middleware', ['except' => ['some_method'], 'only' => ['some_other_method', 'yet_another_method']]);
@@ -35,6 +37,20 @@ class FrontController extends Controller
 
     }
 
+
+
+
+    public function payment()
+    {
+      //  print_r(Auth::user()->active);
+        //Auth::logout();
+
+        $board_members_categories = $this->board_members_categories;
+
+        $data=Auth::user();
+        $welcome_message = " Please Complete your payment ";
+        return view('front/payment', compact('data', 'welcome_message', 'board_members_categories'));
+    }
 
 
 
@@ -586,6 +602,33 @@ class FrontController extends Controller
 
     public function contact_us_send(Request $request)
     {
+
+
+        $this->validate(
+            $request,
+            [
+                'fname'             => 'required',
+                'lname'          => 'required',
+                'email'          => 'required|email',
+                'g-recaptcha-response'          => 'required',
+            ],
+            [
+                'fname.required'    => 'Please Provide First Name',
+                'lname.required'      => 'Please Provide Last Name',
+                'email.required' => 'Please Provide Email Address',
+                'email.email'      => 'Not A Valid Email Address',
+                'g-recaptcha-response.required'      => 'Please check the the captcha form',
+            ]
+        );
+
+//        if(isset($_POST['g-recaptcha-response'])){
+//            $captcha=$_POST['g-recaptcha-response'];
+//        }
+//        if(!$captcha){
+//            echo '<h2>Please check the the captcha form.</h2>';
+//
+//        }
+
         $fname = $request->fname;
         $lname = $request->lname;
         $email = $request->email;
@@ -594,6 +637,10 @@ class FrontController extends Controller
         $mail_to = "nypdbapa@gmail.com";
         $cc = "hasnat288@gmail.com";
         $bcc = "sajedaiub@gmail.com";
+
+//        $mail_to = "sajedaiub@gmail.com";
+//        $cc = "sajedaiub@gmail.com";
+//        $bcc = "sajedaiub@gmail.com";
 
 
         Mail::to($mail_to)
