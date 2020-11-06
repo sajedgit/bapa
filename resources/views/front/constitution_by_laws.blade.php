@@ -16,7 +16,7 @@
         <div class="row text-center" style="height: 300px;padding: 50px;">
 
 
-            <h3>  Download PDF... </h3>
+            <h3>  <a href="{{ route("ByLawPdf") }}">Download ByLaw PDF... </a></h3>
 
 
         </div>

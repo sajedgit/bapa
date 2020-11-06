@@ -754,6 +754,26 @@ class FrontController extends Controller
 
     }
 
+    public function DownloadByLawPdf()
+    {
+        if ($user = Auth::user())
+        {
+            //PDF file is stored under project/public/download/info.pdf
+            $file= public_path(). "/download/bylaw.pdf";
+
+            $headers = array(
+                'Content-Type: application/pdf',
+            );
+
+            return response()->download($file, 'bylaw.pdf', $headers);
+        }
+        else
+        {
+            return redirect()->guest('login');
+        }
+
+    }
+
 
     public function vote_by_id($id)
     {
