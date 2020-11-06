@@ -15,33 +15,40 @@ use Illuminate\Support\Facades\Route;
 
 
 
+
+
 Route::get('/', 'front\FrontController@index')->name('front');
 Route::get('/executives_and_trustees/{category}/{id}', 'front\FrontController@get_board_memmbers')->name('executives_and_trustees');
 Route::get('/board_member_details/{id}', 'front\FrontController@board_member_details')->name('board_member_details');
 Route::get('/event', 'front\FrontController@event')->name('event');
 Route::get('/get_events', 'front\FrontController@get_events')->name('get_events');
 Route::get('event/{id}', 'front\FrontController@event_by_id')->name('event/{id}');
-Route::post('/buy_tickets', 'front\FrontController@buy_tickets')->name('buy_tickets')->middleware('normal');
+//Route::post('/buy_tickets', 'front\FrontController@buy_tickets')->name('buy_tickets')->middleware('normal');
+Route::post('/buy_tickets', 'front\FrontController@buy_tickets')->name('buy_tickets')->middleware('paid_middleware');
 Route::get('/donate', 'front\FrontController@donate')->name('donate');
 Route::post('/after_payment_success', 'front\FrontController@after_payment_success')->name('after_payment_success');
 
-Route::get('/profile', 'front\FrontController@profile')->name('profile');
-Route::post('profile_update', 'front\FrontController@profile_update')->name('profile_update');
+Route::get('/profile', 'front\FrontController@profile')->name('profile')->middleware('paid_middleware');
+//Route::get('/profile', 'front\FrontController@profile')->name('profile');
+Route::post('profile_update', 'front\FrontController@profile_update')->name('profile_update')->middleware('paid_middleware');;
+
+
+
 
 Route::get('/about_us', 'front\FrontController@about_us')->name('about_us');
 Route::get('/news', 'front\FrontController@news')->name('news');
 Route::get('/around_the_world', 'front\FrontController@around_the_world')->name('around_the_world');
 
-Route::get('/constitution_by_laws', 'front\FrontController@constitution_by_laws')->name('constitution_by_laws');
+Route::get('/constitution_by_laws', 'front\FrontController@constitution_by_laws')->name('constitution_by_laws')->middleware('paid_middleware');
 Route::get('/contact_us', 'front\FrontController@contact_us')->name('contact_us');
 Route::post('/contact_us_send', 'front\FrontController@contact_us_send')->name('contact_us_send');
-Route::get('/vote', 'front\FrontController@vote')->name('vote');
-Route::get('/vote/{id}', 'front\FrontController@vote_by_id')->name('vote/{id}');
+Route::get('/vote', 'front\FrontController@vote')->name('vote')->middleware('paid_middleware');;
+Route::get('/vote/{id}', 'front\FrontController@vote_by_id')->name('vote/{id}')->middleware('paid_middleware');;
 Route::get('/vote_submit_done', 'front\FrontController@vote_submit_done')->name('vote_submit_done');
 Route::post('/vote_submit', 'front\FrontController@vote_submit')->name('vote_submit');
 Route::get('/shop', 'front\FrontController@shop')->name('shop');
-Route::get('shop/{id}', 'front\FrontController@shop_by_id')->name('shop/{id}')->middleware('normal');;
-Route::post('/buy_products', 'front\FrontController@buy_products')->name('buy_products')->middleware('normal');
+Route::get('shop/{id}', 'front\FrontController@shop_by_id')->name('shop/{id}')->middleware('paid_middleware');
+Route::post('/buy_products', 'front\FrontController@buy_products')->name('buy_products')->middleware('paid_middleware');
 Route::post('/after_payment_success_product', 'front\FrontController@after_payment_success_product')->name('after_payment_success_product');
 
 Route::get('employment', 'front\FrontController@employment')->name('f_employment');
@@ -50,6 +57,11 @@ Route::get('education_and_scholarship', 'front\FrontController@education_and_sch
 
 Route::get('memory', 'front\FrontController@memory')->name('memory');
 Route::get('memory_photo/{name}/{id}', 'front\FrontController@memory_photo_by_id')->name('memory_photo/{name}/{id}');
+
+
+Route::get('payment', 'front\FrontController@payment')->name('payment')->middleware('normal');
+
+
 
 Route::group([ 'middleware' => 'admin_middleware'], function()
 {
@@ -75,6 +87,13 @@ Route::group([ 'middleware' => 'admin_middleware'], function()
     Route::get('/messages_vice_president', 'MessagesController@vice_president')->name('vice_president');
     Route::get('/messages_general_secretary', 'MessagesController@general_secretary')->name('general_secretary');
     Route::post('/messages_update', 'MessagesController@messages_update')->name('messages_update');
+
+//    Route::get('/settings', 'SettingsController@settings')->name('settings');
+//    Route::post('/settings_update', 'SettingsController@settings_update')->name('settings_update');
+
+    Route::resource('settings', 'SettingsController');
+
+
 
     Route::get('/about', 'MixedController@about')->name('about');
     Route::post('/about_update', 'MixedController@about_update')->name('about_update');
