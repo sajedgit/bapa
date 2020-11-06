@@ -1,9 +1,13 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Membership;
 use App\Models\Message;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+
+use App\Mail\SendMessageMail;
+use Illuminate\Support\Facades\Mail;
 
 class MessagesController extends Controller
 {
@@ -54,9 +58,36 @@ class MessagesController extends Controller
             'message_created_datetime'   =>   date("Y-m-d H:i:s")
         );
 
-        Message::create($form_data);
+        $message=Message::create($form_data);
+        if($message)
+        {
+            $subject="News From BAPA ADMIN";
+            $msg=$request->message_details;
 
-        return redirect('messages')->with('success', 'Data Added successfully.');
+            $results = Membership::orderBy('id', 'desc')
+                ->where("active",1)
+                ->get();
+
+            $cc = "nypdbapa@gmail.com";
+            $bcc = "sajedaiub@gmail.com";
+
+            foreach ($results as $row)
+            {
+                $mail_to = $row->email;
+                $user_name = $row->name;
+                Mail::to($mail_to)
+                    ->cc($cc)
+                    ->bcc($bcc)
+                    ->send(new SendMessageMail($msg,$subject,$user_name));
+
+                sleep(3);
+            }
+
+
+
+        }
+
+        return redirect('messages')->with('success', 'Message Send successfully.');
     }
 
     /**
