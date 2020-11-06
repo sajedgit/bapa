@@ -963,7 +963,7 @@ class FrontController extends Controller
         $board_members_categories = $this->board_members_categories;
 
         $memories = DB::select(DB::raw(" SELECT * from memories where memories_active=1 order by id desc   "));
-        $welcome_message = "Memory";
+        $welcome_message = "Gallery";
         return view('front/memory', compact('welcome_message', 'board_members_categories','memories'));
 
     }
@@ -974,7 +974,7 @@ class FrontController extends Controller
         $board_members_categories = $this->board_members_categories;
 
         $memory_photo = DB::select(DB::raw(" SELECT * from memories_photos where ref_memories_id=$id order by id desc  "));
-        $welcome_message = "Memory Photo of ".$memory_name;
+        $welcome_message = "Gallery Photo of ".$memory_name;
         return view('front/memory_photo_by_id', compact('welcome_message', 'board_members_categories','memory_name','memory_photo'));
 
     }
