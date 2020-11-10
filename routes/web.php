@@ -24,7 +24,7 @@ Route::get('/event', 'front\FrontController@event')->name('event');
 Route::get('/get_events', 'front\FrontController@get_events')->name('get_events');
 Route::get('event/{id}', 'front\FrontController@event_by_id')->name('event/{id}');
 //Route::post('/buy_tickets', 'front\FrontController@buy_tickets')->name('buy_tickets')->middleware('normal');
-Route::post('/buy_tickets', 'front\FrontController@buy_tickets')->name('buy_tickets')->middleware('paid_middleware');
+Route::post('/buy_tickets', 'front\FrontController@buy_tickets')->name('buy_tickets')->middleware('normal');
 Route::get('/donate', 'front\FrontController@donate')->name('donate');
 Route::post('/after_payment_success', 'front\FrontController@after_payment_success')->name('after_payment_success');
 
@@ -37,6 +37,7 @@ Route::post('profile_update', 'front\FrontController@profile_update')->name('pro
 
 Route::get('/about_us', 'front\FrontController@about_us')->name('about_us');
 Route::get('/news', 'front\FrontController@news')->name('news');
+Route::get('news/{id}', 'front\FrontController@news_by_id')->name('news/{id}');
 Route::get('/around_the_world', 'front\FrontController@around_the_world')->name('around_the_world');
 
 Route::get('/constitution_by_laws', 'front\FrontController@constitution_by_laws')->name('constitution_by_laws')->middleware('paid_middleware');

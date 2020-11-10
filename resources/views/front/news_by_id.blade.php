@@ -72,20 +72,19 @@
                     </div>
                     <div class="row text-center">
 
-                        @foreach($data as $row)
-                        <div class="col-sm-6 col-md-4">
+
+                        <div class="col-xs-12">
                             <div class="blog-box">
 
                                 <div class="blog-box-content">
 {{--                                    <h4><a href="#">quis porta tellus dictum</a></h4>--}}
                                     <h4></h4>
+                                    <p> <?php echo  $data->message_details ?></p>
 
-                                    <p><?php echo substr($row->message_details,0,150) ?></p>
-                                    <a href=" {{ URL::to('news/'.$row->id) }}" class="btn btn-default site-btn">Read More</a>
                                 </div>
                             </div>
                         </div> <!-- End Col -->
-                         @endforeach
+
 
                     </div>
                 </div>

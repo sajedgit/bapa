@@ -87,7 +87,7 @@
         .navbar-default
         {
             background-color: inherit;
-            border-color: #fff;
+            border-color: transparent;
         }
         .navbar-nav > .active > a{
             background-color: inherit!important;
@@ -161,6 +161,11 @@
 
         /*-----  end of login profile hover menu--------*/
 
+        @media only screen and (max-width: 991px) {
+            .utilityMenu {
+                display: block;
+            }
+        }
 
         @media only screen and (max-width: 768px) {
             /* For mobile phones: */
@@ -171,6 +176,12 @@
             li.contact_us, li.login_logout
             {
                 display: block;
+            }
+            #utility-menu {
+                display: none;
+            }
+            .navbar-default {
+                border-color: transparent;
             }
         }
     </style>
@@ -183,7 +194,7 @@
             <div class="copyLeft pull-left ">Bangladeshi American Police Association — Karam Chowdhury, President
             </div>
             <div class="menu-utility-menu-container">
-                <ul class="menu" id="utility-menu" style="display: block;">
+                <ul class="menu" id="utility-menu" style="">
 
                     <li class=" menu-item-567" id="menu-item-567"><a href="{{ route("contact_us") }}">Contact Us</a></li>
 
@@ -215,15 +226,17 @@
     </div>
     <header class="">
         <div class="container">
-		
-            <div class="row">
-			
-			
+
+            <div class="col-md-1 col-sm-2 col-xs-12">
+
+                <div class="main-logo">
+                    <a href="{{ URL::to('/') }}"><img alt="BAPA Logo" src="{{ URL::to('/public/images/front/bapa.png') }}"></a>
+                </div>
 
 		    </div>
 			
 			
-            <div class="row">
+            <div class="col-md-11 col-sm-10 col-xs-12 ">
 {{--                <div class="main-logo">--}}
 {{--                    <a href="{{ URL::to('/') }}"><img alt="BAPA Logo" src="{{ URL::to('/public/images/front/bapa.png') }}"></a>--}}
 {{--                </div>--}}
@@ -238,9 +251,7 @@
                                 <span class="icon-bar"></span>
                                 <span class="icon-bar"></span>
                             </button>
-                            <div class="main-logo">
-                                <a href="{{ URL::to('/') }}"><img alt="BAPA Logo" src="{{ URL::to('/public/images/front/bapa.png') }}"></a>
-                            </div>
+
                         </div>
                         <div id="navbar" class="navbar-collapse collapse">
 
@@ -266,7 +277,7 @@
 
                                     </ul>
                                 </li>
-                                <li><a href="{{ route('news') }}">BAPA NEWS</a></li>
+                                <li><a href="{{ route('news') }}">BAPA News</a></li>
                                 <li><a href="{{ route("constitution_by_laws") }}">Constitution-Bylaws</a></li>
                                 <li><a href="{{ route('around_the_world') }} ">Around the World</a></li>
                                 <li class=" "><a href="{{ route('event') }}">Events</a></li>

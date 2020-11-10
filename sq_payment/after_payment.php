@@ -68,7 +68,7 @@ if ($api_response->isSuccess()) {
 
     $arr["items"] = $item_arrrr;
     $arr["event_id"] = $order->tenders[0]->note;
-    $arr["net_amounts"] = $order->net_amounts->total_money->amount;
+    $arr["net_amounts"] = $order->net_amounts->total_money->amount/100;
 
 
    // print_r(serialize($arr));

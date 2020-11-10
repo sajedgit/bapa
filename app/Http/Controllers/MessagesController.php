@@ -53,7 +53,7 @@ class MessagesController extends Controller
 
 
         $form_data = array(
-            'message_details'       =>   $request->message_details,
+            'message_details'       =>  addslashes($request->message_details),
             'message_active'        =>   1,
             'message_created_datetime'   =>   date("Y-m-d H:i:s")
         );
@@ -130,7 +130,7 @@ class MessagesController extends Controller
 
 
         $form_data = array(
-            'message_details'       =>   $request->message_details,
+            'message_details'       =>    addslashes($request->message_details),
             'message_active'        =>   1,
             'message_edited_datetime'   =>   date("Y-m-d H:i:s")
         );

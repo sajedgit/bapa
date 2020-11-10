@@ -706,8 +706,30 @@ class FrontController extends Controller
     {
         $board_members_categories = $this->board_members_categories;
 
+        $data = DB::table('messages')
+            ->select('*')
+            ->where("message_active", 1)
+            ->get();
+
+
         $welcome_message = "";
-        return view('front/news', compact('welcome_message', 'board_members_categories'));
+        return view('front/news', compact('data','welcome_message', 'board_members_categories'));
+
+    }
+
+    public function news_by_id($id)
+    {
+        $board_members_categories = $this->board_members_categories;
+
+        $data = DB::table('messages')
+            ->select('*')
+            ->where("id", $id)
+            ->get();
+
+        $data=$data[0];
+
+        $welcome_message = "";
+        return view('front/news_by_id', compact('data','welcome_message', 'board_members_categories'));
 
     }
 
