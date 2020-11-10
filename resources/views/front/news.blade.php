@@ -24,7 +24,7 @@
             transition: .5s;
             border: 1px solid #e2e2e2;
             margin-bottom: 30px;
-            min-height: 160px;
+            min-height: 236px;
         }
         .blog-box-content h4 a {
             font-size: 20px;
