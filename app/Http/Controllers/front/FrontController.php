@@ -171,7 +171,7 @@ class FrontController extends Controller
 
         $details = "";
         foreach ($items as $data) {
-            $details .= $data["item_name"] . ": " . $data["item_unit_price"] . " x " . $data["item_quantity"] . " = " . $data["item_total_money"] . " " . $data["item_currency"] . "\n <br/>";
+            $details .= "<p>".$data["item_name"] . ": " . $data["item_unit_price"] . " x " . $data["item_quantity"] . " = " . $data["item_total_money"] . " " . $data["item_currency"] . "</p>";
 
             $total_tickets += $data["item_quantity"];
         }
@@ -220,8 +220,8 @@ class FrontController extends Controller
         $source = "Free";
         $payment_type = "Free";
         $details = "";
-        $details .= $adult_label . ": " . $adult_price . " x " . $adult_quantity . " = " . $adult_price_total . " " .$currency . "\n <br/>";
-        $details .= $children_label . ": " . $children_price . " x " . $children_quantity . " = " . $children_price_total . " " .$currency . "\n <br/>";
+        $details .= "<p>".$adult_label . ": " . $adult_price . " x " . $adult_quantity . " = " . $adult_price_total . " " .$currency . "</p>";
+        $details .= "<p>".$children_label . ": " . $children_price . " x " . $children_quantity . " = " . $children_price_total . " " .$currency . "</p> ";
         $total_tickets = $adult_quantity + $children_quantity;
         $net_amounts = $_REQUEST["total"];
 
@@ -272,7 +272,7 @@ class FrontController extends Controller
         $details = "";
         $details .= "\n  " . $title . "\n";
         foreach ($items as $data) {
-            $details .= $data["item_name"] . ": " . $data["item_unit_price"] . " x " . $data["item_quantity"] . " = " . $data["item_total_money"] . " " . $data["item_currency"] . "\n";
+            $details .= "<p>".$data["item_name"] . ": " . $data["item_unit_price"] . " x " . $data["item_quantity"] . " = " . $data["item_total_money"] . " " . $data["item_currency"] . "</p>";
 
         }
 
@@ -347,7 +347,7 @@ class FrontController extends Controller
         $details = "";
         $details .= "\n $note: \n";
         foreach ($items as $data) {
-            $details .= $data["item_name"] . ": " . $data["item_unit_price"] . " x " . $data["item_quantity"] . " = " . $data["item_total_money"] . " " . $data["item_currency"] . "\n";
+            $details .="<p>". $data["item_name"] . ": " . $data["item_unit_price"] . " x " . $data["item_quantity"] . " = " . $data["item_total_money"] . " " . $data["item_currency"] . "</p>";
 
         }
 
@@ -378,16 +378,16 @@ class FrontController extends Controller
         $items = $order_data["items"];
 
         $total_tickets = 0;
-        $payment_type = "online payment";
+        $payment_type = "Online Payment";
 
         $details = "";
         foreach ($items as $data) {
-            $details .= $data["item_name"] . ": " . $data["item_unit_price"] . " x " . $data["item_quantity"] . " = " . $data["item_total_money"] . " " . $data["item_currency"] . "\n";
+            $details .="<p>". $data["item_name"] . ": " . $data["item_unit_price"] . " x " . $data["item_quantity"] . " = " . $data["item_total_money"] . " " . $data["item_currency"] . "</p>";
 
             $total_tickets += $data["item_quantity"];
         }
 
-        $details .= "\n Feedback: " . $feedback;
+        $details .= "<p> Feedback: " . $feedback."</p>";
 
         $payment_insert = DB::table('product_buyers')->insert(
             array(
