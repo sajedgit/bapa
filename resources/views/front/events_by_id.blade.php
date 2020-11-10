@@ -30,6 +30,21 @@
 
         </div>
 
+        <?php
+        $event_starting_date=$data->event_starting_date;
+        $event_starting_time=$data->event_starting_time;
+        $event_ending_date=$data->event_ending_date;
+        $event_ending_time=$data->event_ending_time;
+
+        $start_date_time=strtotime("$event_starting_date $event_starting_time");
+        $start_datetime_formate= date("F j, Y, g:i a", $start_date_time);
+
+        $end_date_time=strtotime("$event_ending_date $event_ending_time");
+        $end_datetime_formate= date("F j, Y, g:i a", $end_date_time);
+
+        $final_formated_date=$start_datetime_formate." - ". $end_datetime_formate;
+        ?>
+
         <div class="col-sm-12 col-md-12 col-xs-12">
 
             <div class="thumbnail" style="border:none; background:white;">
@@ -43,11 +58,12 @@
                     <h3>{{ $data->event_title }}</h3>
                     <p> <span><b>Venue: </b>{{ $data->event_venue }}</span> </p>
                     <p> <span><b>Details: </b>{{ $data->event_details }}</span> </p>
-                    <p> <span><b>Date: </b>{{ $data->event_starting_date }}</span> </p>
-                    <p> <span><b>Start Time: </b>{{ $data->event_starting_time }}</span> </p>
-                    <p> <span><b>End  Time: </b>{{ $data->event_ending_time }}</span> </p>
-                    <p> <span><b>Ticket Price: </b>{{ $data->event_ticket_price }}</span> </p>
-                    <p> <span><b>Children Ticket Price: </b>{{ $data->event_ticket_price_children }}</span> </p>
+                    <p> <span><b>Date: </b>{{ $final_formated_date }}</span> </p>
+{{--                    <p> <span><b>Ticket Price: </b>{{ $data->event_ticket_price }}</span> </p>--}}
+                    <p> <span><b>Ticket Price: </b>
+                        <?php if($data->event_ticket_price==0) echo "Free"; else echo $data->event_ticket_price; ?>
+                        </span> </p>
+                    <p> <span><b>Children Ticket Price: </b>   <?php if($data->event_ticket_price_children==0) echo "Free"; else echo $data->event_ticket_price_children; ?></span> </p>
                     <p> <span><b>Total Seat: </b>{{ $data->event_total_seat }}</span> </p>
 
 
@@ -87,7 +103,10 @@
 
                         <div class="row">
                             <div class="col-xs-12">
-                                <p><button type="submit" class="btn btn-primary">Buy Tickets</button></p>
+                                <p><button type="submit" class="btn btn-primary">
+
+                                        <?php if($data->event_ticket_price==0) echo "Order Tickets"; else echo "Buy Tickets"; ?>
+                                    </button></p>
 
                             </div>
                         </div>

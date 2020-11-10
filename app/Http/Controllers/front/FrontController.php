@@ -30,7 +30,7 @@ class FrontController extends Controller
     public function __construct()
     {
 
-      //  print_r(Auth::user());die();
+        //  print_r(Auth::user());die();
 
         // $this->middleware('auth', ['only' => ['buy_tickets']]);
         //$this->middleware('some_other_middleware', ['except' => ['some_method'], 'only' => ['some_other_method', 'yet_another_method']]);
@@ -41,21 +41,18 @@ class FrontController extends Controller
     }
 
 
-
-
     public function payment()
     {
-      //  print_r(Auth::user()->active);
+        //  print_r(Auth::user()->active);
         //Auth::logout();
 
         $board_members_categories = $this->board_members_categories;
         $settings = Setting::findOrFail(1);
 
-        $user=Auth::user();
+        $user = Auth::user();
         $welcome_message = " Please Complete your payment ";
-        return view('front/payment', compact('settings','user', 'welcome_message', 'board_members_categories'));
+        return view('front/payment', compact('settings', 'user', 'welcome_message', 'board_members_categories'));
     }
-
 
 
     public function index()
@@ -92,30 +89,26 @@ class FrontController extends Controller
 
     public function profile()
     {
-        if ($user = Auth::user())
-        {
-            $user_id=Auth::user()->id;
+        if ($user = Auth::user()) {
+            $user_id = Auth::user()->id;
             $board_members_categories = $this->board_members_categories;
             $user = DB::select(DB::raw(" SELECT * from memberships where  id=$user_id  "));
             $user = $user[0];
-            $status_items=array('1'=>'Active','0'=>'Inactive');
+            $status_items = array('1' => 'Active', '0' => 'Inactive');
 
             $welcome_message = "Profile Update";
-            return view('front/profile', compact('welcome_message', 'status_items','user','board_members_categories'));
-        }
-        else
-        {
+            return view('front/profile', compact('welcome_message', 'status_items', 'user', 'board_members_categories'));
+        } else {
             return redirect()->guest('login');
         }
     }
 
 
-
     public function profile_update(Request $request)
     {
-        $id=Auth::user()->id;
-        $profile=$request->profile;
-        $user_type_id=$request->user_type_id;
+        $id = Auth::user()->id;
+        $profile = $request->profile;
+        $user_type_id = $request->user_type_id;
 
         $image_name = $request->hidden_image;
         $image = $request->file('photo');
@@ -127,12 +120,12 @@ class FrontController extends Controller
 
 
         $request->validate([
-            'name'    =>  'required',
-            'username'     =>  'required',
-            'password'     =>  'min:6|required',
+            'name' => 'required',
+            'username' => 'required',
+            'password' => 'min:6|required',
             'password_confirmation' => 'min:6|same:password',
-            'email'     =>  'required',
-            'active'         =>  'required'
+            'email' => 'required',
+            'active' => 'required'
         ]);
 
         $messages = [
@@ -140,79 +133,122 @@ class FrontController extends Controller
         ];
 
 
-
         $form_data = array(
-            'name'       =>   $request->name,
-            'username'        =>   $request->username,
-            'password'        =>   bcrypt($request->password),
-            'email'        =>   $request->email,
+            'name' => $request->name,
+            'username' => $request->username,
+            'password' => bcrypt($request->password),
+            'email' => $request->email,
             'photo' => $image_name,
-            'user_type_id'        =>  $user_type_id,
-            'active'        =>   $request->active,
-            'updated_at'        =>   date("Y-m-d")
+            'user_type_id' => $user_type_id,
+            'active' => $request->active,
+            'updated_at' => date("Y-m-d")
         );
-
 
 
         Membership::whereId($id)->update($form_data);
         return redirect('profile')->with('success', 'Profile updated successfully ');
 
 
-
-
-
-
     }
-
 
 
     public function after_payment_success()
     {
 
-            // print_r(unserialize($_REQUEST["order_data"][0]));
-            $order_data=unserialize($_REQUEST["order_data"][0]);
+        // print_r(unserialize($_REQUEST["order_data"][0]));
+        $order_data = unserialize($_REQUEST["order_data"][0]);
 
-            $order_id=$order_data["order_id"];
-            $ref_membership_id=Auth::user()->id;
-           // $ref_membership_id=35;
-            $source=$order_data["source"];
-            $net_amounts=$order_data["net_amounts"];
-            $event_id=$order_data["event_id"];
-            $items=$order_data["items"];
+        $order_id = $order_data["order_id"];
+        $ref_membership_id = Auth::user()->id;
+        // $ref_membership_id=35;
+        $source = $order_data["source"];
+        $net_amounts = $order_data["net_amounts"];
+        $event_id = $order_data["event_id"];
+        $items = $order_data["items"];
 
-            $total_tickets=0;
-            $payment_type="online payment";
+        $total_tickets = 0;
+        $payment_type = "Online Payment";
 
-            $details="";
-            foreach ($items as $data)
-            {
-                $details.=$data["item_name"].": ".$data["item_unit_price"]." x ".$data["item_quantity"]." = ".$data["item_total_money"]." ".$data["item_currency"] ."\n";
+        $details = "";
+        foreach ($items as $data) {
+            $details .= $data["item_name"] . ": " . $data["item_unit_price"] . " x " . $data["item_quantity"] . " = " . $data["item_total_money"] . " " . $data["item_currency"] . "\n";
 
-                $total_tickets+=$data["item_quantity"];
-            }
+            $total_tickets += $data["item_quantity"];
+        }
 
-            $payment_insert= DB::table('event_ticket_buyers')->insert(
-                array(
-                    'ref_event_id'     =>   $event_id,
-                    'ref_membership_id'   =>   $ref_membership_id,
-                    'order_id'   =>  $order_id,
-                    'source'   =>   $source,
-                    'payment_type'   =>   $payment_type,
-                    'details'   =>   $details,
-                    'total_tickets'   =>   $total_tickets,
-                    'total_price'   =>   $net_amounts,
-                    'event_ticket_buyer_stored_datetime'   =>   NOW()
-                )
-            );
+        $payment_insert = DB::table('event_ticket_buyers')->insert(
+            array(
+                'ref_event_id' => $event_id,
+                'ref_membership_id' => $ref_membership_id,
+                'order_id' => $order_id,
+                'source' => $source,
+                'payment_type' => $payment_type,
+                'details' => $details,
+                'total_tickets' => $total_tickets,
+                'total_price' => $net_amounts,
+                'event_ticket_buyer_stored_datetime' => NOW()
+            )
+        );
 
-            if($payment_insert)
-            {
-                $this->send_mail($event_id,$ref_membership_id,$order_id,$source,$payment_type,$details,$total_tickets,$net_amounts);
-                return redirect()->route("event/{id}",[$event_id])->with('success', 'Buy Tickets Successfully');
-            }
-            else
-                echo "Payment not done Properly";
+        if ($payment_insert) {
+            $this->send_mail($event_id, $ref_membership_id, $order_id, $source, $payment_type, $details, $total_tickets, $net_amounts);
+            return redirect()->route("event/{id}", [$event_id])->with('success', 'Buy Tickets Successfully');
+        } else
+            echo "Payment not done Properly";
 
+
+    }
+
+
+    public function after_payment_success_free()
+    {
+
+        $adult_label = $_REQUEST["adult_label"];
+        $adult_price = $_REQUEST["adult_price"];
+        $adult_quantity = $_REQUEST["adult_quantity"];
+        $adult_price_total = $adult_price*$adult_quantity;
+        $currency="USD";
+        $children_label = $_REQUEST["children_label"];
+        $children_price = $_REQUEST["children_price"];
+        $children_quantity = $_REQUEST["children_quantity"];
+        $children_price_total = $children_price*$children_quantity;
+
+
+        $event_id = $_REQUEST["event_id"];
+        $ref_membership_id = Auth::user()->id;
+        $order_id=0;
+        $source = "Free";
+        $payment_type = "Free";
+        $details = "";
+        $details .= $adult_label . ": " . $adult_price . " x " . $adult_quantity . " = " . $adult_price_total . " " .$currency . "\n";
+        $details .= $children_label . ": " . $children_price . " x " . $children_quantity . " = " . $children_price_total . " " .$currency . "\n";
+        $total_tickets = $adult_quantity + $children_quantity;
+        $net_amounts = $_REQUEST["total"];
+
+
+
+
+
+
+        $payment_insert = DB::table('event_ticket_buyers')->insert(
+            array(
+                'ref_event_id' => $event_id,
+                'ref_membership_id' => $ref_membership_id,
+                'order_id' => $order_id,
+                'source' => $source,
+                'payment_type' => $payment_type,
+                'details' => $details,
+                'total_tickets' => $total_tickets,
+                'total_price' => $net_amounts,
+                'event_ticket_buyer_stored_datetime' => NOW()
+            )
+        );
+
+        if ($payment_insert) {
+            $this->send_mail($event_id, $ref_membership_id, $order_id, $source, $payment_type, $details, $total_tickets, $net_amounts);
+            return redirect()->route("event/{id}", [$event_id])->with('success', 'Buy Tickets Successfully');
+        } else
+            echo "Payment not done Properly";
 
 
     }
@@ -220,74 +256,68 @@ class FrontController extends Controller
 
     public function after_payment_success_register()
     {
-        $order_data=unserialize($_REQUEST["order_data"][0]);
+        $order_data = unserialize($_REQUEST["order_data"][0]);
 
-       // print_r($order_data);die();
-        $order_id=$order_data["order_id"];
-        $source=$order_data["source"];
-        $net_amounts=$order_data["net_amounts"];
-        $note=$order_data["note"];
-        $note=explode("--**--",$note);
-        $title=$note[0];
-        $ref_membership_id=trim($note[1]);
-        $items=$order_data["items"];
-        $payment_type="Online Payment";
+        // print_r($order_data);die();
+        $order_id = $order_data["order_id"];
+        $source = $order_data["source"];
+        $net_amounts = $order_data["net_amounts"];
+        $note = $order_data["note"];
+        $note = explode("--**--", $note);
+        $title = $note[0];
+        $ref_membership_id = trim($note[1]);
+        $items = $order_data["items"];
+        $payment_type = "Online Payment";
         $renewal_date = date('Y-m-d', strtotime('+1 years'));
-        $details="";
-        $details.="\n  ".$title."\n";
-        foreach ($items as $data)
-        {
-            $details.=$data["item_name"].": ".$data["item_unit_price"]." x ".$data["item_quantity"]." = ".$data["item_total_money"]." ".$data["item_currency"] ."\n";
+        $details = "";
+        $details .= "\n  " . $title . "\n";
+        foreach ($items as $data) {
+            $details .= $data["item_name"] . ": " . $data["item_unit_price"] . " x " . $data["item_quantity"] . " = " . $data["item_total_money"] . " " . $data["item_currency"] . "\n";
 
         }
 
 
-        $payment_insert= DB::table('membership_payments')->insert(
+        $payment_insert = DB::table('membership_payments')->insert(
             array(
-                'ref_membership_id'   =>   $ref_membership_id,
-                'membership_payment_ess'   =>  1,
-                'membership_payment_details'   =>   $details,
-                'membership_payment_datetime'   =>   NOW(),
-                'membership_payment_amount'   =>   $net_amounts,
-                'membership_next_renewal_date'   =>   $renewal_date,
-                'membership_payment_creating_datetime'   =>   NOW()
+                'ref_membership_id' => $ref_membership_id,
+                'membership_payment_ess' => 1,
+                'membership_payment_details' => $details,
+                'membership_payment_datetime' => NOW(),
+                'membership_payment_amount' => $net_amounts,
+                'membership_next_renewal_date' => $renewal_date,
+                'membership_payment_creating_datetime' => NOW()
             )
         );
 
 
-        if($payment_insert)
-        {
+        if ($payment_insert) {
             $form_data = array(
-                'ess_type'       =>  $payment_type ,
-                'active'       =>   1,
+                'ess_type' => $payment_type,
+                'active' => 1,
             );
-           $update_member= Membership::whereId($ref_membership_id)->update($form_data);
+            $update_member = Membership::whereId($ref_membership_id)->update($form_data);
 
-           if($update_member)
-           {
-               $this->send_mail_register($ref_membership_id,$order_id,$source,$payment_type,$details,$net_amounts);
-               return redirect()->route("profile")->with('success', 'Payment done Successfully');
-           }
+            if ($update_member) {
+                $this->send_mail_register($ref_membership_id, $order_id, $source, $payment_type, $details, $net_amounts);
+                return redirect()->route("profile")->with('success', 'Payment done Successfully');
+            }
 
-        }
-        else
+        } else
             echo "Payment not done Properly";
 
 
     }
 
 
-
-    public function send_mail_register($ref_membership_id,$order_id,$source,$payment_type,$details,$net_amounts)
+    public function send_mail_register($ref_membership_id, $order_id, $source, $payment_type, $details, $net_amounts)
     {
-
 
 
         $user = DB::select(DB::raw(" SELECT * from memberships where  id=$ref_membership_id  "));
         $user = $user[0];
-        $user_name=$user->name;
-        $user_email=$user->email;
-        $subject="Payment Confirmation";
+        $user_name = $user->name;
+        $user_email = $user->email;
+        $subject = "Payment Confirmation";
         $mail_to = $user_email;
         $cc = "nypdbapa@gmail.com";
         $bcc = "sajedaiub@gmail.com";
@@ -296,137 +326,131 @@ class FrontController extends Controller
         Mail::to($mail_to)
             ->cc($cc)
             ->bcc($bcc)
-            ->send(new SendRegisterMail($subject, $user_name,$order_id, $source, $payment_type,$details,$net_amounts));
+            ->send(new SendRegisterMail($subject, $user_name, $order_id, $source, $payment_type, $details, $net_amounts));
 
     }
 
 
     public function after_payment_success_donate()
     {
-        $order_data=unserialize($_REQUEST["order_data"][0]);
+        $order_data = unserialize($_REQUEST["order_data"][0]);
 
-        $order_id=$order_data["order_id"];
-        $source=$order_data["source"];
-        $net_amounts=$order_data["net_amounts"];
-        $note=$order_data["note"];
-        $items=$order_data["items"];
-        $payment_type="Online Payment";
-        $customer_email_address=$order_data["customer_email_address"];
-        $customer_name=$order_data["given_name"];
+        $order_id = $order_data["order_id"];
+        $source = $order_data["source"];
+        $net_amounts = $order_data["net_amounts"];
+        $note = $order_data["note"];
+        $items = $order_data["items"];
+        $payment_type = "Online Payment";
+        $customer_email_address = $order_data["customer_email_address"];
+        $customer_name = $order_data["given_name"];
 
-        $details="";
-        $details.="\n $note: \n";
-        foreach ($items as $data)
-        {
-            $details.=$data["item_name"].": ".$data["item_unit_price"]." x ".$data["item_quantity"]." = ".$data["item_total_money"]." ".$data["item_currency"] ."\n";
+        $details = "";
+        $details .= "\n $note: \n";
+        foreach ($items as $data) {
+            $details .= $data["item_name"] . ": " . $data["item_unit_price"] . " x " . $data["item_quantity"] . " = " . $data["item_total_money"] . " " . $data["item_currency"] . "\n";
 
         }
 
 
-            $this->send_mail_donate($customer_email_address,$customer_name,$order_id,$source,$payment_type,$details,$net_amounts);
-            return redirect()->route("donate")->with('success', 'Donate Done Successfully');
+        $this->send_mail_donate($customer_email_address, $customer_name, $order_id, $source, $payment_type, $details, $net_amounts);
+        return redirect()->route("donate")->with('success', 'Donate Done Successfully');
 
 
     }
-
 
 
     public function after_payment_success_product()
     {
 
-            // print_r(unserialize($_REQUEST["order_data"][0]));
-             // print_r(Auth::user());die();
-            $order_data=unserialize($_REQUEST["order_data"][0]);
+        // print_r(unserialize($_REQUEST["order_data"][0]));
+        // print_r(Auth::user());die();
+        $order_data = unserialize($_REQUEST["order_data"][0]);
 
-            $order_id=$order_data["order_id"];
-            $ref_membership_id=Auth::user()->id;
-           // $ref_membership_id=35;
-            $source=$order_data["source"];
-            $net_amounts=$order_data["net_amounts"];
-            $note=$order_data["note"];
-            $note=explode("--**--",$note);
-            $feedback=$note[0];
-            $event_id=trim($note[1]);
-            $items=$order_data["items"];
+        $order_id = $order_data["order_id"];
+        $ref_membership_id = Auth::user()->id;
+        // $ref_membership_id=35;
+        $source = $order_data["source"];
+        $net_amounts = $order_data["net_amounts"];
+        $note = $order_data["note"];
+        $note = explode("--**--", $note);
+        $feedback = $note[0];
+        $event_id = trim($note[1]);
+        $items = $order_data["items"];
 
-            $total_tickets=0;
-            $payment_type="online payment";
+        $total_tickets = 0;
+        $payment_type = "online payment";
 
-            $details="";
-            foreach ($items as $data)
-            {
-                $details.=$data["item_name"].": ".$data["item_unit_price"]." x ".$data["item_quantity"]." = ".$data["item_total_money"]." ".$data["item_currency"] ."\n";
+        $details = "";
+        foreach ($items as $data) {
+            $details .= $data["item_name"] . ": " . $data["item_unit_price"] . " x " . $data["item_quantity"] . " = " . $data["item_total_money"] . " " . $data["item_currency"] . "\n";
 
-                $total_tickets+=$data["item_quantity"];
-            }
+            $total_tickets += $data["item_quantity"];
+        }
 
-            $details.="\n Feedback: ".$feedback;
+        $details .= "\n Feedback: " . $feedback;
 
-            $payment_insert= DB::table('product_buyers')->insert(
-                array(
-                    'ref_product_id'     =>   $event_id,
-                    'ref_membership_id'   =>   $ref_membership_id,
-                    'order_id'   =>  $order_id,
-                    'source'   =>   $source,
-                    'payment_type'   =>   $payment_type,
-                    'details'   =>   $details,
-                    'total_tickets'   =>   $total_tickets,
-                    'total_price'   =>   $net_amounts,
-                    'product_buyer_stored_datetime'   =>   NOW()
-                )
-            );
+        $payment_insert = DB::table('product_buyers')->insert(
+            array(
+                'ref_product_id' => $event_id,
+                'ref_membership_id' => $ref_membership_id,
+                'order_id' => $order_id,
+                'source' => $source,
+                'payment_type' => $payment_type,
+                'details' => $details,
+                'total_tickets' => $total_tickets,
+                'total_price' => $net_amounts,
+                'product_buyer_stored_datetime' => NOW()
+            )
+        );
 
 
-            if($payment_insert)
-            {
+        if ($payment_insert) {
 
-                $this->send_mail_product($event_id,$ref_membership_id,$order_id,$source,$payment_type,$details,$total_tickets,$net_amounts);
-                return redirect()->route("shop/{id}",[$event_id])->with('success', 'Buy Product Successfully');
-            }
-            else
-                echo "Payment not done Properly";
-
+            $this->send_mail_product($event_id, $ref_membership_id, $order_id, $source, $payment_type, $details, $total_tickets, $net_amounts);
+            return redirect()->route("shop/{id}", [$event_id])->with('success', 'Buy Product Successfully');
+        } else
+            echo "Payment not done Properly";
 
 
     }
 
-    public function send_mail($event_id,$ref_membership_id,$order_id,$source,$payment_type,$details,$total_tickets,$net_amounts)
+    public function send_mail($event_id, $ref_membership_id, $order_id, $source, $payment_type, $details, $total_tickets, $net_amounts)
     {
         $event = DB::select(DB::raw(" SELECT * from events where  id=$event_id  "));
         $event = $event[0];
-        $event_name=$event->event_title;
+        $event_name = $event->event_title;
 
 
         $user = DB::select(DB::raw(" SELECT * from memberships where  id=$ref_membership_id  "));
         $user = $user[0];
-        $user_name=$user->name;
-        $user_email=$user->email;
+        $user_name = $user->name;
+        $user_email = $user->email;
 
-        $subject="Buying Ticket Confirmation";
+        $subject = "Buying Ticket Confirmation";
         $mail_to = $user_email;
         $cc = "nypdbapa@gmail.com";
-        $bcc = "sajedaiub@gmail.com";
+        $bcc = "hasnat288@gmail.com";
 
 
         Mail::to($mail_to)
             ->cc($cc)
             ->bcc($bcc)
-            ->send(new SendEventMail($event_name, $subject,$user_name,$order_id, $source, $payment_type,$details,$total_tickets,$net_amounts));
+            ->send(new SendEventMail($event_name, $subject, $user_name, $order_id, $source, $payment_type, $details, $total_tickets, $net_amounts));
     }
 
 
-    public function send_mail_product($event_id,$ref_membership_id,$order_id,$source,$payment_type,$details,$total_tickets,$net_amounts)
+    public function send_mail_product($event_id, $ref_membership_id, $order_id, $source, $payment_type, $details, $total_tickets, $net_amounts)
     {
         $event = DB::select(DB::raw(" SELECT * from products where  id=$event_id  "));
         $event = $event[0];
-        $event_name=$event->product_name;
+        $event_name = $event->product_name;
 
 
         $user = DB::select(DB::raw(" SELECT * from memberships where  id=$ref_membership_id  "));
         $user = $user[0];
-        $user_name=$user->name;
-        $user_email=$user->email;
-        $subject="Buying Product Confirmation";
+        $user_name = $user->name;
+        $user_email = $user->email;
+        $subject = "Buying Product Confirmation";
         $mail_to = $user_email;
         $cc = "nypdbapa@gmail.com";
         $bcc = "sajedaiub@gmail.com";
@@ -435,19 +459,17 @@ class FrontController extends Controller
         Mail::to($mail_to)
             ->cc($cc)
             ->bcc($bcc)
-            ->send(new SendEventMail($event_name,$subject, $user_name,$order_id, $source, $payment_type,$details,$total_tickets,$net_amounts));
+            ->send(new SendEventMail($event_name, $subject, $user_name, $order_id, $source, $payment_type, $details, $total_tickets, $net_amounts));
 
     }
 
 
-
-
-    public function send_mail_donate($customer_email_address,$customer_name,$order_id,$source,$payment_type,$details,$net_amounts)
+    public function send_mail_donate($customer_email_address, $customer_name, $order_id, $source, $payment_type, $details, $net_amounts)
     {
 
-        $user_name=$customer_name;
-        $user_email=$customer_email_address;
-        $subject="Donation Confirmation";
+        $user_name = $customer_name;
+        $user_email = $customer_email_address;
+        $subject = "Donation Confirmation";
         $mail_to = $user_email;
         $cc = "nypdbapa@gmail.com";
         $bcc = "sajedaiub@gmail.com";
@@ -456,7 +478,7 @@ class FrontController extends Controller
         Mail::to($mail_to)
             ->cc($cc)
             ->bcc($bcc)
-            ->send(new SendEventDonate($subject, $user_name,$user_email,$order_id, $source, $payment_type,$details,$net_amounts));
+            ->send(new SendEventDonate($subject, $user_name, $user_email, $order_id, $source, $payment_type, $details, $net_amounts));
 
     }
 
@@ -490,7 +512,7 @@ class FrontController extends Controller
         $board_members_categories = $this->board_members_categories;
         $settings = Setting::findOrFail(1);
         $welcome_message = "Donate Now";
-        return view('front/donate', compact('board_members_categories','settings', 'welcome_message'));
+        return view('front/donate', compact('board_members_categories', 'settings', 'welcome_message'));
 
 
     }
@@ -525,7 +547,7 @@ class FrontController extends Controller
 
         //print_r($request->adult_price);
         $welcome_message = "Buy Tickets for " . $event_title;
-        return view('front/buy_tickets', compact('total','event_id', 'adult_ticket_price', 'children_ticket_price', 'adult_quantity', 'adult_price', 'children_quantity', 'children_price', 'welcome_message', 'board_members_categories'));
+        return view('front/buy_tickets', compact('total', 'event_id', 'adult_ticket_price', 'children_ticket_price', 'adult_quantity', 'adult_price', 'children_quantity', 'children_price', 'welcome_message', 'board_members_categories'));
 
     }
 
@@ -713,7 +735,7 @@ class FrontController extends Controller
 
 
         $welcome_message = "";
-        return view('front/news', compact('data','welcome_message', 'board_members_categories'));
+        return view('front/news', compact('data', 'welcome_message', 'board_members_categories'));
 
     }
 
@@ -726,10 +748,10 @@ class FrontController extends Controller
             ->where("id", $id)
             ->get();
 
-        $data=$data[0];
+        $data = $data[0];
 
         $welcome_message = "";
-        return view('front/news_by_id', compact('data','welcome_message', 'board_members_categories'));
+        return view('front/news_by_id', compact('data', 'welcome_message', 'board_members_categories'));
 
     }
 
@@ -768,17 +790,17 @@ class FrontController extends Controller
         $this->validate(
             $request,
             [
-                'fname'             => 'required',
-                'lname'          => 'required',
-                'email'          => 'required|email',
-                'g-recaptcha-response'          => 'required',
+                'fname' => 'required',
+                'lname' => 'required',
+                'email' => 'required|email',
+                'g-recaptcha-response' => 'required',
             ],
             [
-                'fname.required'    => 'Please Provide First Name',
-                'lname.required'      => 'Please Provide Last Name',
+                'fname.required' => 'Please Provide First Name',
+                'lname.required' => 'Please Provide Last Name',
                 'email.required' => 'Please Provide Email Address',
-                'email.email'      => 'Not A Valid Email Address',
-                'g-recaptcha-response.required'      => 'Please check the the captcha form',
+                'email.email' => 'Not A Valid Email Address',
+                'g-recaptcha-response.required' => 'Please check the the captcha form',
             ]
         );
 
@@ -831,19 +853,16 @@ class FrontController extends Controller
 
     public function DownloadByLawPdf()
     {
-        if ($user = Auth::user())
-        {
+        if ($user = Auth::user()) {
             //PDF file is stored under project/public/download/info.pdf
-            $file= public_path(). "/download/bylaw.pdf";
+            $file = public_path() . "/download/bylaw.pdf";
 
             $headers = array(
                 'Content-Type: application/pdf',
             );
 
             return response()->download($file, 'bylaw.pdf', $headers);
-        }
-        else
-        {
+        } else {
             return redirect()->guest('login');
         }
 
@@ -886,8 +905,7 @@ class FrontController extends Controller
             $board_members_categories = $this->board_members_categories;
             $vote_today = DB::select(DB::raw(" SELECT * from vote_details where voting_date = CURDATE() and status=1 order by start_time asc limit 1  "));
 
-            if(count($vote_today) > 0)
-            {
+            if (count($vote_today) > 0) {
                 $vote_id = $vote_today[0]->id;
                 $voter_id = $user->id;
                 $is_vote_submit = DB::select(DB::raw(" SELECT * from vote_count where vote_id= $vote_id and voter_id=$voter_id  "));
@@ -899,15 +917,11 @@ class FrontController extends Controller
                 } else {
                     return view('front/vote', compact('welcome_message', 'board_members_categories', 'vote_today'));
                 }
-            }
-            else
-            {
+            } else {
                 $welcome_message = "Vote";
-                $msg="There are no vote active today";
+                $msg = "There are no vote active today";
                 return view('front/vote_no_vote', compact('welcome_message', 'board_members_categories', 'msg'));
             }
-
-
 
 
         } else {
@@ -964,7 +978,7 @@ class FrontController extends Controller
 
         $products = DB::select(DB::raw(" SELECT * from products where  status=1  "));
         $welcome_message = "Shop";
-        return view('front/shop', compact('welcome_message', 'board_members_categories','products'));
+        return view('front/shop', compact('welcome_message', 'board_members_categories', 'products'));
 
     }
 
@@ -980,24 +994,24 @@ class FrontController extends Controller
     }
 
 
-    public  function memory()
+    public function memory()
     {
         $board_members_categories = $this->board_members_categories;
 
         $memories = DB::select(DB::raw(" SELECT * from memories where memories_active=1 order by id desc   "));
         $welcome_message = "Gallery";
-        return view('front/memory', compact('welcome_message', 'board_members_categories','memories'));
+        return view('front/memory', compact('welcome_message', 'board_members_categories', 'memories'));
 
     }
 
 
-    public  function memory_photo_by_id($memory_name,$id)
+    public function memory_photo_by_id($memory_name, $id)
     {
         $board_members_categories = $this->board_members_categories;
 
         $memory_photo = DB::select(DB::raw(" SELECT * from memories_photos where ref_memories_id=$id order by id desc  "));
-        $welcome_message = "Gallery Photo of ".$memory_name;
-        return view('front/memory_photo_by_id', compact('welcome_message', 'board_members_categories','memory_name','memory_photo'));
+        $welcome_message = "Gallery Photo of " . $memory_name;
+        return view('front/memory_photo_by_id', compact('welcome_message', 'board_members_categories', 'memory_name', 'memory_photo'));
 
     }
 
@@ -1052,8 +1066,6 @@ class FrontController extends Controller
         $upcoming_vote = DB::select(DB::raw(" SELECT * from vote_details where voting_date > CURDATE() and status=1 order by start_time asc   "));
         return $upcoming_vote;
     }
-
-
 
 
 }

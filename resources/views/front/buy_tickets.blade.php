@@ -27,35 +27,72 @@
                 <div class="buy_tickets text-center">
 
 
-                    <form class="form-container" method="post" action="{{ URL::to('/') }}/sq_payment/checkout.php">
-                        @if($adult_quantity>0)
-                        <div class="row item-line">
-                            <div class="col-xs-6 item-label">Adult Ticket x {{$adult_quantity}}</div>
-                            <div class="col-xs-6 item-amount">${{$adult_ticket_price}}.00</div>
-                            <input type="hidden"  value="{{ $adult_price}}.00" name="adult_price">
-                            <input type="hidden"  value="Adult Ticket" name="adult_label">
-                            <input type="hidden"  value="{{$adult_quantity}}" name="adult_quantity">
+                    @if($adult_ticket_price)
 
-                        </div>
-                        @endif
+                        <form class="form-container" method="post" action="{{ URL::to('/') }}/sq_payment/checkout.php">
+                            @if($adult_quantity>0)
+                                <div class="row item-line">
+                                    <div class="col-xs-6 item-label">Adult Ticket x {{$adult_quantity}}</div>
+                                    <div class="col-xs-6 item-amount">${{$adult_ticket_price}}.00</div>
+                                    <input type="hidden"  value="{{ $adult_price}}.00" name="adult_price">
+                                    <input type="hidden"  value="Adult Ticket" name="adult_label">
+                                    <input type="hidden"  value="{{$adult_quantity}}" name="adult_quantity">
 
-                        @if($children_quantity>0)
-                        <div class="row item-line">
-                            <div class="col-xs-6 item-label">Children Ticket x {{$children_quantity}}</div>
-                            <div class="col-xs-6 item-amount">${{$children_ticket_price}}.00</div>
-                            <input type="hidden"  value="{{ $children_price}}.00" name="children_price">
-                            <input type="hidden"  value="Children Ticket" name="children_label">
-                            <input type="hidden"  value="{{$adult_quantity}}" name="children_quantity">
-                        </div>
-                        @endif
+                                </div>
+                            @endif
 
-                        <div class="row item-line total-line">
-                            <div class="col-xs-6 item-label">Total</div>
-                            <div class="col-xs-6 item-amount">${{$total}}.00</div>
-                        </div>
+                            @if($children_quantity>0)
+                                <div class="row item-line">
+                                    <div class="col-xs-6 item-label">Children Ticket x {{$children_quantity}}</div>
+                                    <div class="col-xs-6 item-amount">${{$children_ticket_price}}.00</div>
+                                    <input type="hidden"  value="{{ $children_price}}.00" name="children_price">
+                                    <input type="hidden"  value="Children Ticket" name="children_label">
+                                    <input type="hidden"  value="{{$adult_quantity}}" name="children_quantity">
+                                </div>
+                            @endif
+
+                            <div class="row item-line total-line">
+                                <div class="col-xs-6 item-label">Total</div>
+                                <div class="col-xs-6 item-amount">${{$total}}.00</div>
+                            </div>
                             <input type="hidden"  value="{{ $event_id }}" name="event_id">
-                        <button type="submit" class="btn btn-primary">Pay now!</button>
-                    </form>
+                            <button type="submit" class="btn btn-primary">Pay now!</button>
+                        </form>
+
+                    @else
+
+                        <form class="form-container" method="post" action="{{ URL::to('/') }}/after_payment_success_free">
+                            @if($adult_quantity>0)
+                                <div class="row item-line">
+                                    <div class="col-xs-6 item-label">Adult Ticket x {{$adult_quantity}}</div>
+                                    <div class="col-xs-6 item-amount">${{$adult_ticket_price}}.00</div>
+                                    <input type="hidden"  value="{{ $adult_price}}" name="adult_price">
+                                    <input type="hidden"  value="Adult Ticket" name="adult_label">
+                                    <input type="hidden"  value="{{$adult_quantity}}" name="adult_quantity">
+
+                                </div>
+                            @endif
+
+                            @if($children_quantity>0)
+                                <div class="row item-line">
+                                    <div class="col-xs-6 item-label">Children Ticket x {{$children_quantity}}</div>
+                                    <div class="col-xs-6 item-amount">${{$children_ticket_price}}.00</div>
+                                    <input type="hidden"  value="{{ $children_price}}" name="children_price">
+                                    <input type="hidden"  value="Children Ticket" name="children_label">
+                                    <input type="hidden"  value="{{$children_quantity}}" name="children_quantity">
+                                </div>
+                            @endif
+
+                            <div class="row item-line total-line">
+                                <div class="col-xs-6 item-label">Total</div>
+                                <div class="col-xs-6 item-amount">${{$total}}.00</div>
+                                <input type="hidden"  value="{{$total}}" name="total">
+                            </div>
+                            <input type="hidden"  value="{{ $event_id }}" name="event_id">
+                            <button type="submit" class="btn btn-primary">Order Ticket Now!</button>
+                        </form>
+
+                    @endif
 
 
                 </div>

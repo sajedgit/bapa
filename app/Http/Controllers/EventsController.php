@@ -110,10 +110,10 @@ class EventsController extends Controller
             ->where("active",1)
             ->get();
 
-      //  $cc = "nypdbapa@gmail.com";
-        //$bcc = "hasnat288@gmail.com";
-        $cc = "sajedaiub@gmail.com";
-        $bcc = "sajedaiub@gmail.com";
+        $cc = "nypdbapa@gmail.com";
+        $bcc = "hasnat288@gmail.com";
+//        $cc = "sajedaiub@gmail.com";
+//        $bcc = "sajedaiub@gmail.com";
 
         foreach ($results as $row)
         {

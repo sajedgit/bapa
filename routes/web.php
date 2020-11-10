@@ -27,6 +27,7 @@ Route::get('event/{id}', 'front\FrontController@event_by_id')->name('event/{id}'
 Route::post('/buy_tickets', 'front\FrontController@buy_tickets')->name('buy_tickets')->middleware('normal');
 Route::get('/donate', 'front\FrontController@donate')->name('donate');
 Route::post('/after_payment_success', 'front\FrontController@after_payment_success')->name('after_payment_success');
+Route::post('/after_payment_success_free', 'front\FrontController@after_payment_success_free')->name('after_payment_success_free');
 
 Route::get('/profile', 'front\FrontController@profile')->name('profile')->middleware('paid_middleware');
 //Route::get('/profile', 'front\FrontController@profile')->name('profile');
