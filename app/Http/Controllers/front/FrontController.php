@@ -171,7 +171,7 @@ class FrontController extends Controller
 
         $details = "";
         foreach ($items as $data) {
-            $details .= $data["item_name"] . ": " . $data["item_unit_price"] . " x " . $data["item_quantity"] . " = " . $data["item_total_money"] . " " . $data["item_currency"] . "\n";
+            $details .= $data["item_name"] . ": " . $data["item_unit_price"] . " x " . $data["item_quantity"] . " = " . $data["item_total_money"] . " " . $data["item_currency"] . "\n <br/>";
 
             $total_tickets += $data["item_quantity"];
         }
@@ -220,8 +220,8 @@ class FrontController extends Controller
         $source = "Free";
         $payment_type = "Free";
         $details = "";
-        $details .= $adult_label . ": " . $adult_price . " x " . $adult_quantity . " = " . $adult_price_total . " " .$currency . "\n";
-        $details .= $children_label . ": " . $children_price . " x " . $children_quantity . " = " . $children_price_total . " " .$currency . "\n";
+        $details .= $adult_label . ": " . $adult_price . " x " . $adult_quantity . " = " . $adult_price_total . " " .$currency . "\n <br/>";
+        $details .= $children_label . ": " . $children_price . " x " . $children_quantity . " = " . $children_price_total . " " .$currency . "\n <br/>";
         $total_tickets = $adult_quantity + $children_quantity;
         $net_amounts = $_REQUEST["total"];
 

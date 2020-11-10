@@ -117,8 +117,8 @@ class EventsController extends Controller
 
         foreach ($results as $row)
         {
-            //$mail_to = $row->email;
-            $mail_to = "sajedaiub@gmail.com";
+            $mail_to = $row->email;
+           // $mail_to = "sajedaiub@gmail.com";
             $user_name = $row->name;
             Mail::to($mail_to)
                 ->cc($cc)
