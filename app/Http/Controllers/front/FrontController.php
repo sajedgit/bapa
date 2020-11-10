@@ -998,12 +998,19 @@ class FrontController extends Controller
 
     public function shop_by_id($id)
     {
-        $board_members_categories = $this->board_members_categories;
+        if ($user = Auth::user())
+        {
+            $board_members_categories = $this->board_members_categories;
 
-        $data = DB::select(DB::raw(" SELECT * from products where  id=$id and status=1  "));
-        $data = $data[0];
-        $welcome_message = " Shop ";
-        return view('front/shop_by_id', compact('data', 'welcome_message', 'board_members_categories'));
+            $data = DB::select(DB::raw(" SELECT * from products where  id=$id and status=1  "));
+            $data = $data[0];
+            $welcome_message = " Shop ";
+            return view('front/shop_by_id', compact('data', 'welcome_message', 'board_members_categories'));
+        }
+        else {
+            return redirect()->guest('login');
+        }
+
 
     }
 
