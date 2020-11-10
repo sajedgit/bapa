@@ -17,8 +17,10 @@ class SendEventMail extends Mailable
      *
      * @return void
      */
-    public function __construct($event_name,$subject,$user_name, $order_id, $source, $payment_type,$details,$total_tickets,$net_amounts)
+    public function __construct($action,$event_name,$subject,$user_name, $order_id, $source, $payment_type,$details,$total_tickets,$net_amounts)
     {
+
+        $this->action = $action;
         $this->event_name = $event_name;
         $this->subject = $subject;
         $this->user_name = $user_name;

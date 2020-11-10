@@ -382,12 +382,12 @@ class FrontController extends Controller
 
         $details = "";
         foreach ($items as $data) {
-            $details .="\n". $data["item_name"] . ": " . $data["item_unit_price"] . " x " . $data["item_quantity"] . " = " . $data["item_total_money"] . " " . $data["item_currency"] . "\n";
+            $details.="\n". $data["item_name"] . ": " . $data["item_unit_price"] . " x " . $data["item_quantity"] . " = " . $data["item_total_money"] . " " . $data["item_currency"] . "\n";
 
             $total_tickets += $data["item_quantity"];
         }
 
-        $details .= "\n Feedback: " . $feedback."\n";
+        $details.= "<p> Feedback: " . $feedback."</p>";
 
         $payment_insert = DB::table('product_buyers')->insert(
             array(
@@ -432,6 +432,7 @@ class FrontController extends Controller
         $event = DB::select(DB::raw(" SELECT * from events where  id=$event_id  "));
         $event = $event[0];
         $event_name = $event->event_title;
+        $action = "Tickets";
 
 
         $user = DB::select(DB::raw(" SELECT * from memberships where  id=$ref_membership_id  "));
@@ -448,7 +449,7 @@ class FrontController extends Controller
         Mail::to($mail_to)
             ->cc($cc)
             ->bcc($bcc)
-            ->send(new SendEventMail($event_name, $subject, $user_name, $order_id, $source, $payment_type, $details, $total_tickets, $net_amounts));
+            ->send(new SendEventMail($action,$event_name, $subject, $user_name, $order_id, $source, $payment_type, $details, $total_tickets, $net_amounts));
     }
 
 
@@ -457,6 +458,7 @@ class FrontController extends Controller
         $event = DB::select(DB::raw(" SELECT * from products where  id=$event_id  "));
         $event = $event[0];
         $event_name = $event->product_name;
+      echo  $action = "Products";
 
 
         $user = DB::select(DB::raw(" SELECT * from memberships where  id=$ref_membership_id  "));
@@ -464,15 +466,15 @@ class FrontController extends Controller
         $user_name = $user->name;
         $user_email = $user->email;
         $subject = "Buying Product Confirmation";
-        $mail_to = $user_email;
-        $cc = "nypdbapa@gmail.com";
-        $bcc = "sajedaiub@gmail.com";
+     echo   $mail_to = $user_email;
+      echo  $cc = "nypdbapa@gmail.com";
+      echo  $bcc = "sajedaiub@gmail.com";
 
 
         Mail::to($mail_to)
             ->cc($cc)
             ->bcc($bcc)
-            ->send(new SendEventMail($event_name, $subject, $user_name, $order_id, $source, $payment_type, $details, $total_tickets, $net_amounts));
+            ->send(new SendEventMail($action,$event_name, $subject, $user_name, $order_id, $source, $payment_type, $details, $total_tickets, $net_amounts));
 
     }
 
