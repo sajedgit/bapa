@@ -24,7 +24,7 @@
             transition: .5s;
             border: 1px solid #e2e2e2;
             margin-bottom: 30px;
-            min-height: 236px;
+            min-height: 150px;
         }
         .blog-box-content h4 a {
             font-size: 20px;
@@ -80,7 +80,7 @@
 {{--                                    <h4><a href="#">quis porta tellus dictum</a></h4>--}}
                                     <h4></h4>
 
-                                    <p><?php echo substr($row->message_details,0,150) ?></p>
+                                    <p><?php echo substr(strip_tags($row->message_details),0,150) ?></p>
                                     <a href=" {{ URL::to('news/'.$row->id) }}" class="btn btn-default site-btn">Read More</a>
                                 </div>
                             </div>

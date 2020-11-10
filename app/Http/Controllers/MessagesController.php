@@ -80,7 +80,7 @@ class MessagesController extends Controller
                     ->bcc($bcc)
                     ->send(new SendMessageMail($msg,$subject,$user_name));
 
-                sleep(3);
+                //sleep(3);
             }
 
 
