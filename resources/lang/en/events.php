@@ -28,7 +28,7 @@ return [
 	'event_venue' => 'Event venue ',
 	'event_flyer_location' => ' Flyer',
 	'event_flyer_type' => 'Flyer Type',
-	'event_starting_date' => 'Event Date',
+	'event_starting_date' => 'Event Start Date',
 	'event_starting_time' => 'Starting Time',
 	'event_ending_date' => 'Ending Date',
 	'event_ending_time' => 'Ending Time',

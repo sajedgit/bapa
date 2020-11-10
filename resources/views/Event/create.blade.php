@@ -145,6 +145,16 @@
         </div>
     </div>
 
+
+    <div class="form-group row">
+        <div class="col-sm-4 mb-3 mb-sm-0">
+            {{ Form::label('event_ending_date', (Lang::get('events.enter_msg').' '.Lang::get('events.event_ending_date')),array('class'=>'control-label')) }}
+        </div>
+        <div class="col-sm-8">
+            {{ Form::text('event_ending_date', $value = null ,array('id'=>'datepicker2','class' => 'form-control','placeholder'=>Lang::get('events.event_ending_date'))) }}
+        </div>
+    </div>
+
     <div class="form-group row">
         <div class="col-sm-4 mb-3 mb-sm-0">
             {{ Form::label('event_ending_time', (Lang::get('events.enter_msg').' '.Lang::get('events.event_ending_time')),array('class'=>'control-label')) }}

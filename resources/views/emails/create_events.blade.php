@@ -15,7 +15,7 @@ $final_formated_date=$start_datetime_formate." - ". $end_datetime_formate;
 ?>
 
 <div>
-    <p>Hi Mr/Mrs {{ $user_name }},<br/> A new Event({{ $data['event_title'] }}) has been created in BAPA Website</p>
+    <p>Hi Mr/Mrs {{ $user_name }},<br/> {{ $subject }}</p>
     <p>Event Name: {{ $data['event_title']  }}</p>
     <p>Event Details: {{ $data['event_details'] }}</p>
     <p>Event Photo:  <img class="img-responsive" src="{{ URL::to('/') }}/public/images/{{ $data['event_flyer_location'] }}"></p>

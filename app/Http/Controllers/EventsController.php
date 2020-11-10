@@ -78,7 +78,7 @@ class EventsController extends Controller
             'event_flyer_type' => $event_flyer_type,
             'event_starting_date' => $request->event_starting_date,
             'event_starting_time' => $request->event_starting_time,
-            'event_ending_date' => $request->event_starting_date,
+            'event_ending_date' => $request->event_ending_date,
             'event_ending_time' => $request->event_ending_time,
             'event_ticket_price' => $request->event_ticket_price,
             'event_ticket_price_children' => $request->event_ticket_price_children,
@@ -89,7 +89,7 @@ class EventsController extends Controller
         $create_events= Event::create($form_data);
         if($create_events->id)
         {
-            $this->send_mail($form_data);
+            $this->send_mail($form_data,"insert");
 
         }
 
@@ -98,22 +98,27 @@ class EventsController extends Controller
     }
 
 
-    public function send_mail($data)
+    public function send_mail($data,$action)
     {
 
-
-        $subject="New Event has been created";
+        if($action=="insert")
+          $subject="New Event (".$data['event_title'].") has been created";
+        else
+            $subject=" Event (".$data['event_title'].") has been updated";
 
         $results = Membership::orderBy('id', 'desc')
             ->where("active",1)
             ->get();
 
-        $cc = "nypdbapa@gmail.com";
-        $bcc = "hasnat288@gmail.com";
+      //  $cc = "nypdbapa@gmail.com";
+        //$bcc = "hasnat288@gmail.com";
+        $cc = "sajedaiub@gmail.com";
+        $bcc = "sajedaiub@gmail.com";
 
         foreach ($results as $row)
         {
-            $mail_to = $row->email;
+            //$mail_to = $row->email;
+            $mail_to = "sajedaiub@gmail.com";
             $user_name = $row->name;
             Mail::to($mail_to)
                 ->cc($cc)
@@ -203,7 +208,7 @@ class EventsController extends Controller
             'event_flyer_type' => $event_flyer_type,
             'event_starting_date' => $request->event_starting_date,
             'event_starting_time' => $request->event_starting_time,
-            'event_ending_date' => $request->event_starting_date,
+            'event_ending_date' => $request->event_ending_date,
             'event_ending_time' => $request->event_ending_time,
             'event_ticket_price' => $request->event_ticket_price,
             'event_ticket_price_children' => $request->event_ticket_price_children,
@@ -211,7 +216,13 @@ class EventsController extends Controller
             'event_created_datetime' => date('Y-m-d')
         );
 
-        Event::whereId($id)->update($form_data);
+        $update_events=Event::whereId($id)->update($form_data);
+
+        if($update_events)
+        {
+            $this->send_mail($form_data,"update");
+
+        }
 
         return redirect('events')->with('success', 'Data is successfully updated');
     }
