@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\CreateEventMail;
 use App\Models\Event;
+use App\Models\Membership;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class EventsController extends Controller
 {
@@ -83,10 +86,45 @@ class EventsController extends Controller
             'event_created_datetime' => date('Y-m-d')
         );
 
-        Event::create($form_data);
+        $create_events= Event::create($form_data);
+        if($create_events->id)
+        {
+            $this->send_mail($form_data);
+
+        }
+
 
         return redirect('events')->with('success', 'Data Added successfully.');
     }
+
+
+    public function send_mail($data)
+    {
+
+
+        $subject="New Event has been created";
+
+        $results = Membership::orderBy('id', 'desc')
+            ->where("active",1)
+            ->get();
+
+        $cc = "nypdbapa@gmail.com";
+        $bcc = "hasnat288@gmail.com";
+
+        foreach ($results as $row)
+        {
+            $mail_to = $row->email;
+            $user_name = $row->name;
+            Mail::to($mail_to)
+                ->cc($cc)
+                ->bcc($bcc)
+                ->send(new CreateEventMail($data,$subject,$user_name));
+
+            //sleep(1);
+        }
+
+    }
+
 
     /**
      * Display the specified resource.
@@ -189,7 +227,7 @@ class EventsController extends Controller
         $data = Event::findOrFail($id);
         $data->delete();
 
-        return redirect('Event/index')->with('success', 'Data is successfully deleted');
+        return redirect('events')->with('success', 'Data is successfully deleted');
     }
 
     public static function upcoming_events()

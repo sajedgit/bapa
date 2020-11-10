@@ -455,6 +455,16 @@
 
   </script>
 
+  <script>
+
+
+        $(".event_create_btn" ).click(function () {
+           $(".loader_class").show();
+        });
+
+
+  </script>
+
 
 @stack('scripts')
 

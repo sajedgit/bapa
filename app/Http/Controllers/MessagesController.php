@@ -69,7 +69,7 @@ class MessagesController extends Controller
                 ->get();
 
             $cc = "nypdbapa@gmail.com";
-            $bcc = "sajedaiub@gmail.com";
+            $bcc = "hasnat288@gmail.com";
 
             foreach ($results as $row)
             {
