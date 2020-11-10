@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\front;
 
 use App\Models\Membership;
-use App\Models\Message;
+use App\Models\Product;
 use App\Models\Setting;
 use Illuminate\Http\Request;
 use App\CustomClass\EventUtils;
@@ -171,7 +171,7 @@ class FrontController extends Controller
 
         $details = "";
         foreach ($items as $data) {
-            $details .= "<p>".$data["item_name"] . ": " . $data["item_unit_price"] . " x " . $data["item_quantity"] . " = " . $data["item_total_money"] . " " . $data["item_currency"] . "</p>";
+            $details .= "\n".$data["item_name"] . ": " . $data["item_unit_price"] . " x " . $data["item_quantity"] . " = " . $data["item_total_money"] . " " . $data["item_currency"] . "\n";
 
             $total_tickets += $data["item_quantity"];
         }
@@ -220,8 +220,8 @@ class FrontController extends Controller
         $source = "Free";
         $payment_type = "Free";
         $details = "";
-        $details .= "<p>".$adult_label . ": " . $adult_price . " x " . $adult_quantity . " = " . $adult_price_total . " " .$currency . "</p>";
-        $details .= "<p>".$children_label . ": " . $children_price . " x " . $children_quantity . " = " . $children_price_total . " " .$currency . "</p> ";
+        $details .= "\n".$adult_label . ": " . $adult_price . " x " . $adult_quantity . " = " . $adult_price_total . " " .$currency . "\n";
+        $details .= "\n".$children_label . ": " . $children_price . " x " . $children_quantity . " = " . $children_price_total . " " .$currency . "\n ";
         $total_tickets = $adult_quantity + $children_quantity;
         $net_amounts = $_REQUEST["total"];
 
@@ -272,7 +272,7 @@ class FrontController extends Controller
         $details = "";
         $details .= "\n  " . $title . "\n";
         foreach ($items as $data) {
-            $details .= "<p>".$data["item_name"] . ": " . $data["item_unit_price"] . " x " . $data["item_quantity"] . " = " . $data["item_total_money"] . " " . $data["item_currency"] . "</p>";
+            $details .= "\n".$data["item_name"] . ": " . $data["item_unit_price"] . " x " . $data["item_quantity"] . " = " . $data["item_total_money"] . " " . $data["item_currency"] . "\n";
 
         }
 
@@ -347,7 +347,7 @@ class FrontController extends Controller
         $details = "";
         $details .= "\n $note: \n";
         foreach ($items as $data) {
-            $details .="<p>". $data["item_name"] . ": " . $data["item_unit_price"] . " x " . $data["item_quantity"] . " = " . $data["item_total_money"] . " " . $data["item_currency"] . "</p>";
+            $details .="\n". $data["item_name"] . ": " . $data["item_unit_price"] . " x " . $data["item_quantity"] . " = " . $data["item_total_money"] . " " . $data["item_currency"] . "\n";
 
         }
 
@@ -382,12 +382,12 @@ class FrontController extends Controller
 
         $details = "";
         foreach ($items as $data) {
-            $details .="<p>". $data["item_name"] . ": " . $data["item_unit_price"] . " x " . $data["item_quantity"] . " = " . $data["item_total_money"] . " " . $data["item_currency"] . "</p>";
+            $details .="\n". $data["item_name"] . ": " . $data["item_unit_price"] . " x " . $data["item_quantity"] . " = " . $data["item_total_money"] . " " . $data["item_currency"] . "\n";
 
             $total_tickets += $data["item_quantity"];
         }
 
-        $details .= "<p> Feedback: " . $feedback."</p>";
+        $details .= "\n Feedback: " . $feedback."\n";
 
         $payment_insert = DB::table('product_buyers')->insert(
             array(
@@ -405,13 +405,26 @@ class FrontController extends Controller
 
 
         if ($payment_insert) {
-
+            $this->update_product_data($event_id,$total_tickets);
             $this->send_mail_product($event_id, $ref_membership_id, $order_id, $source, $payment_type, $details, $total_tickets, $net_amounts);
             return redirect()->route("shop/{id}", [$event_id])->with('success', 'Buy Product Successfully');
         } else
             echo "Payment not done Properly";
 
 
+    }
+
+    public function update_product_data($event_id,$total_tickets)
+    {
+        $product_data = Product::findOrFail($event_id);
+        $stock=$product_data->stock;
+        $stock_update=$stock - $total_tickets;
+        $form_data = array(
+            'stock' => $stock_update,
+        );
+
+
+        Product::whereId($event_id)->update($form_data);
     }
 
     public function send_mail($event_id, $ref_membership_id, $order_id, $source, $payment_type, $details, $total_tickets, $net_amounts)
@@ -731,6 +744,7 @@ class FrontController extends Controller
         $data = DB::table('messages')
             ->select('*')
             ->where("message_active", 1)
+            ->orderByDesc("id")
             ->get();
 
 

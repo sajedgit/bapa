@@ -12,6 +12,10 @@
     {
 
     }
+    .disable_class {
+        pointer-events: none;
+        opacity: 0.7;
+    }
 </style>
 
     <br>
@@ -42,14 +46,20 @@
                     <h3>{{ $data->product_name }}</h3>
                     <p> <span><b>Details: </b>{{ $data->product_description }}</span> </p>
                     <p> <span><b>Price: </b>${{ $data->price }}</span> </p>
-                    <p> <span><b>Stock </b>{{ $data->stock }}</span> </p>
+                    <p>
+                        @if($data->stock==0)
+                            <span style="color:red;">Out of Stock</span>
+                        @else
+                            Stock: {{ $data->stock }}
+                        @endif
+                    </p>
 
 
 
                 </div>
                 <div class="col-sm-3 col-md-3 col-xs-12">
 
-                    <div class="buy_tickets text-center">
+                    <div class="buy_tickets text-center  <?php if ($data->stock == 0) echo "disable_class"; ?>">
 
                         <h3>Buy Product</h3>
 
