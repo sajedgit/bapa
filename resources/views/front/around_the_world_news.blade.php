@@ -6,77 +6,85 @@
 
     <style>
 
-
-        .wtn-main-wrapper .wtn-item {
-            border: 1px solid #DDD;
-            padding: 5px;
-            height: 334px;
-            margin-right: 10px;
-            margin-bottom: 10px;
-            width: 31.6%;
-            text-align: left;
-        }
-        .wtn-main-wrapper .wtn-item {
-            border: 1px solid #DDD;
-            padding: 5px;
-            min-height: 280px;
-            margin-right: 5px;
-            margin-bottom: 5px;
-            width: 32.60%;
-            text-align: left;
-        }
-        .wtn-main-wrapper .wtn-item img {
-            border: 0px solid #FF0000;
-            height: 150px;
-            width: auto;
-            margin-bottom: 5px;
-        }
-
-
-        .wtn-main-wrapper .wtn-item a {
-            font-size: 16px;
-            display: inline-block;
-            border: 0px solid #000;
-            width: 100%;
-            outline: none;
-            color: #111;
+        .site-heading h3{
+            font-size : 40px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
             font-weight: 600;
-            line-height: 24px;
+        }
+        .border {
+            background: #d1360e;
+            height: 2px;
+            width: 165px;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 25px;
+        }
+        /* Blog-CSS */
+        .blog-box {
+            padding: 0 0px;
+            transition: .5s;
+            border: 1px solid #e2e2e2;
+            margin-bottom: 30px;
+            min-height: 390px;
+        }
+        .blog-box-content h4 a {
+            font-size: 15px;
+            padding: 0px 0 0px;
+            text-transform: inherit;
+            color: #2b2b2b;
+            text-decoration: none;
+            font-weight: bold;
+
+        }
+        .blog-box-content h4:hover {
+            color:#000;
+            text-decoration:none;
+
         }
 
-        .wtn-main-wrapper .wtn-item p {
-            border: 0px solid #000;
-            margin: 0 !important;
-            padding: 0 !important;
-            color: #242424;
-            line-height: 20px;
-            min-height: 70px;
+        .blog-box-content {
+            padding: 0 23px 0px;
         }
-
-        .wtn-main-wrapper .wtn-item span {
-            font-size: 11px;
-            display: inline-block;
-            border: 0px solid #000;
-            width: 100%;
-            margin: 0px !important;
-            padding: 0px !important;
-            line-height: 20px;
+        .blog-box-text h4 a {
+            color: #333;
+        }
+        .wtn-main-wrapper
+        {
+            /*margin: 0px;*/
+            /*padding: 0px;*/
         }
     </style>
 
     <br/>
     <div class="container">
        @if ($status=="ok" && $totalResults > 0)
-        <div class="row col-md-12 col-xs-12 wtn-main-wrapper w3-row-padding w3-padding-16 w3-center">
-            &nbsp;
+        <div class="row col-md-12 col-xs-12 wtn-main-wrapper ">
             @foreach($articles as $row)
-                <div class="col-md-4 col-sm-6 col-xs-12  wtn-item w3-quarter">
-                    <img style="width:-moz-available;" src="  {{ $row->urlToImage }}">
-                    <a href="{{ $row->url }}" target="_blank">   {{ $row->title }}  </a>
-                    <p class="wtn-item-description">
-                        <?php echo substr($row->description,0,80); ?>...        </p>
-                    <span>
-                 <?php echo $row->source->name ;?> |   <?php echo date("j F, Y", strtotime($row->publishedAt)) ; ?>     </span>
+{{--                <div class="col-xs-12 col-sm-6  col-md-4   wtn-item w3-quarter">--}}
+{{--                    <img class="img-responsive  center-block d-block mx-auto" src="  {{ $row->urlToImage }}">--}}
+{{--                    <a href="{{ $row->url }}" target="_blank">   {{ $row->title }}  </a>--}}
+{{--                    <p class="wtn-item-description">--}}
+{{--                        <?php echo substr($row->description,0,80); ?>...        </p>--}}
+{{--                    <span>--}}
+{{--                        <?php echo $row->source->name ;?> |   <?php echo date("j F, Y", strtotime($row->publishedAt)) ; ?>--}}
+{{--                    </span>--}}
+{{--                </div>--}}
+
+                <div class="col-xs-12 col-sm-6 col-md-4">
+                    <div class="blog-box">
+
+                        <div class="blog-box-content">
+                            <img class="img-responsive  center-block d-block mx-auto" src="  {{ $row->urlToImage }}">
+                            <h4><a href="{{ $row->url }}" target="_blank">   {{ $row->title }}  </a></h4>
+
+
+                            <p>    <?php echo substr($row->description,0,150); ?>...  </p>
+                            <span>
+                                <?php echo $row->source->name ;?> |   <?php echo date("j F, Y", strtotime($row->publishedAt)) ; ?>
+                           </span>
+                        </div>
+                    </div>
                 </div>
             @endforeach
 
