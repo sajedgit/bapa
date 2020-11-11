@@ -1,9 +1,14 @@
-@extends('layouts.app')
+@extends('front/front_inner_layout')
 
-@section('content')
-<div class="container">
+@section('main')
+
+    <link href="{{ URL::to('/public/css/front/login_register.css') }}" rel="stylesheet" type="text/css">
+
+
+
+    <div class="container">
     <div class="row">
-        <div class="col-md-8" style="margin: 0 auto;">
+        <div class="col-md-8" style="margin: 30px auto;">
             <div class="panel panel-default" style="border: 1px solid;background: #fff;padding: 20px;">
                 <div class="panel-heading"><h2 class="text-center">Registration</h2></div>
 

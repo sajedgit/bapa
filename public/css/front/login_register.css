@@ -1,0 +1,106 @@
+form {
+max-width: inherit;
+margin: 0 1em;
+padding: 15px;
+}
+.card {
+position: relative;
+display: flex;
+margin: 40px auto;
+flex-direction: column;
+min-width: 0;
+word-wrap: break-word;
+background-color: #fff;
+background-clip: border-box;
+border: 1px solid rgba(0, 0, 0, 0.125);
+border-radius: 0.25rem;
+}
+.card-header:first-child {
+border-radius: calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0;
+}
+.card-header {
+padding: 0.75rem 1.25rem;
+margin-bottom: 0;
+background-color: rgba(0, 0, 0, 0.03);
+border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+.card-body {
+flex: 1 1 auto;
+min-height: 1px;
+padding: 1.25rem;
+}
+
+.form-group {
+margin-bottom: 1rem;
+}
+.row {
+display: flex;
+flex-wrap: wrap;
+margin-right: -15px;
+margin-left: -15px;
+}
+.col-form-label {
+padding-top: calc(0.375rem + 1px);
+padding-bottom: calc(0.375rem + 1px);
+margin-bottom: 0;
+font-size: inherit;
+line-height: 1.6;
+}
+
+
+
+.form-check {
+position: relative;
+display: block;
+padding-left: 0px;
+}
+
+
+.form-check-input {
+position: absolute;
+margin-top: 0.3rem;
+margin-left: -1.25rem;
+}
+
+.form-check-label {
+margin-bottom: 0;
+margin-left: 20px;
+}
+label {
+display: inline-block;
+}
+
+.btn-primary {
+color: #fff;
+background-color: #3490dc;
+border-color: #3490dc;
+}
+
+
+
+.btn-link {
+font-weight: 400;
+color: #3490dc;
+text-decoration: none;
+margin-left: -14px;
+}
+
+.form-control {
+display: block;
+width: 100%;
+height: calc(1.6em + 0.75rem + 2px);
+padding: 0.375rem 0.75rem;
+font-size: 1.9rem;
+font-weight: 400;
+line-height: 2.6;
+color: #495057;
+background-color: #fff;
+background-clip: padding-box;
+border: 1px solid #ced4da;
+border-radius: 0.25rem;
+transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+.btn, form label, form select {
+letter-spacing: 0px;
+}

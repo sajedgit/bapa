@@ -1,7 +1,11 @@
-@extends('layouts.app')
+@extends('front/front_inner_layout')
 
-@section('content')
-<div class="container">
+@section('main')
+
+    <link href="{{ URL::to('/public/css/front/login_register.css') }}" rel="stylesheet" type="text/css">
+
+
+    <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">

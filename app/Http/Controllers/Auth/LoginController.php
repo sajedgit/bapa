@@ -31,6 +31,7 @@ class LoginController extends Controller
      * @var string
      */
     protected $redirectTo = RouteServiceProvider::ADMIN;
+    public $board_members_categories;
 
     /**
      * Create a new controller instance.
@@ -55,7 +56,10 @@ class LoginController extends Controller
 
     public function login()
     {
-        return view('auth.login');
+
+        $welcome_message = " Login ";
+
+        return view('auth.login',compact('welcome_message'));
     }
 
     public function authenticate(Request $request)

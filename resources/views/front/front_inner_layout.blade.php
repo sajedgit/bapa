@@ -7,7 +7,11 @@
 
     <div class="utilityMenu inner_banner">
         <div class="container text-center">
-            <div style=" padding: 20px;font-size: 25px;">   {{ $welcome_message }}
+            <div style=" padding: 20px;font-size: 25px;">
+                <?php
+                if(isset($welcome_message))
+                    echo $welcome_message;
+                ?>
             </div>
 
         </div>

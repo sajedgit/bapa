@@ -171,7 +171,7 @@ class FrontController extends Controller
 
         $details = "";
         foreach ($items as $data) {
-            $details .= "\n".$data["item_name"] . ": " . $data["item_unit_price"] . " x " . $data["item_quantity"] . " = " . $data["item_total_money"] . " " . $data["item_currency"] . "\n";
+            $details .= "\n" . $data["item_name"] . ": " . $data["item_unit_price"] . " x " . $data["item_quantity"] . " = " . $data["item_total_money"] . " " . $data["item_currency"] . "\n";
 
             $total_tickets += $data["item_quantity"];
         }
@@ -206,28 +206,24 @@ class FrontController extends Controller
         $adult_label = $_REQUEST["adult_label"];
         $adult_price = $_REQUEST["adult_price"];
         $adult_quantity = $_REQUEST["adult_quantity"];
-        $adult_price_total = $adult_price*$adult_quantity;
-        $currency="USD";
+        $adult_price_total = $adult_price * $adult_quantity;
+        $currency = "USD";
         $children_label = $_REQUEST["children_label"];
         $children_price = $_REQUEST["children_price"];
         $children_quantity = $_REQUEST["children_quantity"];
-        $children_price_total = $children_price*$children_quantity;
+        $children_price_total = $children_price * $children_quantity;
 
 
         $event_id = $_REQUEST["event_id"];
         $ref_membership_id = Auth::user()->id;
-        $order_id=0;
+        $order_id = 0;
         $source = "Free";
         $payment_type = "Free";
         $details = "";
-        $details .= "\n".$adult_label . ": " . $adult_price . " x " . $adult_quantity . " = " . $adult_price_total . " " .$currency . "\n";
-        $details .= "\n".$children_label . ": " . $children_price . " x " . $children_quantity . " = " . $children_price_total . " " .$currency . "\n ";
+        $details .= "\n" . $adult_label . ": " . $adult_price . " x " . $adult_quantity . " = " . $adult_price_total . " " . $currency . "\n";
+        $details .= "\n" . $children_label . ": " . $children_price . " x " . $children_quantity . " = " . $children_price_total . " " . $currency . "\n ";
         $total_tickets = $adult_quantity + $children_quantity;
         $net_amounts = $_REQUEST["total"];
-
-
-
-
 
 
         $payment_insert = DB::table('event_ticket_buyers')->insert(
@@ -272,7 +268,7 @@ class FrontController extends Controller
         $details = "";
         $details .= "\n  " . $title . "\n";
         foreach ($items as $data) {
-            $details .= "\n".$data["item_name"] . ": " . $data["item_unit_price"] . " x " . $data["item_quantity"] . " = " . $data["item_total_money"] . " " . $data["item_currency"] . "\n";
+            $details .= "\n" . $data["item_name"] . ": " . $data["item_unit_price"] . " x " . $data["item_quantity"] . " = " . $data["item_total_money"] . " " . $data["item_currency"] . "\n";
 
         }
 
@@ -347,7 +343,7 @@ class FrontController extends Controller
         $details = "";
         $details .= "\n $note: \n";
         foreach ($items as $data) {
-            $details .="\n". $data["item_name"] . ": " . $data["item_unit_price"] . " x " . $data["item_quantity"] . " = " . $data["item_total_money"] . " " . $data["item_currency"] . "\n";
+            $details .= "\n" . $data["item_name"] . ": " . $data["item_unit_price"] . " x " . $data["item_quantity"] . " = " . $data["item_total_money"] . " " . $data["item_currency"] . "\n";
 
         }
 
@@ -382,12 +378,12 @@ class FrontController extends Controller
 
         $details = "";
         foreach ($items as $data) {
-            $details.="\n". $data["item_name"] . ": " . $data["item_unit_price"] . " x " . $data["item_quantity"] . " = " . $data["item_total_money"] . " " . $data["item_currency"] . "\n";
+            $details .= "\n" . $data["item_name"] . ": " . $data["item_unit_price"] . " x " . $data["item_quantity"] . " = " . $data["item_total_money"] . " " . $data["item_currency"] . "\n";
 
             $total_tickets += $data["item_quantity"];
         }
 
-        $details.= "<p> Feedback: " . $feedback."</p>";
+        $details .= "<p> Feedback: " . $feedback . "</p>";
 
         $payment_insert = DB::table('product_buyers')->insert(
             array(
@@ -405,7 +401,7 @@ class FrontController extends Controller
 
 
         if ($payment_insert) {
-            $this->update_product_data($event_id,$total_tickets);
+            $this->update_product_data($event_id, $total_tickets);
             $this->send_mail_product($event_id, $ref_membership_id, $order_id, $source, $payment_type, $details, $total_tickets, $net_amounts);
             return redirect()->route("shop/{id}", [$event_id])->with('success', 'Buy Product Successfully');
         } else
@@ -414,11 +410,11 @@ class FrontController extends Controller
 
     }
 
-    public function update_product_data($event_id,$total_tickets)
+    public function update_product_data($event_id, $total_tickets)
     {
         $product_data = Product::findOrFail($event_id);
-        $stock=$product_data->stock;
-        $stock_update=$stock - $total_tickets;
+        $stock = $product_data->stock;
+        $stock_update = $stock - $total_tickets;
         $form_data = array(
             'stock' => $stock_update,
         );
@@ -449,7 +445,7 @@ class FrontController extends Controller
         Mail::to($mail_to)
             ->cc($cc)
             ->bcc($bcc)
-            ->send(new SendEventMail($action,$event_name, $subject, $user_name, $order_id, $source, $payment_type, $details, $total_tickets, $net_amounts));
+            ->send(new SendEventMail($action, $event_name, $subject, $user_name, $order_id, $source, $payment_type, $details, $total_tickets, $net_amounts));
     }
 
 
@@ -458,7 +454,7 @@ class FrontController extends Controller
         $event = DB::select(DB::raw(" SELECT * from products where  id=$event_id  "));
         $event = $event[0];
         $event_name = $event->product_name;
-      echo  $action = "Products";
+        $action = "Products";
 
 
         $user = DB::select(DB::raw(" SELECT * from memberships where  id=$ref_membership_id  "));
@@ -466,15 +462,15 @@ class FrontController extends Controller
         $user_name = $user->name;
         $user_email = $user->email;
         $subject = "Buying Product Confirmation";
-     echo   $mail_to = $user_email;
-      echo  $cc = "nypdbapa@gmail.com";
-      echo  $bcc = "sajedaiub@gmail.com";
+        $mail_to = $user_email;
+        $cc = "nypdbapa@gmail.com";
+        $bcc = "sajedaiub@gmail.com";
 
 
         Mail::to($mail_to)
             ->cc($cc)
             ->bcc($bcc)
-            ->send(new SendEventMail($action,$event_name, $subject, $user_name, $order_id, $source, $payment_type, $details, $total_tickets, $net_amounts));
+            ->send(new SendEventMail($action, $event_name, $subject, $user_name, $order_id, $source, $payment_type, $details, $total_tickets, $net_amounts));
 
     }
 
@@ -1000,16 +996,14 @@ class FrontController extends Controller
 
     public function shop_by_id($id)
     {
-        if ($user = Auth::user())
-        {
+        if ($user = Auth::user()) {
             $board_members_categories = $this->board_members_categories;
 
             $data = DB::select(DB::raw(" SELECT * from products where  id=$id and status=1  "));
             $data = $data[0];
             $welcome_message = " Shop ";
             return view('front/shop_by_id', compact('data', 'welcome_message', 'board_members_categories'));
-        }
-        else {
+        } else {
             return redirect()->guest('login');
         }
 

@@ -261,6 +261,12 @@
                                 <li class="dropdown">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Executives & Trustees <span class="caret"></span></a>
                                     <ul class="dropdown-menu">
+                                        <?php
+                                        $board_members_categories = DB::select(DB::raw(" SELECT DISTINCT board_members_categories.`board_members_category_name`,
+ board_members_categories.`id` from board_members_categories  inner JOIN board_members  on
+ board_members.ref_board_members_category_id=board_members_categories.id where board_members_categories.board_members_category_active=1  "));
+
+                                        ?>
                                         @foreach($board_members_categories as $categories)
                                             <li><a href="{{ route('executives_and_trustees', [$categories->board_members_category_name, $categories->id]) }}"> {{ $categories->board_members_category_name }} <i aria-hidden="true" class="fa fa-lock"></i></a></li>
                                         @endforeach
