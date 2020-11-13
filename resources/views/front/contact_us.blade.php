@@ -53,7 +53,7 @@
             background: #25274d;
             color: #fff;
             font-weight: 600;
-            width: 25%;
+
         }
         .contact  .contact-form button:focus{
             box-shadow:none;

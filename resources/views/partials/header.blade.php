@@ -79,7 +79,7 @@
         }
         .inner_banner{
             z-index: 0;
-            height: 80px;
+
         }
 
 
@@ -121,6 +121,10 @@
         li.contact_us, li.login_logout
         {
             display: none;
+        }
+        .welcome_msg
+        {
+            padding: 30px;font-size: 2rem;
         }
 
         /*-----  for login profile hover menu--------*/
@@ -171,7 +175,7 @@
             /* For mobile phones: */
             ul.navbar-nav
             {
-                margin-top: 27px;
+                margin-top: 36px;
             }
             li.contact_us, li.login_logout
             {
@@ -182,6 +186,10 @@
             }
             .navbar-default {
                 border-color: transparent;
+            }
+            .welcome_msg {
+                padding: 30px;
+                font-size: 18px;
             }
         }
     </style>

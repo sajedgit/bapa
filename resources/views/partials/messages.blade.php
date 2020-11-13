@@ -40,78 +40,78 @@
 
                 </div>
 
-                <div class="msg">
-                    <h3 style="background-image: url(#/wp-content/themes/DEA/images/bapa-union-news-bg.jpg);">
-                        <img
-                                alt="Latest News Icon"
-                                src="{{ URL::to('/public/images/front/bapa-homepage-latest-news-icon.jpg') }}">
-                        Message from BAPA Vice President
-                    </h3>
-                    <div class="newsEvent">
-                        <span class="date">
-                            <?php
-                            $date=date_create($vice_president->msg_date);
-                            echo date_format($date,"F j, Y");
-                            ?>
-                        </span>
-                        <h5><?php echo $vice_president->title; ?></h5>
-                        <div class="eventCopy" style="width: 100%;text-align: justify;">
+{{--                <div class="msg">--}}
+{{--                    <h3 style="background-image: url(#/wp-content/themes/DEA/images/bapa-union-news-bg.jpg);">--}}
+{{--                        <img--}}
+{{--                                alt="Latest News Icon"--}}
+{{--                                src="{{ URL::to('/public/images/front/bapa-homepage-latest-news-icon.jpg') }}">--}}
+{{--                        Message from BAPA Vice President--}}
+{{--                    </h3>--}}
+{{--                    <div class="newsEvent">--}}
+{{--                        <span class="date">--}}
+{{--                            <?php--}}
+{{--                            $date=date_create($vice_president->msg_date);--}}
+{{--                            echo date_format($date,"F j, Y");--}}
+{{--                            ?>--}}
+{{--                        </span>--}}
+{{--                        <h5><?php echo $vice_president->title; ?></h5>--}}
+{{--                        <div class="eventCopy" style="width: 100%;text-align: justify;">--}}
 
-                            <p>
+{{--                            <p>--}}
 
-                                {{ substr($vice_president->description, 0,  200) }}
-                                @if (strlen($vice_president->description) > 200)
-                                    <span id="vp_dots">[...]</span>
-                                    <span id="vp_more" style="display: none;">{{ substr($vice_president->description, 200) }}</span>
-                                @endif
-                            </p>
+{{--                                {{ substr($vice_president->description, 0,  200) }}--}}
+{{--                                @if (strlen($vice_president->description) > 200)--}}
+{{--                                    <span id="vp_dots">[...]</span>--}}
+{{--                                    <span id="vp_more" style="display: none;">{{ substr($vice_president->description, 200) }}</span>--}}
+{{--                                @endif--}}
+{{--                            </p>--}}
 
-                        </div>
+{{--                        </div>--}}
 
-                    </div>
-
-
-                    <a id="vp_myBtn"  onclick="vp_myFunction()" class="blueBtn"> Read more
-                        <i aria-hidden="true" class="fa fa-chevron-circle-right"></i>
-                    </a>
-                </div>
-
-                <div class="msg">
-                    <h3 style="background-image: url(#/wp-content/themes/DEA/images/bapa-union-news-bg.jpg);">
-                        <img
-                                alt="Latest News Icon"
-                                src="{{ URL::to('/public/images/front/bapa-homepage-latest-news-icon.jpg') }}">
-                        Message from BAPA General Secretary
-                    </h3>
-                    <div class="newsEvent">
-                        <span class="date">
-                            <?php
-                            $date=date_create($general_secretary->msg_date);
-                            echo date_format($date,"F j, Y");
-                            ?>
-                        </span>
-                        <h5><?php echo $general_secretary->title; ?></h5>
-                        <div class="eventCopy"  style="width: 100%;text-align: justify;">
-
-                            <p>
-
-                                {{ substr($general_secretary->description, 0,  200) }}
-                                @if (strlen($general_secretary->description) > 200)
-                                    <span id="gs_dots">[...]</span>
-                                    <span id="gs_more" style="display: none;">{{ substr($general_secretary->description, 200) }}</span>
-                                @endif
-                            </p>
-
-                        </div>
-
-                    </div>
+{{--                    </div>--}}
 
 
-                    <a id="gs_myBtn"  onclick="gs_myFunction()" class="blueBtn"> Read more
-                        <i aria-hidden="true" class="fa fa-chevron-circle-right"></i>
-                    </a>
+{{--                    <a id="vp_myBtn"  onclick="vp_myFunction()" class="blueBtn"> Read more--}}
+{{--                        <i aria-hidden="true" class="fa fa-chevron-circle-right"></i>--}}
+{{--                    </a>--}}
+{{--                </div>--}}
 
-                </div>
+{{--                <div class="msg">--}}
+{{--                    <h3 style="background-image: url(#/wp-content/themes/DEA/images/bapa-union-news-bg.jpg);">--}}
+{{--                        <img--}}
+{{--                                alt="Latest News Icon"--}}
+{{--                                src="{{ URL::to('/public/images/front/bapa-homepage-latest-news-icon.jpg') }}">--}}
+{{--                        Message from BAPA General Secretary--}}
+{{--                    </h3>--}}
+{{--                    <div class="newsEvent">--}}
+{{--                        <span class="date">--}}
+{{--                            <?php--}}
+{{--                            $date=date_create($general_secretary->msg_date);--}}
+{{--                            echo date_format($date,"F j, Y");--}}
+{{--                            ?>--}}
+{{--                        </span>--}}
+{{--                        <h5><?php echo $general_secretary->title; ?></h5>--}}
+{{--                        <div class="eventCopy"  style="width: 100%;text-align: justify;">--}}
+
+{{--                            <p>--}}
+
+{{--                                {{ substr($general_secretary->description, 0,  200) }}--}}
+{{--                                @if (strlen($general_secretary->description) > 200)--}}
+{{--                                    <span id="gs_dots">[...]</span>--}}
+{{--                                    <span id="gs_more" style="display: none;">{{ substr($general_secretary->description, 200) }}</span>--}}
+{{--                                @endif--}}
+{{--                            </p>--}}
+
+{{--                        </div>--}}
+
+{{--                    </div>--}}
+
+
+{{--                    <a id="gs_myBtn"  onclick="gs_myFunction()" class="blueBtn"> Read more--}}
+{{--                        <i aria-hidden="true" class="fa fa-chevron-circle-right"></i>--}}
+{{--                    </a>--}}
+
+{{--                </div>--}}
 
             </div>
 
