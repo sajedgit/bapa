@@ -512,7 +512,7 @@ class FrontController extends Controller
         $board_members = DB::select(DB::raw(" SELECT * from board_members where  id =$id and board_members_active=1  "));
 
 
-        $welcome_message = " BAPA Board Members Details";
+        $welcome_message = " TRUSTEES  ";
         return view('front/front_board_member_details', compact('board_members', 'welcome_message', 'board_members_categories'));
 
     }
@@ -899,7 +899,7 @@ class FrontController extends Controller
             if (count($is_vote_submit) > 0) {
                 return view('front/vote_done_check', compact('welcome_message', 'board_members_categories', 'vote_today'));
             } else {
-                return view('front/Vote', compact('welcome_message', 'board_members_categories', 'vote_today'));
+                return view('front/vote', compact('welcome_message', 'board_members_categories', 'vote_today'));
             }
 
 
