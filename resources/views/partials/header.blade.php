@@ -157,6 +157,7 @@
             display: block;
         }
 
+
         .dropdown-content a:hover {background-color: #1b3065;}
 
         .dropdown:hover .dropdown-content {display: block;}
@@ -167,6 +168,10 @@
 
         @media only screen and (max-width: 991px) {
             .utilityMenu {
+                display: block;
+            }
+            .profile_updator
+            {
                 display: block;
             }
         }
@@ -190,6 +195,18 @@
             .welcome_msg {
                 padding: 30px;
                 font-size: 18px;
+            }
+            .profile_updator
+            {
+                display: block;
+            }
+        }
+
+        @media only screen and (min-width: 991px) {
+
+            .profile_updator
+            {
+                display: none!important;
             }
         }
     </style>
@@ -302,7 +319,16 @@
                                 <li class="contact_us"><a href="{{ route('contact_us') }}">Contact Us</a></li>
 
                                 @if($user = Auth::user())
-                                    <li  class="login_logout" ><a href="{{ route('logout') }}">Logout(   {{ $user->name }}) </a></li>
+{{--                                    <li  class="login_logout" ><a href="{{ route('logout') }}">Logout(   {{ $user->name }}) </a></li>--}}
+                                    <li class="dropdown profile_updator">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Logout(   {{ $user->name }}) <span class="caret"></span></a>
+                                        <ul class="dropdown-menu">
+
+                                            <li><a href="{{ route("profile") }}"> Profile  </a></li>
+                                            <li><a href="{{ route("logout") }}"> Logout </a></li>
+
+                                        </ul>
+                                    </li>
                                 @else
                                     <li class="login_logout" ><a href="{{ route('login') }}">Member Login </a></li>
                                 @endif

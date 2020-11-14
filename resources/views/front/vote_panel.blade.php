@@ -6,7 +6,7 @@ $positions =  FrontController::get_position_by_vote_id($vote_id);
 
 ?>
 
-<div class="col-md-10 col-md-offset-1 ">
+<div class="row ">
 
     {{ Form::open([ 'method'  => 'post', 'route' => [ 'vote_submit' ]  ]) }}
 
@@ -19,8 +19,8 @@ $positions =  FrontController::get_position_by_vote_id($vote_id);
         <div class="panel-heading">
             <h3 class="panel-title">
                 <span class="glyphicon glyphicon-circle-arrow-right"></span>
-                <span>Vote For <b style="color:yellow;font-size: 25px;">{{ $position->position_name  }} </b></span>
-                <span style="float: right; margin-top: 5px;color: darkred;">Max {{ $position->noc  }} Vote</span>
+                <span>Vote For <b class="vote_for" style="">{{ $position->position_name  }} </b></span>
+                <span class="max_vote">Max {{ $position->noc  }} Vote</span>
             </h3>
         </div>
         <div class="panel-body two-col">
@@ -39,8 +39,16 @@ $positions =  FrontController::get_position_by_vote_id($vote_id);
                         <div class="well well-sm">
                             <div class="checkbox">
                                 <label>
-                                    <input  class="{{ $class_name }}" type="checkbox" value="{{ $hidden_val }}" name="{{ $class_name }}[]">
-                                     {{ $users[0]->name }}
+
+                                    <span class="col-md-8 text-left">
+                                        <input  class="{{ $class_name }}" type="checkbox" value="{{ $hidden_val }}" name="{{ $class_name }}[]">
+                                         {{ $users[0]->name }}
+                                    </span>
+
+                                    <span class="col-md-4 text-right">
+                                        <img src="{{ asset('public/images/member/'.$users[0]->photo) }}"  width="50"/>
+                                    </span>
+
                                 </label>
                             </div>
                         </div>
