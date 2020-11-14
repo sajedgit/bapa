@@ -18,7 +18,7 @@
             </div>
             <div class="col-xs-12  col-sm-4  col-md-4">
                 <div class="footerEvents">
-                    <p class="footerSocial">
+                    <p class="footerSocial text-center">
                         <a href="https://www.facebook.com/bapanyc/" target="_blank">
                             <i class="fa fa-facebook-square" aria-hidden="true"></i>
                         </a>

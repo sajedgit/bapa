@@ -250,7 +250,7 @@ header .nav-wrapper ul li.has-dropdown span {
 }
 .logged-in #primary-menu li .fa-lock {
     display: none;
-    
+
 }
 header .mobileAccount {
     display: none !important;
@@ -656,7 +656,7 @@ header .mobileAccount {
 /*** Footer ***/
 .site-footer {
     background-color: #e9e5e1;
-    padding: 30px 0; 
+    padding: 30px 0;
     font-size: 12px;
 }
 .site-footer a:hover {
@@ -750,7 +750,7 @@ header .mobileAccount {
     text-align: right;
 }
 .footerSocial i {
-	font-size: 2em;
+	font-size: 4em;
     margin-right: 5px;
 }
 @media screen and (max-width: 1199px) {
@@ -766,7 +766,7 @@ header .mobileAccount {
         padding: 0;
     }
     .site-footer .footerEvents {
-        display: none;
+        display: block;
         margin-top: 20px;
     }
     .site-footer .footerEvents .eventWrapper:after {
@@ -2185,7 +2185,7 @@ input#donation-amount {
 
 
 /*===MODAL=================================*/
-.d-none { 
+.d-none {
     display:none;
 }
 .modalN.open {

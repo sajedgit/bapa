@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\front;
 
 use App\Models\Membership;
+use App\Models\MemberPersonalInfo;
+use App\Models\MemberJobInfo;
 use App\Models\Product;
 use App\Models\Setting;
 use Illuminate\Http\Request;
@@ -95,9 +97,25 @@ class FrontController extends Controller
             $user = DB::select(DB::raw(" SELECT * from memberships where  id=$user_id  "));
             $user = $user[0];
             $status_items = array('1' => 'Active', '0' => 'Inactive');
+            $gender = array('0' => 'Select','1' => 'Male', '2' => 'Female', '3' => 'Others');
+            $retired = array('' => 'Select','YES' => 'YES', 'NO' => 'NO');
+
+            $user_personal_infos = DB::select(DB::raw(" SELECT * from member_personal_infos where  ref_member_personal_info_membership_id=$user_id  "));
+            if(count($user_personal_infos))
+                $user_personal_infos = $user_personal_infos[0];
+            else
+                $user_personal_infos = new MemberPersonalInfo();
+
+            $user_job_infos = DB::select(DB::raw(" SELECT * from member_job_infos where  ref_member_job_info_membership_id=$user_id  "));
+            if(count($user_job_infos))
+                $user_job_infos = $user_job_infos[0];
+            else
+                $user_job_infos = new MemberJobInfo();
+
+
 
             $welcome_message = "Profile Update";
-            return view('front/profile', compact('welcome_message', 'status_items', 'user', 'board_members_categories'));
+            return view('front/profile', compact('retired','gender','user_personal_infos', 'user_job_infos', 'welcome_message', 'status_items', 'user', 'board_members_categories'));
         } else {
             return redirect()->guest('login');
         }
@@ -120,12 +138,11 @@ class FrontController extends Controller
 
 
         $request->validate([
-            'name' => 'required',
+//            'name' => 'required',
             'username' => 'required',
             'password' => 'min:6|required',
             'password_confirmation' => 'min:6|same:password',
-            'email' => 'required',
-            'active' => 'required'
+            'email' => 'required'
         ]);
 
         $messages = [
@@ -134,18 +151,61 @@ class FrontController extends Controller
 
 
         $form_data = array(
-            'name' => $request->name,
+            'name' => $request->member_first_name." ".$request->member_last_name,
             'username' => $request->username,
             'password' => bcrypt($request->password),
             'email' => $request->email,
             'photo' => $image_name,
             'user_type_id' => $user_type_id,
-            'active' => $request->active,
             'updated_at' => date("Y-m-d")
+        );
+
+        $personal_data = array(
+            'ref_member_personal_info_membership_id' => $id,
+            'member_first_name' =>   $request->member_first_name,
+            'member_last_name'  =>   $request->member_last_name,
+            'member_birth_date' =>   $request->member_birth_date,
+            'member_gender'     =>   $request->member_gender,
+            'member_address'    =>   $request->member_address,
+            'member_zip_code'   =>   $request->member_zip_code,
+            'member_email_address'   =>   $request->email,
+            'member_tax_reg_no' =>   $request->member_tax_reg_no,
+            'member_personal_info_creating_datetime'        =>   date("Y-m-d"),
+            'member_personal_info_editing_datetime'        =>   date("Y-m-d")
+        );
+
+        $job_data = array(
+            'ref_member_job_info_membership_id' => $id,
+            'member_command_code'      =>  $request->member_command_code,
+            'member_command_name'      =>  $request->member_command_name,
+            'member_rank'              =>   $request->member_rank,
+            'member_shield'            =>   $request->member_shield,
+            'member_appointment_date'  =>  $request->member_appointment_date,
+            'member_promoted_date'     =>  $request->member_promoted_date,
+            'member_boro'              =>  $request->member_boro,
+            'member_benificiary'       => $request->member_benificiary,
+            'member_reference_no'      => $request->member_reference_no,
+            'member_retired'           => $request->member_retired,
+            'member_job_info_creating_datetime' =>   date("Y-m-d"),
+            'member_job_info_editing_datetime'  =>   date("Y-m-d")
         );
 
 
         Membership::whereId($id)->update($form_data);
+
+        $user_personal_infos = DB::select(DB::raw(" SELECT * from member_personal_infos where  ref_member_personal_info_membership_id=$id  "));
+        if(count($user_personal_infos))
+            MemberPersonalInfo::where("ref_member_personal_info_membership_id",$id)->update($personal_data);
+        else
+            MemberPersonalInfo::create($personal_data);
+
+
+        $user_job_infos = DB::select(DB::raw(" SELECT * from member_job_infos where  ref_member_job_info_membership_id=$id  "));
+        if(count($user_job_infos))
+            MemberJobInfo::where("ref_member_job_info_membership_id",$id)->update($job_data);
+        else
+            MemberJobInfo::create($job_data);
+
         return redirect('profile')->with('success', 'Profile updated successfully ');
 
 

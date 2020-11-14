@@ -73,7 +73,7 @@
             padding: 10px 8px;
         }
         .footerSocial i {
-            font-size: 7em;
+            font-size: 4em;
             margin-right: 10px;
 
         }
