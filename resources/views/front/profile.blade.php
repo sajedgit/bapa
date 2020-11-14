@@ -102,7 +102,7 @@
                     </div>
                     <div class="col-xs-12">
 
-                        <input type="password" name="password" value="<?php //echo $data->password;?>"
+                        <input required type="password" name="password" value="<?php //echo $data->password;?>"
                                class="form-control">
 
                     </div>
@@ -113,7 +113,7 @@
                     </div>
                     <div class="col-xs-12">
 
-                        <input type="password" name="password_confirmation" value="<?php //echo $data->password;?>"
+                        <input required type="password" name="password_confirmation" value="<?php //echo $data->password;?>"
                                class="form-control">
 
                     </div>
