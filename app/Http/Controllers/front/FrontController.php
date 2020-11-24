@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\front;
 
+use App\Models\Event;
 use App\Models\Membership;
 use App\Models\MemberPersonalInfo;
 use App\Models\MemberJobInfo;
@@ -251,6 +252,7 @@ class FrontController extends Controller
         );
 
         if ($payment_insert) {
+            $this->update_events_data($event_id, $total_tickets);
             $this->send_mail($event_id, $ref_membership_id, $order_id, $source, $payment_type, $details, $total_tickets, $net_amounts);
             return redirect()->route("event/{id}", [$event_id])->with('success', 'Buy Tickets Successfully');
         } else
@@ -268,9 +270,9 @@ class FrontController extends Controller
         $adult_quantity = $_REQUEST["adult_quantity"];
         $adult_price_total = $adult_price * $adult_quantity;
         $currency = "USD";
-        $children_label = $_REQUEST["children_label"];
-        $children_price = $_REQUEST["children_price"];
-        $children_quantity = $_REQUEST["children_quantity"];
+        $children_label = isset($_REQUEST["children_label"])?$_REQUEST["children_label"]:"";
+        $children_price = isset($_REQUEST["children_price"])?$_REQUEST["children_price"]:"0";
+        $children_quantity = isset($_REQUEST["children_quantity"])?$_REQUEST["children_quantity"]:"0";
         $children_price_total = $children_price * $children_quantity;
 
 
@@ -281,7 +283,10 @@ class FrontController extends Controller
         $payment_type = "Free";
         $details = "";
         $details .= "\n" . $adult_label . ": " . $adult_price . " x " . $adult_quantity . " = " . $adult_price_total . " " . $currency . "\n";
-        $details .= "\n" . $children_label . ": " . $children_price . " x " . $children_quantity . " = " . $children_price_total . " " . $currency . "\n ";
+
+        if( !empty($children_label))
+         $details .= "\n" . $children_label . ": " . $children_price . " x " . $children_quantity . " = " . $children_price_total . " " . $currency . "\n ";
+
         $total_tickets = $adult_quantity + $children_quantity;
         $net_amounts = $_REQUEST["total"];
 
@@ -301,6 +306,7 @@ class FrontController extends Controller
         );
 
         if ($payment_insert) {
+            $this->update_events_data($event_id, $total_tickets);
             $this->send_mail($event_id, $ref_membership_id, $order_id, $source, $payment_type, $details, $total_tickets, $net_amounts);
             return redirect()->route("event/{id}", [$event_id])->with('success', 'Buy Tickets Successfully');
         } else
@@ -481,6 +487,19 @@ class FrontController extends Controller
 
 
         Product::whereId($event_id)->update($form_data);
+    }
+
+    public function update_events_data($event_id, $total_tickets)
+    {
+        $product_data = Event::findOrFail($event_id);
+        $event_total_seat = $product_data->event_total_seat;
+        $event_total_seat = $event_total_seat - $total_tickets;
+        $form_data = array(
+            'event_total_seat' => $event_total_seat,
+        );
+
+
+        Event::whereId($event_id)->update($form_data);
     }
 
     public function send_mail($event_id, $ref_membership_id, $order_id, $source, $payment_type, $details, $total_tickets, $net_amounts)
