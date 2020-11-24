@@ -32,6 +32,10 @@
 
       white-space: inherit;
     }
+    .tox
+    {
+      display: none;
+    }
   </style>
 
 
