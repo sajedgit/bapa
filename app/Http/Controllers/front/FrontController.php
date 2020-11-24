@@ -572,7 +572,7 @@ class FrontController extends Controller
         $board_members = DB::select(DB::raw(" SELECT * from board_members where  id =$id and board_members_active=1  "));
 
 
-        $welcome_message = " TRUSTEES  ";
+        $welcome_message = $board_members[0]->board_members_first_name." ".$board_members[0]->board_members_last_name;
         return view('front/front_board_member_details', compact('board_members', 'welcome_message', 'board_members_categories'));
 
     }
