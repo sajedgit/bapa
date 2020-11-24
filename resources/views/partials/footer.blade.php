@@ -19,13 +19,9 @@
             <div class="col-xs-12  col-sm-4  col-md-4">
                 <div class="footerEvents">
                     <p class="footerSocial text-center">
-                        <a href="https://www.facebook.com/bapanyc/" target="_blank">
-                            <i class="fa fa-facebook-square" aria-hidden="true"></i>
-                        </a>
-                        <a href="https://twitter.com/NYPD_BAPA" target="_blank">
-                            <i class="fa fa-twitter-square" aria-hidden="true"></i>
-                        </a>
-                        <a href="#" target="_blank"> <i class="fa fa-instagram" aria-hidden="true"></i> </a>
+                        <a href="https://www.facebook.com/bapanyc/" target="_blank"><i class="fa fa-facebook-square" aria-hidden="true"></i></a>
+                        <a href="https://twitter.com/NYPD_BAPA" target="_blank"><i class="fa fa-twitter-square" aria-hidden="true"></i></a>
+                        <a href="https://www.instagram.com/nypdbapa/?hl=en" target="_blank"> <i class="fa fa-instagram" aria-hidden="true"></i></a>
                     </p>
                 </div>
             </div>
