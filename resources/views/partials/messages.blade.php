@@ -22,10 +22,10 @@
 
                             <p>
 
-                                {{ substr($msg_president->description, 0,  200) }}
+                               <?php echo substr($msg_president->description, 0,  200) ?>
                                 @if (strlen($msg_president->description) > 200)
                                     <span id="p_dots">[...]</span>
-                                    <span id="p_more" style="display: none;">{{ substr($msg_president->description, 200) }}</span>
+                                    <span id="p_more" style="display: none;"><?php echo substr($msg_president->description, 200) ?></span>
                                 @endif
                             </p>
 
