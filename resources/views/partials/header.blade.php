@@ -302,9 +302,18 @@
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Resources <span class="caret"></span></a>
                                     <ul class="dropdown-menu">
 
-                                        <li><a href="{{ route("f_employment") }}"> Employment </a></li>
-                                        <li><a href="{{ route("f_education_and_scholarship") }}"> Education & Scholarship </a></li>
-                                        <li><a href="{{ route("f_domestic_violence") }}"> Domestic Violence </a></li>
+{{--                                        <li><a href="{{ route("f_employment") }}"> Employment </a></li>--}}
+{{--                                        <li><a href="{{ route("f_education_and_scholarship") }}"> Education & Scholarship </a></li>--}}
+{{--                                        <li><a href="{{ route("f_domestic_violence") }}"> Domestic Violence </a></li>--}}
+
+                                        <?php
+                                        $resource_lists = DB::select(DB::raw(" SELECT * from resources order by sort_order asc  "));
+
+                                        ?>
+                                        @foreach($resource_lists as $resource)
+                                            <li><a href="{{ route('resources', [$resource->slug, $resource->id]) }}"> {{ $resource->resource_name }} </a></li>
+                                        @endforeach
+
 
                                     </ul>
                                 </li>

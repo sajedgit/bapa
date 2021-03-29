@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/home', 'front\FrontController@index')->name('home');
 Route::get('/', 'front\FrontController@index')->name('front');
 Route::get('/executives_and_trustees/{category}/{id}', 'front\FrontController@get_board_memmbers')->name('executives_and_trustees');
+Route::get('/resources/{resource_slug}/{id}', 'front\FrontController@get_resources')->name('resources');
 Route::get('/board_member_details/{id}', 'front\FrontController@board_member_details')->name('board_member_details');
 Route::get('/event', 'front\FrontController@event')->name('event');
 Route::get('/get_events', 'front\FrontController@get_events')->name('get_events');
@@ -98,6 +99,9 @@ Route::group([ 'middleware' => 'admin_middleware'], function()
 //    Route::post('/settings_update', 'SettingsController@settings_update')->name('settings_update');
 
     Route::resource('settings', 'SettingsController');
+
+    Route::resource('resource', 'ResourcesController');
+
 
 
 

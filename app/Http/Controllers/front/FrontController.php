@@ -98,25 +98,24 @@ class FrontController extends Controller
             $user = DB::select(DB::raw(" SELECT * from memberships where  id=$user_id  "));
             $user = $user[0];
             $status_items = array('1' => 'Active', '0' => 'Inactive');
-            $gender = array('0' => 'Select','1' => 'Male', '2' => 'Female', '3' => 'Others');
-            $retired = array('' => 'Select','YES' => 'YES', 'NO' => 'NO');
+            $gender = array('0' => 'Select', '1' => 'Male', '2' => 'Female', '3' => 'Others');
+            $retired = array('' => 'Select', 'YES' => 'YES', 'NO' => 'NO');
 
             $user_personal_infos = DB::select(DB::raw(" SELECT * from member_personal_infos where  ref_member_personal_info_membership_id=$user_id  "));
-            if(count($user_personal_infos))
+            if (count($user_personal_infos))
                 $user_personal_infos = $user_personal_infos[0];
             else
                 $user_personal_infos = new MemberPersonalInfo();
 
             $user_job_infos = DB::select(DB::raw(" SELECT * from member_job_infos where  ref_member_job_info_membership_id=$user_id  "));
-            if(count($user_job_infos))
+            if (count($user_job_infos))
                 $user_job_infos = $user_job_infos[0];
             else
                 $user_job_infos = new MemberJobInfo();
 
 
-
             $welcome_message = "Profile Update";
-            return view('front/profile', compact('retired','gender','user_personal_infos', 'user_job_infos', 'welcome_message', 'status_items', 'user', 'board_members_categories'));
+            return view('front/profile', compact('retired', 'gender', 'user_personal_infos', 'user_job_infos', 'welcome_message', 'status_items', 'user', 'board_members_categories'));
         } else {
             return redirect()->guest('login');
         }
@@ -152,7 +151,7 @@ class FrontController extends Controller
 
 
         $form_data = array(
-            'name' => $request->member_first_name." ".$request->member_last_name,
+            'name' => $request->member_first_name . " " . $request->member_last_name,
             'username' => $request->username,
             'password' => bcrypt($request->password),
             'email' => $request->email,
@@ -163,47 +162,47 @@ class FrontController extends Controller
 
         $personal_data = array(
             'ref_member_personal_info_membership_id' => $id,
-            'member_first_name' =>   $request->member_first_name,
-            'member_last_name'  =>   $request->member_last_name,
-            'member_birth_date' =>   $request->member_birth_date,
-            'member_gender'     =>   $request->member_gender,
-            'member_address'    =>   $request->member_address,
-            'member_zip_code'   =>   $request->member_zip_code,
-            'member_email_address'   =>   $request->email,
-            'member_tax_reg_no' =>   $request->member_tax_reg_no,
-            'member_personal_info_creating_datetime'        =>   date("Y-m-d"),
-            'member_personal_info_editing_datetime'        =>   date("Y-m-d")
+            'member_first_name' => $request->member_first_name,
+            'member_last_name' => $request->member_last_name,
+            'member_birth_date' => $request->member_birth_date,
+            'member_gender' => $request->member_gender,
+            'member_address' => $request->member_address,
+            'member_zip_code' => $request->member_zip_code,
+            'member_email_address' => $request->email,
+            'member_tax_reg_no' => $request->member_tax_reg_no,
+            'member_personal_info_creating_datetime' => date("Y-m-d"),
+            'member_personal_info_editing_datetime' => date("Y-m-d")
         );
 
         $job_data = array(
             'ref_member_job_info_membership_id' => $id,
-            'member_command_code'      =>  $request->member_command_code,
-            'member_command_name'      =>  $request->member_command_name,
-            'member_rank'              =>   $request->member_rank,
-            'member_shield'            =>   $request->member_shield,
-            'member_appointment_date'  =>  $request->member_appointment_date,
-            'member_promoted_date'     =>  $request->member_promoted_date,
-            'member_boro'              =>  $request->member_boro,
-            'member_benificiary'       => $request->member_benificiary,
-            'member_reference_no'      => $request->member_reference_no,
-            'member_retired'           => $request->member_retired,
-            'member_job_info_creating_datetime' =>   date("Y-m-d"),
-            'member_job_info_editing_datetime'  =>   date("Y-m-d")
+            'member_command_code' => $request->member_command_code,
+            'member_command_name' => $request->member_command_name,
+            'member_rank' => $request->member_rank,
+            'member_shield' => $request->member_shield,
+            'member_appointment_date' => $request->member_appointment_date,
+            'member_promoted_date' => $request->member_promoted_date,
+            'member_boro' => $request->member_boro,
+            'member_benificiary' => $request->member_benificiary,
+            'member_reference_no' => $request->member_reference_no,
+            'member_retired' => $request->member_retired,
+            'member_job_info_creating_datetime' => date("Y-m-d"),
+            'member_job_info_editing_datetime' => date("Y-m-d")
         );
 
 
         Membership::whereId($id)->update($form_data);
 
         $user_personal_infos = DB::select(DB::raw(" SELECT * from member_personal_infos where  ref_member_personal_info_membership_id=$id  "));
-        if(count($user_personal_infos))
-            MemberPersonalInfo::where("ref_member_personal_info_membership_id",$id)->update($personal_data);
+        if (count($user_personal_infos))
+            MemberPersonalInfo::where("ref_member_personal_info_membership_id", $id)->update($personal_data);
         else
             MemberPersonalInfo::create($personal_data);
 
 
         $user_job_infos = DB::select(DB::raw(" SELECT * from member_job_infos where  ref_member_job_info_membership_id=$id  "));
-        if(count($user_job_infos))
-            MemberJobInfo::where("ref_member_job_info_membership_id",$id)->update($job_data);
+        if (count($user_job_infos))
+            MemberJobInfo::where("ref_member_job_info_membership_id", $id)->update($job_data);
         else
             MemberJobInfo::create($job_data);
 
@@ -270,9 +269,9 @@ class FrontController extends Controller
         $adult_quantity = $_REQUEST["adult_quantity"];
         $adult_price_total = $adult_price * $adult_quantity;
         $currency = "USD";
-        $children_label = isset($_REQUEST["children_label"])?$_REQUEST["children_label"]:"";
-        $children_price = isset($_REQUEST["children_price"])?$_REQUEST["children_price"]:"0";
-        $children_quantity = isset($_REQUEST["children_quantity"])?$_REQUEST["children_quantity"]:"0";
+        $children_label = isset($_REQUEST["children_label"]) ? $_REQUEST["children_label"] : "";
+        $children_price = isset($_REQUEST["children_price"]) ? $_REQUEST["children_price"] : "0";
+        $children_quantity = isset($_REQUEST["children_quantity"]) ? $_REQUEST["children_quantity"] : "0";
         $children_price_total = $children_price * $children_quantity;
 
 
@@ -284,8 +283,8 @@ class FrontController extends Controller
         $details = "";
         $details .= "\n" . $adult_label . ": " . $adult_price . " x " . $adult_quantity . " = " . $adult_price_total . " " . $currency . "\n";
 
-        if( !empty($children_label))
-         $details .= "\n" . $children_label . ": " . $children_price . " x " . $children_quantity . " = " . $children_price_total . " " . $currency . "\n ";
+        if (!empty($children_label))
+            $details .= "\n" . $children_label . ": " . $children_price . " x " . $children_quantity . " = " . $children_price_total . " " . $currency . "\n ";
 
         $total_tickets = $adult_quantity + $children_quantity;
         $net_amounts = $_REQUEST["total"];
@@ -591,7 +590,7 @@ class FrontController extends Controller
         $board_members = DB::select(DB::raw(" SELECT * from board_members where  id =$id and board_members_active=1  "));
 
 
-        $welcome_message = $board_members[0]->board_members_first_name." ".$board_members[0]->board_members_last_name;
+        $welcome_message = $board_members[0]->board_members_first_name . " " . $board_members[0]->board_members_last_name;
         return view('front/front_board_member_details', compact('board_members', 'welcome_message', 'board_members_categories'));
 
     }
@@ -643,10 +642,16 @@ class FrontController extends Controller
 
     public function event()
     {
-        $board_members_categories = $this->board_members_categories;
+        if ($user = Auth::user()) {
+            $board_members_categories = $this->board_members_categories;
 
-        $welcome_message = " Events Calender";
-        return view('front/events', compact('welcome_message', 'board_members_categories'));
+            $welcome_message = " Events Calender";
+            return view('front/events', compact('welcome_message', 'board_members_categories'));
+        } else {
+            return redirect()->guest('login');
+        }
+
+
 
     }
 
@@ -809,6 +814,17 @@ class FrontController extends Controller
         $data = $data[0];
 
         $welcome_message = " Domestic Violence ";
+        return view('front/employment', compact('data', 'welcome_message', 'board_members_categories'));
+
+    }
+
+    public function get_resources($resource_slug, $id)
+    {
+        $board_members_categories = $this->board_members_categories;
+        $data = DB::select(DB::raw(" SELECT * from resources where  	id =$id and slug='$resource_slug'  "));
+        $data = $data[0];
+
+        $welcome_message = $resource_slug;
         return view('front/employment', compact('data', 'welcome_message', 'board_members_categories'));
 
     }
@@ -1065,11 +1081,15 @@ class FrontController extends Controller
 
     public function shop()
     {
-        $board_members_categories = $this->board_members_categories;
+        if ($user = Auth::user()) {
+            $board_members_categories = $this->board_members_categories;
 
-        $products = DB::select(DB::raw(" SELECT * from products where  status=1  "));
-        $welcome_message = "Shop";
-        return view('front/shop', compact('welcome_message', 'board_members_categories', 'products'));
+            $products = DB::select(DB::raw(" SELECT * from products where  status=1  "));
+            $welcome_message = "Shop";
+            return view('front/shop', compact('welcome_message', 'board_members_categories', 'products'));
+        } else {
+            return redirect()->guest('login');
+        }
 
     }
 
@@ -1092,11 +1112,16 @@ class FrontController extends Controller
 
     public function memory()
     {
-        $board_members_categories = $this->board_members_categories;
+        if ($user = Auth::user()) {
+            $board_members_categories = $this->board_members_categories;
 
-        $memories = DB::select(DB::raw(" SELECT * from memories where memories_active=1 order by id desc   "));
-        $welcome_message = "Gallery";
-        return view('front/memory', compact('welcome_message', 'board_members_categories', 'memories'));
+            $memories = DB::select(DB::raw(" SELECT * from memories where memories_active=1 order by id desc   "));
+            $welcome_message = "Gallery";
+            return view('front/memory', compact('welcome_message', 'board_members_categories', 'memories'));
+        } else {
+            return redirect()->guest('login');
+        }
+
 
     }
 
