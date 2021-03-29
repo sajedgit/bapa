@@ -824,7 +824,7 @@ class FrontController extends Controller
         $data = DB::select(DB::raw(" SELECT * from resources where  	id =$id and slug='$resource_slug'  "));
         $data = $data[0];
 
-        $welcome_message = $resource_slug;
+        $welcome_message = $data->resource_name;
         return view('front/employment', compact('data', 'welcome_message', 'board_members_categories'));
 
     }
