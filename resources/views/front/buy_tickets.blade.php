@@ -47,7 +47,7 @@
                                     <div class="col-xs-6 item-amount">${{$children_ticket_price}}.00</div>
                                     <input type="hidden"  value="{{ $children_price}}.00" name="children_price">
                                     <input type="hidden"  value="Children Ticket" name="children_label">
-                                    <input type="hidden"  value="{{$adult_quantity}}" name="children_quantity">
+                                    <input type="hidden"  value="{{$children_quantity}}" name="children_quantity">
                                 </div>
                             @endif
 
