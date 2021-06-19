@@ -35,6 +35,11 @@ $client = new SquareClient([
     'environment' => getenv('ENVIRONMENT')
 ]);
 
+$adult_ticket="";
+$adult_ticket_price="";
+
+$children_ticket="";
+$children_ticket_price="";
 
 $order_ids = [$_REQUEST["transactionId"]];
 $body = new \Square\Models\BatchRetrieveOrdersRequest($order_ids);
@@ -60,14 +65,33 @@ if ($api_response->isSuccess()) {
         $item_unit_price = $item->base_price_money->amount/100;
         $item_total_money = $item->total_money->amount/100;
         $item_currency = $item->total_money->currency;
+
+        if(trim($item->name)=="Adult Ticket")
+        {
+            $adult_ticket=$item_quantity;
+            $adult_ticket_price=$item_unit_price;
+        }
+
+
+        if(trim($item->name)=="Children Ticket")
+        {
+            $children_ticket=$item_quantity;
+            $children_ticket_price=$item_unit_price;
+        }
+
         $items_data=array("item_name"=>$item_name,"item_unit_price"=>$item_unit_price,"item_quantity"=>$item_quantity,"item_total_money"=>$item_total_money,"item_currency"=>$item_currency);
 
         array_push($item_arrrr,$items_data);
     }
 
-
     $arr["items"] = $item_arrrr;
     $arr["event_id"] = $order->tenders[0]->note;
+
+    $arr["adult_ticket"] = $adult_ticket;
+    $arr["adult_ticket_price"] = $adult_ticket_price;
+    $arr["children_ticket"] = $children_ticket;
+    $arr["children_ticket_price"] = $children_ticket_price;
+
     $arr["net_amounts"] = $order->net_amounts->total_money->amount/100;
 
 

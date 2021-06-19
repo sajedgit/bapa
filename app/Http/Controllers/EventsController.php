@@ -246,6 +246,28 @@ class EventsController extends Controller
         $upcoming_events = DB::select(DB::raw(" SELECT * from events where event_starting_date >= CURDATE() and event_active=1 order by event_starting_date asc   "));
         return $upcoming_events;
     }
+
+     public  function events_report($id)
+    {
+       $event_id=$id;
+
+        $events = DB::select(DB::raw(" SELECT * from events where id=$event_id "));
+        $no_of_event= count($events);
+        if($no_of_event < 1)
+        {
+            return view('page_not_found');
+        }
+        $events=$events[0];
+
+        $data = DB::select(DB::raw(" SELECT event_ticket_buyers.*,memberships.name,memberships.email
+                                from event_ticket_buyers,memberships
+                                where event_ticket_buyers.ref_membership_id=memberships.id and event_ticket_buyers.ref_event_id=$event_id 
+                                order by event_ticket_buyers.event_ticket_buyer_stored_datetime desc   "));
+        //print_r($data);die();
+        return view('Event/event_report', compact('data','events'));
+    }
+
+
 }
 
 

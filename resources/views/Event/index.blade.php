@@ -98,6 +98,7 @@
 
 							<a href="{{ route('events.show', $row->id) }}" class="btn btn-primary">Show</a>
 							<a href="{{ route('events.edit', $row->id) }}" class="btn btn-warning">Edit</a>
+							<a href="{{ url("/events_report/{$row->id}") }}" class="btn btn-success">Report</a>
 							@csrf
 							@method('DELETE')
 							<button type="submit"  onclick="return confirm('Are you sure you want to delete this item?');" class="btn btn-danger">Delete</button>

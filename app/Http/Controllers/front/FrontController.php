@@ -217,6 +217,7 @@ class FrontController extends Controller
 
         // print_r(unserialize($_REQUEST["order_data"][0]));
         $order_data = unserialize($_REQUEST["order_data"][0]);
+      //  print_r($order_data);die();
 
         $order_id = $order_data["order_id"];
         $ref_membership_id = Auth::user()->id;
@@ -225,6 +226,11 @@ class FrontController extends Controller
         $net_amounts = $order_data["net_amounts"];
         $event_id = $order_data["event_id"];
         $items = $order_data["items"];
+
+        $adult_ticket = $order_data["adult_ticket"] ;
+        $adult_ticket_price = $order_data["adult_ticket_price"];
+        $children_ticket = $order_data["children_ticket"];
+        $children_ticket_price = $order_data["children_ticket_price"];
 
         $total_tickets = 0;
         $payment_type = "Online Payment";
@@ -235,7 +241,6 @@ class FrontController extends Controller
 
             $total_tickets += $data["item_quantity"];
         }
-
         $payment_insert = DB::table('event_ticket_buyers')->insert(
             array(
                 'ref_event_id' => $event_id,
@@ -243,6 +248,12 @@ class FrontController extends Controller
                 'order_id' => $order_id,
                 'source' => $source,
                 'payment_type' => $payment_type,
+
+                'adult_ticket' => $adult_ticket,
+                'adult_ticket_price' => $adult_ticket_price,
+                'children_ticket' => $children_ticket,
+                'children_ticket_price' => $children_ticket_price,
+
                 'details' => $details,
                 'total_tickets' => $total_tickets,
                 'total_price' => $net_amounts,

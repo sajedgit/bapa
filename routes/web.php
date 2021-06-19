@@ -80,6 +80,7 @@ Route::group([ 'middleware' => 'admin_middleware'], function()
 	Route::resource('event_ticket_buyers', 'EventTicketBuyersController');
 	Route::resource('event_ticket_payments', 'EventTicketPaymentsController');
 	Route::resource('events', 'EventsController');
+
 	Route::resource('member_devices', 'MemberDevicesController');
 	Route::resource('member_job_infos', 'MemberJobInfosController');
 	Route::resource('member_personal_infos', 'MemberPersonalInfosController');
@@ -103,7 +104,7 @@ Route::group([ 'middleware' => 'admin_middleware'], function()
     Route::resource('resource', 'ResourcesController');
 
 
-
+    Route::get('/events_report/{id}', 'EventsController@events_report');
 
     Route::get('/about', 'MixedController@about')->name('about');
     Route::post('/about_update', 'MixedController@about_update')->name('about_update');
