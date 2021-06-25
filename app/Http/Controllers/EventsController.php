@@ -111,7 +111,7 @@ class EventsController extends Controller
             ->get();
 
         $cc = "nypdbapa@gmail.com";
-        $bcc = "hasnat288@gmail.com";
+       // $bcc = "hasnat288@gmail.com";
 //        $cc = "sajedaiub@gmail.com";
 //        $bcc = "sajedaiub@gmail.com";
 
@@ -122,7 +122,7 @@ class EventsController extends Controller
             $user_name = $row->name;
             Mail::to($mail_to)
                 ->cc($cc)
-                ->bcc($bcc)
+              //  ->bcc($bcc)
                 ->send(new CreateEventMail($data,$subject,$user_name));
 
             //sleep(1);

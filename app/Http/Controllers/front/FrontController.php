@@ -392,12 +392,12 @@ class FrontController extends Controller
         $subject = "Payment Confirmation";
         $mail_to = $user_email;
         $cc = "nypdbapa@gmail.com";
-        $bcc = "sajedaiub@gmail.com";
+      //  $bcc = "hasnat288@gmail.com";
 
 
         Mail::to($mail_to)
             ->cc($cc)
-            ->bcc($bcc)
+           // ->bcc($bcc)
             ->send(new SendRegisterMail($subject, $user_name, $order_id, $source, $payment_type, $details, $net_amounts));
 
     }
@@ -528,12 +528,12 @@ class FrontController extends Controller
         $subject = "Buying Ticket Confirmation";
         $mail_to = $user_email;
         $cc = "nypdbapa@gmail.com";
-        $bcc = "hasnat288@gmail.com";
+       // $bcc = "hasnat288@gmail.com";
 
 
         Mail::to($mail_to)
             ->cc($cc)
-            ->bcc($bcc)
+          //  ->bcc($bcc)
             ->send(new SendEventMail($action, $event_name, $subject, $user_name, $order_id, $source, $payment_type, $details, $total_tickets, $net_amounts));
     }
 
@@ -553,12 +553,12 @@ class FrontController extends Controller
         $subject = "Buying Product Confirmation";
         $mail_to = $user_email;
         $cc = "nypdbapa@gmail.com";
-        $bcc = "sajedaiub@gmail.com";
+        //$bcc = "hasnat288@gmail.com";
 
 
         Mail::to($mail_to)
             ->cc($cc)
-            ->bcc($bcc)
+          //  ->bcc($bcc)
             ->send(new SendEventMail($action, $event_name, $subject, $user_name, $order_id, $source, $payment_type, $details, $total_tickets, $net_amounts));
 
     }
@@ -572,12 +572,12 @@ class FrontController extends Controller
         $subject = "Donation Confirmation";
         $mail_to = $user_email;
         $cc = "nypdbapa@gmail.com";
-        $bcc = "sajedaiub@gmail.com";
+       // $bcc = "hasnat288@gmail.com";
 
 
         Mail::to($mail_to)
             ->cc($cc)
-            ->bcc($bcc)
+            //->bcc($bcc)
             ->send(new SendEventDonate($subject, $user_name, $user_email, $order_id, $source, $payment_type, $details, $net_amounts));
 
     }
@@ -936,8 +936,8 @@ class FrontController extends Controller
         $comment = $request->comment;
 
         $mail_to = "nypdbapa@gmail.com";
-        $cc = "hasnat288@gmail.com";
-        $bcc = "sajedaiub@gmail.com";
+       // $cc = "hasnat288@gmail.com";
+      //  $bcc = "hasnat288@gmail.com";
 
 //        $mail_to = "sajedaiub@gmail.com";
 //        $cc = "sajedaiub@gmail.com";
@@ -945,8 +945,8 @@ class FrontController extends Controller
 
 
         Mail::to($mail_to)
-            ->cc($cc)
-            ->bcc($bcc)
+          //  ->cc($cc)
+          //  ->bcc($bcc)
             ->send(new SendMailable($fname, $lname, $email, $comment));
 
         return redirect()->route("contact_us")->with('success', 'Email has just sent');

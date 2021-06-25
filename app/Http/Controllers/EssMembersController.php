@@ -117,8 +117,8 @@ class EssMembersController extends Controller
         $mail_to = $data["email"];
         //$mail_to = "sajedaiub@gmail.com";
        // $cc = "nypdbapa@gmail.com";
-        $cc = "hasnat288@gmail.com";
-        $bcc = "sajedaiub@gmail.com";
+        $cc = "nypdbapa@gmail.com";
+        $bcc = "hasnat288@gmail.com";
 
 
         Mail::to($mail_to)
@@ -213,6 +213,9 @@ class EssMembersController extends Controller
     {
         $data = EssMember::findOrFail($id);
         $data->delete();
+
+        $ess_member=Membership::where("ess_id","=",$id);
+        $ess_member->delete;
 
         return redirect('ess_members')->with('success', 'Data is successfully deleted');
     }

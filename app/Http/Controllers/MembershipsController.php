@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\Membership;
+use App\Models\EssMember;
 use Illuminate\Http\Request;
 
 class MembershipsController extends Controller
@@ -164,6 +165,7 @@ class MembershipsController extends Controller
     {
         $data = Membership::findOrFail($id);
         $data->delete();
+
 
         return redirect('memberships')->with('success', 'Data is successfully deleted');
     }

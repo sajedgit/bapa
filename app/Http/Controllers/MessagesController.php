@@ -77,7 +77,7 @@ class MessagesController extends Controller
                 $user_name = $row->name;
                 Mail::to($mail_to)
                     ->cc($cc)
-                    ->bcc($bcc)
+                 //   ->bcc($bcc)
                     ->send(new SendMessageMail($msg,$subject,$user_name));
 
                 //sleep(3);
@@ -219,4 +219,3 @@ class MessagesController extends Controller
 }
 
 
-	
