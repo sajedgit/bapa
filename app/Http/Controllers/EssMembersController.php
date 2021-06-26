@@ -215,7 +215,7 @@ class EssMembersController extends Controller
         $data->delete();
 
         $ess_member=Membership::where("ess_id","=",$id);
-        $ess_member->delete;
+        $ess_member->delete();
 
         return redirect('ess_members')->with('success', 'Data is successfully deleted');
     }

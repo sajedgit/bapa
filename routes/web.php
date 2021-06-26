@@ -14,7 +14,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-
+Route::get('export', 'ImportExportController@export')->name('export');
+Route::get('importExportView', 'ImportExportController@importExportView')->name('importExportView');
+Route::post('import', 'ImportExportController@import')->name('import');
 
 
 Route::get('/home', 'front\FrontController@index')->name('home');

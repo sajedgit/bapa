@@ -8,8 +8,9 @@
 <h1 class="h3 mb-2 text-gray-800">{{ __('ess_members.page_title') }}</h1>
 <p class="mb-4">{{ __('ess_members.welcome_msg') }}</p>
 
-<div align="right">
+<div align="center">
 	<a href="{{ route('ess_members.create') }}" class="btn btn-success btn-sm">{{ __('ess_members.create') }}</a>
+	<a href="{{ route('importExportView') }}" class="btn btn-info btn-sm">Import Ess Member</a>
 </div>
 <br />
 @if ($message = Session::get('success'))
