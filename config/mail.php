@@ -36,7 +36,7 @@ return [
     'mailers' => [
         'smtp' => [
             'transport' => 'smtp',
-            'host' => env('MAIL_HOST', 'smtp.hostinger.com'),
+            'host' => env('MAIL_HOST', 'smtp.mailgun.org'),
             'port' => env('MAIL_PORT', 587),
             'encryption' => env('MAIL_ENCRYPTION', 'tls'),
             'username' => env('MAIL_USERNAME'),
@@ -70,14 +70,6 @@ return [
         ],
     ],
 
-    'stream' => [
-        'ssl' => [
-            'allow_self_signed' => true,
-            'verify_peer' => false,
-            'verify_peer_name' => false,
-        ],
-    ],
-
     /*
     |--------------------------------------------------------------------------
     | Global "From" Address
@@ -90,8 +82,8 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'admin@nypdbapa.org'),
-        'name' => env('MAIL_FROM_NAME', 'BAPA'),
+        'address' => env('nypdbapa@gmail.com', 'nypdbapa@gmail.com'),
+        'name' => env('BAPA', 'BAPA'),
     ],
 
     /*
