@@ -13,6 +13,7 @@ use Maatwebsite\Excel\Concerns\OnEachRow;
 
 class UsersImport implements OnEachRow
 {
+
     /**
     * @param array $row
     *
@@ -31,6 +32,7 @@ class UsersImport implements OnEachRow
 
     public function onRow(Row $row)
     {
+
         $rowIndex = $row->getIndex();
         $row      = $row->toArray();
         if($rowIndex > 1)
@@ -65,6 +67,7 @@ class UsersImport implements OnEachRow
     {
         $email=$form_data["email"];
         $password=$this->password_generate(8);
+        $password="#BaP@$2&o%2l#";
         $data = array(
             'user_type_id'       => 2,
             'ess_type'        =>   $form_data["type"],
@@ -86,7 +89,7 @@ class UsersImport implements OnEachRow
 
         if($create_membership->id)
         {
-            $this->send_mail($data);
+           // $this->send_mail($data);
         }
     }
 

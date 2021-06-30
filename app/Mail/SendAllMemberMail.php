@@ -7,7 +7,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class SendMemberMail extends Mailable
+class SendAllMemberMail extends Mailable
 {
     use Queueable, SerializesModels;
     public $data,$subject;
@@ -34,6 +34,6 @@ class SendMemberMail extends Mailable
         //return $this->view('emails.name');
         return $this->from( "nypdbapa@gmail.com","BAPA")
             ->subject($this->subject)
-            ->view('emails.send_member');
+            ->view('emails.send_member_all');
     }
 }
