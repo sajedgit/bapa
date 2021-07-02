@@ -91,7 +91,7 @@
                         {{ Form::label('email', (Lang::get('memberships.email')),array('class'=>'control-label')) }}
                     </div>
                     <div class="col-xs-12">
-                        {{ Form::text('email', $value = $user->email ,array('class' => 'form-control')) }}
+                        {{ Form::text('email', $value = $user->email ,array('class' => 'form-control','disabled' => 'disabled')) }}
                     </div>
                 </div>
 

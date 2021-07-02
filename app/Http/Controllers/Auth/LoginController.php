@@ -7,7 +7,7 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class LoginController extends Controller
@@ -74,8 +74,8 @@ class LoginController extends Controller
         $credentials = $request->only('email', 'password');
 
 
-        if (Auth::attempt($credentials)) {
-            if(Auth::user()->active==1)
+        if (\Auth::attempt($credentials)) {
+            if(\Auth::user()->active==1)
             {
                 return redirect()->intended('/');
             }
